@@ -22,7 +22,29 @@ namespace Editor
             {
                 Debug.Log("Build succeeded: " + summary.totalSize + "bytes");
             }
-            
+
+            if (summary.result == BuildResult.Failed)
+            {
+                Debug.Log("Build failed");
+            }
+        }
+        
+        [MenuItem("Build/Build macOS")]
+        public static void PerformIOSBuild()
+        {
+            var buildPlayerOptions = new BuildPlayerOptions();
+            buildPlayerOptions.scenes = new[] { "Assets/Scenes/Game.unity" };
+            buildPlayerOptions.target = BuildTarget.iOS;
+            buildPlayerOptions.options = BuildOptions.None;
+
+            var report = BuildPipeline.BuildPlayer(buildPlayerOptions);
+            var summary = report.summary;
+
+            if (summary.result == BuildResult.Succeeded)
+            {
+                Debug.Log("Build succeeded: " + summary.totalSize + "bytes");
+            }
+
             if (summary.result == BuildResult.Failed)
             {
                 Debug.Log("Build failed");
