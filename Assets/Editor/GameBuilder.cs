@@ -29,7 +29,7 @@ namespace Editor
             }
         }
         
-        [MenuItem("Build/Build macOS")]
+        [MenuItem("Build/Build iOS")]
         public static void PerformIOSBuild()
         {
             var buildPlayerOptions = new BuildPlayerOptions();
