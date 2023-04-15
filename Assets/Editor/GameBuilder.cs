@@ -36,7 +36,7 @@ namespace Editor
             buildPlayerOptions.scenes = new[] { "Assets/Scenes/Game.unity" };
             buildPlayerOptions.locationPathName = "build/iOS/BirdBrain";
             buildPlayerOptions.target = BuildTarget.iOS;
-            buildPlayerOptions.options = BuildOptions.None;
+            buildPlayerOptions.options = BuildOptions.CleanBuildCache;
 
             var report = BuildPipeline.BuildPlayer(buildPlayerOptions);
             var summary = report.summary;
