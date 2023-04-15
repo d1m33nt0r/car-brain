@@ -1,3 +1,4 @@
+using System.IO;
 using UnityEditor;
 using UnityEditor.Build.Reporting;
 using UnityEngine;
@@ -38,6 +39,11 @@ namespace Editor
             buildPlayerOptions.target = BuildTarget.iOS;
             buildPlayerOptions.options = BuildOptions.CleanBuildCache;
 
+            if (Directory.Exists(buildPlayerOptions.locationPathName))
+            {
+                Directory.Delete(buildPlayerOptions.locationPathName, true);
+            }
+            
             var report = BuildPipeline.BuildPlayer(buildPlayerOptions);
             var summary = report.summary;
 
