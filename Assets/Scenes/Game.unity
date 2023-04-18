@@ -740,7 +740,7 @@ MonoBehaviour:
   birdPrefab: {fileID: 6537878379733139245, guid: e058f5b9fa0fd984bae4f18bc02632e8, type: 3}
   populationSize: 100
   map: {fileID: 123837810}
-  top: 0
+  top: 5
 --- !u!4 &1110912773
 Transform:
   m_ObjectHideFlags: 0

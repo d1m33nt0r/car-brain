@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using NN;
 using UnityEngine;
 
 public class Manager : MonoBehaviour
@@ -33,6 +34,11 @@ public class Manager : MonoBehaviour
         birdList.Sort(SortByFitness);
         bestScore = birdList[0].fitness;
         onUpdateUI?.Invoke(generation, bestScore);
+    }
+
+    private void Update()
+    {
+        UpdateUI();
     }
 
     private void StartGeneration()
@@ -79,17 +85,20 @@ public class Manager : MonoBehaviour
 
     private int SortByFitness(Bird a, Bird b)
     {
-        return a.fitness.CompareTo(b.fitness);
+        return -a.fitness.CompareTo(b.fitness);
     }
     
     private void ApplyMutation()
     {
+       
         var i = 0;
         foreach (var brain in lastPopupation)
         {
+            if (i < top)
+            {
+                brain.Mutate(3, 5f);
+            }
             i++;
-            if (i < top) continue; 
-            brain.Mutate(3, 5f);
         }
     }
     

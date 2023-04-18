@@ -1,4 +1,5 @@
 using System;
+using NN;
 using UnityEngine;
 
 public class Bird : MonoBehaviour
@@ -54,9 +55,7 @@ public class Bird : MonoBehaviour
                                             map.nearestObstacle.transform.localPosition.x);
         minHeight = map.nearestObstacle.minHeight;
         maxHeight = map.nearestObstacle.maxHeight;
-        /*Debug.Log(nearestObstacleDistance);
-        Debug.Log($"min = {minHeight}; max = {maxHeight}");
-        Debug.Log(transform.position.y);*/
+       
     }
     
     private void UseBrain()

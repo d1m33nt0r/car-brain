@@ -53,7 +53,7 @@ public class Map : MonoBehaviour
             nearestObstacle = obstacles.Dequeue();
             wait = false;
         }
-        if (gameLoopIsActive) return;
+        if (!gameLoopIsActive) return;
         movedObstacles.position += Vector3.left * movementSpeed * Time.deltaTime;
     }
 
