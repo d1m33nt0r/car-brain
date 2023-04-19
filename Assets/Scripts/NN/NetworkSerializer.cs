@@ -8,7 +8,7 @@ namespace NN
         {
             File.Create(path).Close();
             StreamWriter writer = new StreamWriter(path, true);
-
+            
             for (int i = 0; i < biases.Length; i++)
             {
                 for (int j = 0; j < biases[i].Length; j++)
