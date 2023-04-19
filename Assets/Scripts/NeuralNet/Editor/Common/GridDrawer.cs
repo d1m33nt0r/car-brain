@@ -1,7 +1,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace NN.Editor
+namespace NeuralNet.Editor
 {
     public class GridDrawer
     {

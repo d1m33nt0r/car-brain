@@ -1,5 +1,5 @@
 using System;
-using NN;
+using NeuralNet;
 using UnityEngine;
 
 public class Bird : MonoBehaviour

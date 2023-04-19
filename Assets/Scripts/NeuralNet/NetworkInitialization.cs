@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace NN
+namespace NeuralNet
 {
     public partial class NeuralNetwork
 {

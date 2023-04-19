@@ -1,6 +1,6 @@
 using System.IO;
 
-namespace NN
+namespace NeuralNet
 {
     public partial class NeuralNetwork
     {
