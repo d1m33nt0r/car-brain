@@ -5,7 +5,7 @@ namespace NeuralNet.Editor.Connections
 {
     public class BaseConnectionPointController : BaseController<BaseConnectionPointDrawer, BaseConnectionPointModel>
     {
-        public event Action<BaseConnectionPointModel, ConnectionPointType> OnClickConnectionPoint;
+        public event Action<BaseConnectionPointController> OnClickConnectionPoint;
 
         public override void AttachDrawer(BaseConnectionPointDrawer view)
         {
@@ -15,7 +15,7 @@ namespace NeuralNet.Editor.Connections
 
         private void OnClick(ConnectionPointType connectionPointType)
         {
-            OnClickConnectionPoint?.Invoke(model, connectionPointType);
+            OnClickConnectionPoint?.Invoke(this);
         }
     }
 }

@@ -5,7 +5,7 @@ namespace NeuralNet.Editor.Connections
 {
     public class BaseConnectionController : BaseController<BaseConnectionDrawer, BaseConnectionModel>
     {
-        public event Action<BaseConnectionController, BaseConnectionDrawer, BaseConnectionModel> OnRemoveConnectionClicked;
+        public event Action<BaseConnectionController> OnRemoveConnectionClicked;
         
         public override void AttachDrawer(BaseConnectionDrawer view)
         {
@@ -15,7 +15,7 @@ namespace NeuralNet.Editor.Connections
 
         private void OnClickRemoveConnection()
         {
-            OnRemoveConnectionClicked?.Invoke(this, view, model);
+            OnRemoveConnectionClicked?.Invoke(this);
         }
     }
 }

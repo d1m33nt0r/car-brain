@@ -1,3 +1,4 @@
+using System;
 using NeuralNet.Editor.Abstract;
 using NeuralNet.Editor.Connections;
 using UnityEngine;
@@ -16,7 +17,9 @@ namespace NeuralNet.Editor.Nodes.BaseNode
         public BaseConnectionPointController inPointController;
         public BaseConnectionPointController outPointController;
         
-        public BaseNodeModel(Vector2 position, float width, float height, string title)
+        public BaseNodeModel(Vector2 position, float width, float height, string title, 
+            Action<BaseConnectionPointController> OnClickOutPoint, 
+            Action<BaseConnectionPointController> OnClickInPoint)
         {
             Rect = new Rect(position.x, position.y, width, height);
             Title = title;
@@ -30,6 +33,8 @@ namespace NeuralNet.Editor.Nodes.BaseNode
             outPointController = new BaseConnectionPointController();
             outPointController.AttachDrawer(outPointDrawer);
             outPointController.AttachModel(outPointModel);
+            inPointController.OnClickConnectionPoint += OnClickInPoint;
+            outPointController.OnClickConnectionPoint += OnClickOutPoint;
         }
     }
 }

@@ -7,6 +7,9 @@ namespace NeuralNet.Editor.NeuralNetwork
 {
     public class GraphModel : BaseModel
     {
+        public BaseConnectionPointController SelectedInPointController;
+        public BaseConnectionPointController SelectedOutPointController;
+        
         public List<BaseNodeDrawer> NodesDrawers;
         public List<BaseNodeModel> NodesModels;
         public List<BaseNodeController> NodesControllers;

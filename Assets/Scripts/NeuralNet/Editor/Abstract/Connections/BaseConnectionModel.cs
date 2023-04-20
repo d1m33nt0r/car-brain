@@ -4,13 +4,13 @@ namespace NeuralNet.Editor.Connections
 {
     public class BaseConnectionModel : BaseModel
     {
-        public BaseConnectionPointModel inPoint;
-        public BaseConnectionPointModel outPoint;
+        public BaseConnectionPointController inPointController;
+        public BaseConnectionPointController outPointController;
         
-        public BaseConnectionModel(BaseConnectionPointModel inPoint, BaseConnectionPointModel outPoint)
+        public BaseConnectionModel(BaseConnectionPointController inPointController, BaseConnectionPointController outPointController)
         {
-            this.inPoint = inPoint;
-            this.outPoint = outPoint;
+            this.inPointController = inPointController;
+            this.outPointController = outPointController;
         }
     }
 }
