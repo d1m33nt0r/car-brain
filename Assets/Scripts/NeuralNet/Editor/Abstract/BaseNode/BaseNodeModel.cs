@@ -10,13 +10,14 @@ namespace NeuralNet.Editor.Nodes.BaseNode
         public Rect Rect;
         public string Title;
         public bool isDragged;
+        public bool isSelected;
         public BaseConnectionPointDrawer inPointDrawer;
         public BaseConnectionPointDrawer outPointDrawer;
         public BaseConnectionPointModel inPointModel;
         public BaseConnectionPointModel outPointModel;
         public BaseConnectionPointController inPointController;
         public BaseConnectionPointController outPointController;
-        
+
         public BaseNodeModel(Vector2 position, float width, float height, string title, 
             Action<BaseConnectionPointController> OnClickOutPoint, 
             Action<BaseConnectionPointController> OnClickInPoint)

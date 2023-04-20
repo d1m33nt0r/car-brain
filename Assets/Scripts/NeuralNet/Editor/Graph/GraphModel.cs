@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using NeuralNet.Editor.Abstract;
 using NeuralNet.Editor.Connections;
 using NeuralNet.Editor.Nodes.BaseNode;
+using UnityEngine;
 
 namespace NeuralNet.Editor.NeuralNetwork
 {
@@ -17,7 +18,14 @@ namespace NeuralNet.Editor.NeuralNetwork
         public List<BaseConnectionDrawer> ConnectionDrawers;
         public List<BaseConnectionModel> ConnectionModels;
         public List<BaseConnectionController> ConnectionControllers;
-
+        
+        public Vector2 drag;
+        public float kZoomMin = 0.1f;
+        public float kZoomMax = 10.0f;
+        
+        public float zoom = 1.0f;
+        public Vector2 zoomCoordsOrigin = Vector2.zero;
+        
         public GraphModel()
         {
             NodesDrawers = new List<BaseNodeDrawer>();

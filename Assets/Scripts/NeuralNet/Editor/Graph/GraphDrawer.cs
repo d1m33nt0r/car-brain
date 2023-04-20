@@ -1,11 +1,32 @@
 using NeuralNet.Editor.Abstract;
+using UnityEngine;
 
 namespace NeuralNet.Editor.NeuralNetwork
 {
-    public class GraphDrawer : IDrawer<GraphModel>
+    public class GraphDrawer : StylizedDrawer<GraphModel>, IRectArea
     {
-        public void Draw(GraphModel args)
+        public Rect Rect => rect;
+        
+        private Rect rect;
+        private GridDrawer gridDrawer;
+        
+        protected override void ApplyStyles()
         {
+            rect = new Rect(new Vector2(240, 0), Vector2.one * 10000);
+            gridDrawer = new GridDrawer(Rect);
+        }
+
+        public void OnDragCallback(Vector2 delta)
+        {
+            gridDrawer.OnDrag(delta);
+        }
+
+        public override void Draw(GraphModel args)
+        {
+            //EditorZoomArea.Begin(args.zoom, rect);
+            
+            gridDrawer.Draw();
+            
             if (args.NodesDrawers == null) return;
             
             for (var i = 0; i < args.NodesDrawers.Count; i++)
@@ -20,6 +41,8 @@ namespace NeuralNet.Editor.NeuralNetwork
                     args.ConnectionDrawers[i].Draw(args.ConnectionModels[i]);
                 }
             }
+            
+            //EditorZoomArea.End();
         }
     }
 }

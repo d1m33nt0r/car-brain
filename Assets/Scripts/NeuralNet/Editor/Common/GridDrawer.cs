@@ -19,6 +19,11 @@ namespace NeuralNet.Editor
             DrawGrid(20, 0.2f, new Color(0.1f, 0.1f, 0.1f, 0.05f));
             DrawGrid(100, 0.4f, new Color(0.1f, 0.1f, 0.1f, 0.1f));
         }
+
+        public void OnDrag(Vector2 delta)
+        {
+            offset += delta;
+        }
         
         private void DrawGrid(float gridSpacing, float gridOpacity, Color gridColor)
         {
@@ -27,8 +32,7 @@ namespace NeuralNet.Editor
  
             Handles.BeginGUI();
             Handles.color = new Color(gridColor.r, gridColor.g, gridColor.b, gridOpacity);
- 
-            offset += drag * 0.5f;
+            
             Vector3 newOffset = new Vector3(offset.x % gridSpacing, offset.y % gridSpacing, 0);
  
             for (var i = 0; i < widthDivs; i++)

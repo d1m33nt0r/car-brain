@@ -1,10 +1,14 @@
+using System;
 using NeuralNet.Editor.Abstract;
+using UnityEditor;
 using UnityEngine;
 
 namespace NeuralNet.Editor.Nodes.BaseNode
 {
     public class BaseNodeController : BaseController<BaseNodeDrawer, BaseNodeModel>
     {
+        public Action<BaseNodeController> OnRemoveNode;
+        
         public void Drag(Vector2 delta)
         {
             model.Rect.position += delta;
@@ -21,11 +25,20 @@ namespace NeuralNet.Editor.Nodes.BaseNode
                         {
                             model.isDragged = true;
                             GUI.changed = true;
+                            model.isSelected = true;
+                            view.ChangeStyle(model.isSelected);
                         }
                         else
                         {
                             GUI.changed = true;
+                            model.isSelected = false;
+                            view.ChangeStyle(model.isSelected);
                         }
+                    }
+                    if (e.button == 1 && model.isSelected && model.Rect.Contains(e.mousePosition))
+                    {
+                        ProcessContextMenu();
+                        e.Use();
                     }
                     break;
  
@@ -43,6 +56,21 @@ namespace NeuralNet.Editor.Nodes.BaseNode
                     break;
             }
             return false;
+        }
+        
+        private void ProcessContextMenu()
+        {
+            var genericMenu = new GenericMenu();
+            genericMenu.AddItem(new GUIContent("Remove node"), false, OnClickRemoveNode);
+            genericMenu.ShowAsContext();
+        }
+ 
+        private void OnClickRemoveNode()
+        {
+            if (OnRemoveNode != null)
+            {
+                OnRemoveNode(this);
+            }
         }
     }
 }
