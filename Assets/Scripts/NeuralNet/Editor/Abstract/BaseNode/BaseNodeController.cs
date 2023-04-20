@@ -14,14 +14,14 @@ namespace NeuralNet.Editor.Nodes.BaseNode
             model.Rect.position += delta;
         }
 
-        public bool ProcessEvents(Event e)
+        public bool ProcessEvents(Event e, Vector2 mousePosition, float zoom)
         {
             switch (e.type)
             {
                 case EventType.MouseDown:
                     if (e.button == 0)
                     {
-                        if (model.Rect.Contains(e.mousePosition))
+                        if (model.Rect.Contains(mousePosition / zoom))
                         {
                             model.isDragged = true;
                             GUI.changed = true;
@@ -35,7 +35,7 @@ namespace NeuralNet.Editor.Nodes.BaseNode
                             view.ChangeStyle(model.isSelected);
                         }
                     }
-                    if (e.button == 1 && model.isSelected && model.Rect.Contains(e.mousePosition))
+                    if (e.button == 1 && model.isSelected && model.Rect.Contains(mousePosition / zoom))
                     {
                         ProcessContextMenu();
                         e.Use();
@@ -49,7 +49,8 @@ namespace NeuralNet.Editor.Nodes.BaseNode
                 case EventType.MouseDrag:
                     if (e.button == 0 && model.isDragged)
                     {
-                        Drag(e.delta);
+                        var newDelta = e.delta / zoom;
+                        Drag(newDelta);
                         e.Use();
                         return true;
                     }

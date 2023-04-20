@@ -26,18 +26,19 @@ namespace NeuralNet.Editor.NeuralNetwork
                 case EventType.MouseDown:
                     if (e.button == 1)
                     {
-                        ProcessContextMenu(e.mousePosition);
+                        ProcessContextMenu(e.mousePosition - view.Rect.position);
                     }
 
                     break;
                 case EventType.MouseDrag:
                     if (e.button == 2)
                     {
-                        OnDrag(e.delta);
+                        var newDelta = e.delta / model.zoom;
+                        OnDrag(newDelta);
                     }
 
                     break;
-                /*case EventType.ScrollWheel:
+                case EventType.ScrollWheel:
                     var screenCoordsMousePos = Event.current.mousePosition;
                     var delta = Event.current.delta;
                     var zoomCoordsMousePos = ConvertScreenCoordsToZoomCoords(screenCoordsMousePos);
@@ -49,7 +50,7 @@ namespace NeuralNet.Editor.NeuralNetwork
                                               (oldZoom / model.zoom) * (zoomCoordsMousePos - model.zoomCoordsOrigin);
 
                     Event.current.Use();
-                    break;*/
+                    break;
             }
         }
 
@@ -57,7 +58,7 @@ namespace NeuralNet.Editor.NeuralNetwork
         {
             for (var i = model.NodesControllers.Count - 1; i >= 0; i--)
             {
-                var guiChanged = model.NodesControllers[i].ProcessEvents(e);
+                var guiChanged = model.NodesControllers[i].ProcessEvents(e, e.mousePosition - view.Rect.position, model.zoom);
 
                 if (guiChanged)
                 {
@@ -73,8 +74,9 @@ namespace NeuralNet.Editor.NeuralNetwork
 
         private void ProcessContextMenu(Vector2 mousePosition)
         {
+            var newPosition = mousePosition / model.zoom;
             var genericMenu = new GenericMenu();
-            genericMenu.AddItem(new GUIContent("Add node"), false, () => OnClickAddNode(mousePosition));
+            genericMenu.AddItem(new GUIContent("Add node"), false, () => OnClickAddNode(newPosition));
             genericMenu.ShowAsContext();
         }
 

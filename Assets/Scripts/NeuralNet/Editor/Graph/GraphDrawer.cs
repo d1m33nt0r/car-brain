@@ -23,7 +23,8 @@ namespace NeuralNet.Editor.NeuralNetwork
 
         public override void Draw(GraphModel args)
         {
-            //EditorZoomArea.Begin(args.zoom, rect);
+            EditorZoomArea.Begin(args.zoom, rect);
+            //GUILayout.BeginArea(rect);
             
             gridDrawer.Draw();
             
@@ -41,8 +42,8 @@ namespace NeuralNet.Editor.NeuralNetwork
                     args.ConnectionDrawers[i].Draw(args.ConnectionModels[i]);
                 }
             }
-            
-            //EditorZoomArea.End();
+            //GUILayout.EndArea();
+            EditorZoomArea.End();
         }
     }
 }
