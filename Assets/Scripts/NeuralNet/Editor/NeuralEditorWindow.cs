@@ -1,4 +1,4 @@
-using NeuralNet.Editor.NeuralNetwork;
+using NeuralNet.Editor.Workspace;
 using UnityEditor;
 using UnityEngine;
 
@@ -7,11 +7,10 @@ namespace NeuralNet.Editor
     public class NeuralEditorWindow : EditorWindowSingleton<NeuralEditorWindow>
     {
         protected override string windowTitle { get; } = Constants.General.WINDOW_NAME;
-
-        private GridDrawer gridDrawer;
-        private NeuralNetworkDrawer neuralNetworkDrawer;
-        private NeuralNetworkModel neuralNetworkModel;
-        private NeuralNetworkController neuralNetworkController;
+        
+        private WorkspaceDrawer workspaceDrawer;
+        private WorkspaceModel workspaceModel;
+        private WorkspaceController workspaceController;
         
         [MenuItem(Constants.General.MENU_PATH)]
         private static void ShowWindow()
@@ -21,20 +20,17 @@ namespace NeuralNet.Editor
 
         private void OnEnable()
         {
-            gridDrawer = new GridDrawer(this);
-            neuralNetworkDrawer = new NeuralNetworkDrawer();
-            neuralNetworkModel = new NeuralNetworkModel();
-            neuralNetworkController = new NeuralNetworkController();
-            neuralNetworkController.AttachModel(neuralNetworkModel);
-            neuralNetworkController.AttachDrawer(neuralNetworkDrawer);
+            workspaceModel = new WorkspaceModel();
+            workspaceDrawer = new WorkspaceDrawer();
+            workspaceController = new WorkspaceController();
+            workspaceController.AttachDrawer(workspaceDrawer);
+            workspaceController.AttachModel(workspaceModel);
         }
 
         private void OnGUI()
         {
-            neuralNetworkController.ProcessEvents(Event.current);
-            neuralNetworkController.ProcessNodesEvents(Event.current);
-            gridDrawer.Draw();
-            neuralNetworkDrawer.Draw(neuralNetworkModel);
+            workspaceController.ProcessEvents(Event.current);
+            workspaceDrawer.Draw(workspaceModel);
         }
     }
 }

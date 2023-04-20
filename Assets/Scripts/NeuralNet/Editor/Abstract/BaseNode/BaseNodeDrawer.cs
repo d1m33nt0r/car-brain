@@ -15,6 +15,8 @@ namespace NeuralNet.Editor.Nodes.BaseNode
         
         public override void Draw(BaseNodeModel args)
         {
+            args.inPointDrawer.Draw(args.inPointModel);
+            args.outPointDrawer.Draw(args.outPointModel);
             GUI.Box(args.Rect, args.Title, style);
         }
     }

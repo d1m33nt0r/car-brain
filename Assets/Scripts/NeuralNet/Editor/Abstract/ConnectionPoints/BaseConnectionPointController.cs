@@ -3,9 +3,9 @@ using NeuralNet.Editor.Abstract;
 
 namespace NeuralNet.Editor.Connections
 {
-    public abstract class BaseConnectionPointController : BaseController<BaseConnectionPointDrawer, BaseConnectionPointModel>
+    public class BaseConnectionPointController : BaseController<BaseConnectionPointDrawer, BaseConnectionPointModel>
     {
-        public event Action<BaseConnectionPointModel> OnClickConnectionPoint;
+        public event Action<BaseConnectionPointModel, ConnectionPointType> OnClickConnectionPoint;
 
         public override void AttachDrawer(BaseConnectionPointDrawer view)
         {
@@ -13,9 +13,9 @@ namespace NeuralNet.Editor.Connections
             view.OnClickConnectionPoint += OnClick;
         }
 
-        private void OnClick()
+        private void OnClick(ConnectionPointType connectionPointType)
         {
-            OnClickConnectionPoint?.Invoke(model);
+            OnClickConnectionPoint?.Invoke(model, connectionPointType);
         }
     }
 }

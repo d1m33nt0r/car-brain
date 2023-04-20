@@ -7,7 +7,7 @@ namespace NeuralNet.Editor.Connections
 {
     public class BaseConnectionDrawer : IDrawer<BaseConnectionModel>
     {
-        public event Action OnClickConnection;
+        public event Action OnClickRemoveConnection;
         
         public void Draw(BaseConnectionModel args)
         {
@@ -24,7 +24,7 @@ namespace NeuralNet.Editor.Connections
             if (Handles.Button((args.inPoint.Rect.center + args.outPoint.Rect.center) * 0.5f, Quaternion.identity, 4, 8, 
                     Handles.RectangleHandleCap))
             {
-                OnClickConnection?.Invoke();
+                OnClickRemoveConnection?.Invoke();
             }
         }
     }

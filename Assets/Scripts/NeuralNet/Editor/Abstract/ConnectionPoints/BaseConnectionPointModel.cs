@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace NeuralNet.Editor.Connections
 {
-    public abstract class BaseConnectionPointModel : BaseModel
+    public class BaseConnectionPointModel : BaseModel
     {
         public BaseNodeModel BaseNodeModel;
         public Rect Rect;

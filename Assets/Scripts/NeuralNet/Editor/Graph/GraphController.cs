@@ -1,4 +1,3 @@
-using System;
 using NeuralNet.Editor.Abstract;
 using NeuralNet.Editor.Nodes.BaseNode;
 using UnityEditor;
@@ -6,10 +5,8 @@ using UnityEngine;
 
 namespace NeuralNet.Editor.NeuralNetwork
 {
-    public class NeuralNetworkController : BaseController<NeuralNetworkDrawer, NeuralNetworkModel>
+    public class GraphController : BaseController<GraphDrawer, GraphModel>
     {
-        public event Action OnModelChanged;
-        
         public void ProcessEvents(Event e)
         {
             switch (e.type)
@@ -57,7 +54,6 @@ namespace NeuralNet.Editor.NeuralNetwork
             model.NodesModels.Add(nodeModel);
             model.NodesDrawers.Add(nodeDrawer);
             model.NodesControllers.Add(nodeController);
-            OnModelChanged?.Invoke();
         }
     }
 }
