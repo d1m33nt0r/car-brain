@@ -61,7 +61,7 @@ public class Manager : MonoBehaviour
             }
             else
             {
-                brain = new NeuralNetwork(layers, new[] { "sigmoid" , "sigmoid", "sigmoid", "sigmoid"});
+                brain = new NeuralNetwork(layers, new[] { "sigmoid", "sigmoid", "sigmoid", "sigmoid"});
             }
             birdList[i].SetBrain(brain);
             birdList[i].onDead += OnBirdDeathCallback;

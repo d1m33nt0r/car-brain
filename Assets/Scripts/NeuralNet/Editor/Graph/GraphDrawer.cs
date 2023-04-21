@@ -24,26 +24,28 @@ namespace NeuralNet.Editor.NeuralNetwork
         public override void Draw(GraphModel args)
         {
             EditorZoomArea.Begin(args.zoom, rect);
-            //GUILayout.BeginArea(rect);
-            
+
             gridDrawer.Draw();
+            DrawNodes(args);
+            DrawConnections(args);
             
-            if (args.NodesDrawers == null) return;
-            
+            EditorZoomArea.End();
+        }
+
+        private static void DrawNodes(GraphModel args)
+        {
             for (var i = 0; i < args.NodesDrawers.Count; i++)
             {
                 args.NodesDrawers[i].Draw(args.NodesModels[i]);
             }
+        }
 
-            if (args.ConnectionDrawers != null)
+        private static void DrawConnections(GraphModel args)
+        {
+            for (var i = 0; i < args.ConnectionDrawers.Count; i++)
             {
-                for (var i = 0; i < args.ConnectionDrawers.Count; i++)
-                {
-                    args.ConnectionDrawers[i].Draw(args.ConnectionModels[i]);
-                }
+                args.ConnectionDrawers[i].Draw(args.ConnectionModels[i]);
             }
-            //GUILayout.EndArea();
-            EditorZoomArea.End();
         }
     }
 }

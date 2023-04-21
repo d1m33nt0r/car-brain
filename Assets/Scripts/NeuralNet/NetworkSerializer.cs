@@ -61,7 +61,6 @@ namespace NeuralNet
                         for (int k = 0; k < weights[i][j].Length; k++)
                         {
                             weights[i][j][k] = float.Parse(ListLines[index]);
-                            ;
                             index++;
                         }
                     }

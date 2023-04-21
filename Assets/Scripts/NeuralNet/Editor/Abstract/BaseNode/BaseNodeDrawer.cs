@@ -11,13 +11,18 @@ namespace NeuralNet.Editor.Nodes.BaseNode
         
         protected override void ApplyStyles()
         {
+            
             defaultNodeStyle = new GUIStyle();
             defaultNodeStyle.normal.background = EditorGUIUtility.Load("builtin skins/darkskin/images/node1.png") as Texture2D;
-            defaultNodeStyle.border = new RectOffset(12, 12, 12, 12);
-            
+            defaultNodeStyle.border = new RectOffset(12, 12, 12, 12);;
+            defaultNodeStyle.alignment = TextAnchor.UpperCenter;
+            defaultNodeStyle.contentOffset = new Vector2(0, -15);
+
             selectedNodeStyle = new GUIStyle();
             selectedNodeStyle.normal.background = EditorGUIUtility.Load("builtin skins/darkskin/images/node1 on.png") as Texture2D;
             selectedNodeStyle.border = new RectOffset(12, 12, 12, 12);
+            selectedNodeStyle.alignment = TextAnchor.UpperCenter;
+            selectedNodeStyle.contentOffset = new Vector2(0, -15);
             
             ChangeStyle(false);
         }

@@ -9,7 +9,6 @@ namespace NeuralNet.Editor.Workspace
         {
             model.GraphController.ProcessEvents(Event.current);
             model.GraphController.ProcessNodesEvents(Event.current);
-            model.GraphDrawer.Draw(model.GraphModel);
         }
     }
 }
