@@ -2,11 +2,14 @@ using System;
 
 namespace NeuralNet.Core.Activations
 {
-    public class Sigmoid : BaseFunctionActivation
+    [Serializable]
+    public class Sigmoid : FunctionActivationController
     {
-        public ActivationType Type = ActivationType.Sigmoid;
-
-        public override float Activation(float weightedSum, float bias = 0)
+        public Sigmoid(FunctionActivationModel model) : base(model)
+        {
+        }
+        
+        public override float Apply(float weightedSum, float bias = 0)
         {
             var k = (float)Math.Exp(weightedSum - bias);
             return k / (1.0f + k);

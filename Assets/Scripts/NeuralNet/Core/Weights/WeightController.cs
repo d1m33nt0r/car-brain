@@ -1,10 +1,12 @@
+using NeuralNet.Core.Abstract;
+
 namespace NeuralNet.Core
 {
-    public class WeightController
+    public class WeightController : BaseController<WeightModel>
     {
         private WeightModel weightModel;
         
-        public WeightController(WeightModel weightModel)
+        public WeightController(WeightModel weightModel) : base(weightModel)
         {
             this.weightModel = weightModel;
         }
