@@ -9,7 +9,7 @@ namespace NeuralNet.Core
     public class NeuralNetworkModel
     {
         public LayerModel<InputNeuronModel> inputLayerModel;
-        public List<LayerModel<WeightedInputNeuronModel<>>> hiddenLayersModels;
-        public LayerModel<WeightedInputNeuronModel<>> outputLayerModel;
+        public List<LayerModel<WeightedNeuronModel>> hiddenLayersModels;
+        public LayerModel<WeightedNeuronModel> outputLayerModel;
     }
 }

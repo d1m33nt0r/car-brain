@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using NeuralNet.Core.Abstract;
 
 namespace NeuralNet.Core.Neurons.Abstract
@@ -7,5 +8,7 @@ namespace NeuralNet.Core.Neurons.Abstract
         protected BaseNeuronController(TSelfModel model) : base(model)
         {
         }
+
+        public abstract void Activate(List<BaseNeuronModel> neurons, float bias);
     }
 }

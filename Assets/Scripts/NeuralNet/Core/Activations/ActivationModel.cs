@@ -4,7 +4,7 @@ using NeuralNet.Core.Abstract;
 namespace NeuralNet.Core.Activations
 {
     [Serializable]
-    public class FunctionActivationModel : BaseModel
+    public class ActivationModel : BaseModel
     {
         public ActivationType Type;
     }

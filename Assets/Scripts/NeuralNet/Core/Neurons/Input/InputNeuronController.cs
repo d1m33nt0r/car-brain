@@ -1,15 +1,16 @@
+using System.Collections.Generic;
 using NeuralNet.Core.Neurons.Abstract;
 
 namespace NeuralNet.Core
 {
-    public class InputNeuronController<TSelfModel> : BaseNeuronController<TSelfModel> where TSelfModel : InputNeuronModel
+    public class InputNeuronController : BaseNeuronController<InputNeuronModel>
     {
-        public void SetInput(float input)
+        public override void Activate(List<BaseNeuronModel> neurons, float bias = 0)
         {
             
         }
 
-        public InputNeuronController(TSelfModel model) : base(model)
+        public InputNeuronController(InputNeuronModel model) : base(model)
         {
         }
     }
