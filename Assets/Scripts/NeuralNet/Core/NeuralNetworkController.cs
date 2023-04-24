@@ -1,4 +1,6 @@
+using System.IO;
 using NeuralNet.Core.Activations;
+using Newtonsoft.Json;
 using UnityEngine;
 
 namespace NeuralNet.Core

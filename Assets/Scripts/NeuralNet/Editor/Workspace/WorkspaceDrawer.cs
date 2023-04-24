@@ -10,7 +10,6 @@ namespace NeuralNet.Editor.Workspace
         
         protected override void ApplyStyles()
         {
-            
         }
         
         public override void Draw(WorkspaceModel args)

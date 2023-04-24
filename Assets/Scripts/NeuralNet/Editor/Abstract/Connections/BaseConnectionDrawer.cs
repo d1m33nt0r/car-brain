@@ -8,7 +8,7 @@ namespace NeuralNet.Editor.Connections
     public class BaseConnectionDrawer : IDrawer<BaseConnectionModel>
     {
         public event Action OnClickRemoveConnection;
-        
+
         public void Draw(BaseConnectionModel args)
         {
             Handles.DrawBezier(

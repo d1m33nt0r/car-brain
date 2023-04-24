@@ -11,7 +11,7 @@ namespace NeuralNet.Editor.Abstract
         {
             ApplyStyles();
         }
-
+        
         public abstract void Draw(TModel args);
     }
 }

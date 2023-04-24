@@ -11,7 +11,6 @@ namespace NeuralNet.Editor.Nodes.BaseNode
         
         protected override void ApplyStyles()
         {
-            
             defaultNodeStyle = new GUIStyle();
             defaultNodeStyle.normal.background = EditorGUIUtility.Load("builtin skins/darkskin/images/node1.png") as Texture2D;
             defaultNodeStyle.border = new RectOffset(12, 12, 12, 12);;

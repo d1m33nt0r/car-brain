@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using NeuralNet.Core;
 using NeuralNet.Editor.Abstract;
 using NeuralNet.Editor.Connections;
 using NeuralNet.Editor.Nodes.BaseNode;
@@ -53,6 +54,18 @@ namespace NeuralNet.Editor.NeuralNetwork
             ConnectionControllers = connectionControllers;
             ConnectionDrawers = connectionDrawers;
             ConnectionModels = connectionModels;
+        }
+        
+        public GraphModel(NeuralNetworkModel neuralNetworkModel)
+        {
+            
+            NodesDrawers = new List<BaseNodeDrawer>();
+            NodesModels = new List<BaseNodeModel>();
+            NodesControllers = new List<BaseNodeController>();
+            
+            ConnectionDrawers = new List<BaseConnectionDrawer>();
+            ConnectionControllers = new List<BaseConnectionController>();
+            ConnectionModels = new List<BaseConnectionModel>();
         }
     }
 }
