@@ -2,12 +2,14 @@ using NeuralNet.Core.Abstract;
 
 namespace NeuralNet.Core.Activations
 {
-    public abstract class BaseActivationController : BaseController<ActivationModel>
+    public abstract class BaseActivationController
     {
-        public abstract float Apply(float weightedSum, float bias = 0);
+        private ActivationModel model;
+        public abstract float Apply(float weightedSum);
 
-        protected BaseActivationController(ActivationModel model) : base(model)
+        protected BaseActivationController(ActivationModel model)
         {
+            this.model = model;
         }
     }
 }

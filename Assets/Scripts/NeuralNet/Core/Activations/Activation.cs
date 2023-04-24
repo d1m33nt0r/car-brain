@@ -27,9 +27,9 @@ namespace NeuralNet.Core.Activations
             activations.Add(sigmoidModel.Type, new Sigmoid(sigmoidModel));
         }
         
-        public float Apply(ActivationType activationType, float weightedSum, float bias = 0)
+        public float Apply(ActivationType activationType, float weightedSum)
         {
-            return activations[activationType].Apply(weightedSum, bias);
+            return activations[activationType].Apply(weightedSum);
         }
     }
 }

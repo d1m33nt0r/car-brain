@@ -8,9 +8,9 @@ namespace NeuralNet.Core.Activations
         {
         }
         
-        public override float Apply(float weightedSum, float bias = 0)
+        public override float Apply(float weightedSum)
         {
-            var k = (float)Math.Exp(weightedSum + bias);
+            var k = (float)Math.Exp(weightedSum);
             return k / (1.0f + k);
         }
     }

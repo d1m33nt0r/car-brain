@@ -11,5 +11,14 @@ namespace NeuralNet.Core
         public LayerModel<InputNeuronModel> inputLayerModel;
         public List<LayerModel<WeightedNeuronModel>> hiddenLayersModels;
         public LayerModel<WeightedNeuronModel> outputLayerModel;
+
+        public NeuralNetworkModel(LayerModel<InputNeuronModel> inputLayerModel, 
+            List<LayerModel<WeightedNeuronModel>> hiddenLayersModels, 
+            LayerModel<WeightedNeuronModel> outputLayerModel)
+        {
+            this.hiddenLayersModels = hiddenLayersModels;
+            this.inputLayerModel = inputLayerModel;
+            this.outputLayerModel = outputLayerModel;
+        }
     }
 }
