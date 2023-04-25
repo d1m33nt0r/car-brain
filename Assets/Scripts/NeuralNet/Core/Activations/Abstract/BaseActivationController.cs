@@ -1,5 +1,3 @@
-using NeuralNet.Core.Abstract;
-
 namespace NeuralNet.Core.Activations
 {
     public abstract class BaseActivationController

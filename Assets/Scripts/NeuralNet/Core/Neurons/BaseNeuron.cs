@@ -1,14 +1,13 @@
 using System;
-using NeuralNet.Core.Abstract;
 
 namespace NeuralNet.Core.Neurons.Abstract
 {
     [Serializable]
-    public abstract class BaseNeuronModel : BaseModel
+    public class BaseNeuron
     {
         public float data;
 
-        public BaseNeuronModel(float data)
+        public BaseNeuron(float data)
         {
             this.data = data;
         }

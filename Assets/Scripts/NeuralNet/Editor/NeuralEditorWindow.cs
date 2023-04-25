@@ -1,4 +1,3 @@
-using NeuralNet.Editor.Services;
 using NeuralNet.Editor.Sidebar;
 using NeuralNet.Editor.Sidebar.MainSection;
 using NeuralNet.Editor.Workspace;
@@ -9,6 +8,7 @@ namespace NeuralNet.Editor
 {
     public class NeuralEditorWindow : EditorWindowSingleton<NeuralEditorWindow>
     {
+        public WindowState state { get; private set; }
         protected override string windowTitle { get; } = Constants.General.WINDOW_NAME;
         
         private WorkspaceDrawer workspaceDrawer;
@@ -23,8 +23,6 @@ namespace NeuralNet.Editor
         private MainSectionDrawer mainSectionDrawer;
         private MainSectionModel mainSectionModel;
 
-        private WindowState state;
-        
         [MenuItem(Constants.General.MENU_PATH)]
         private static void ShowWindow()
         {
@@ -34,23 +32,21 @@ namespace NeuralNet.Editor
         private void OnEnable()
         {
             state = new WindowState();
-            ServiceLocator.Instance.Register(state);
-            workspaceModel = new WorkspaceModel();
-            ServiceLocator.Instance.Register(workspaceModel);
-            mainSectionDrawer = new MainSectionDrawer();
-            ServiceLocator.Instance.Register(mainSectionDrawer);
             
-            mainSectionController = new MainSectionController();
             mainSectionModel = new MainSectionModel();
-            ServiceLocator.Instance.Register(mainSectionModel);
+            mainSectionDrawer = new MainSectionDrawer();
+            mainSectionController = new MainSectionController();
             mainSectionController.AttachDrawer(mainSectionDrawer);
             mainSectionController.AttachModel(mainSectionModel);
             
+            workspaceModel = new WorkspaceModel();
             workspaceDrawer = new WorkspaceDrawer();
             workspaceController = new WorkspaceController();
+            workspaceController.AttachDrawer(workspaceDrawer);
+            workspaceController.AttachModel(workspaceModel);
             
             sidebarController = new SidebarController();
-            sidebarDrawer = new SidebarDrawer();
+            sidebarDrawer = new SidebarDrawer(mainSectionModel, mainSectionDrawer);
             sidebarModel = new SidebarModel();
             sidebarController.AttachDrawer(sidebarDrawer);
             sidebarController.AttachModel(sidebarModel);

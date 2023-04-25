@@ -5,7 +5,7 @@ namespace NeuralNet.Editor.Sidebar.MainSection
 {
     public class MainSectionModel : BaseModel
     {
-        public NeuralNetworkModel selectedNetworkModel;
+        public NeuralNetworkData SelectedNetworkData;
         public string openFilePath;
         public string saveFilePath;
     }

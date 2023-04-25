@@ -1,33 +1,32 @@
-using System.IO;
 using NeuralNet.Core.Activations;
-using Newtonsoft.Json;
 using UnityEngine;
 
 namespace NeuralNet.Core
 {
     public class NeuralNetworkController
     {
-        private NeuralNetworkModel model;
+        private NeuralNetworkData data;
         
-        public NeuralNetworkController(NeuralNetworkModel neuralNetworkModel)
+        public NeuralNetworkController(NeuralNetworkData neuralNetworkData)
         {
-            model = neuralNetworkModel;
+            data = neuralNetworkData;
+            
         }
 
         public float[] FeedForward(float[] inputs)
         {
-            if (inputs.Length != model.inputLayerModel.neuronModels.Count) 
+            if (inputs.Length != this.data.inputLayer.neuronModels.Count) 
                 Debug.LogWarning("The number of input layer neurons does not match the input data");
             
             for (var i = 0; i < inputs.Length; i++)
             {
-                if (i < model.inputLayerModel.neuronModels.Count)
-                    model.inputLayerModel.neuronModels[i].data = inputs[i];
+                if (i < this.data.inputLayer.neuronModels.Count)
+                    this.data.inputLayer.neuronModels[i].data = inputs[i];
             }
 
-            for (var i = 0; i < model.hiddenLayersModels.Count; i++)
+            for (var i = 0; i < this.data.hiddenLayersModels.Count; i++)
             {
-                var currentLayer = model.hiddenLayersModels[i];
+                var currentLayer = this.data.hiddenLayersModels[i];
                 for (var j = 0; j < currentLayer.neuronModels.Count; j++)
                 {
                     var weightedSum = 0f;
@@ -36,14 +35,14 @@ namespace NeuralNet.Core
                     {
                         if (i == 0)
                         {
-                            var weight = model.inputLayerModel.neuronModels[currentNeuronWeights[n].neuronIndex].data *
+                            var weight = this.data.inputLayer.neuronModels[currentNeuronWeights[n].previousNeuronIndex].data *
                                 currentNeuronWeights[n].data;
                             weightedSum += weight;
                         }
 
                         if (i > 0)
                         {
-                            var weight = model.hiddenLayersModels[i - 1].neuronModels[currentNeuronWeights[n].neuronIndex].data *
+                            var weight = this.data.hiddenLayersModels[i - 1].neuronModels[currentNeuronWeights[n].previousNeuronIndex].data *
                                          currentNeuronWeights[n].data;
                             weightedSum += weight;
                         }
@@ -55,26 +54,26 @@ namespace NeuralNet.Core
                 }
             }
             
-            for (var i = 0; i < model.outputLayerModel.neuronModels.Count; i++)
+            for (var i = 0; i < this.data.outputLayer.neuronModels.Count; i++)
             {
                 var weightedSum = 0f;
-                var currentNeuronWeights = model.outputLayerModel.neuronModels[i].weights;
+                var currentNeuronWeights = this.data.outputLayer.neuronModels[i].weights;
                 for (var j = 0; j < currentNeuronWeights.Count; j++)
                 {
-                    var weight = model.hiddenLayersModels[i - 1].neuronModels[currentNeuronWeights[j].neuronIndex].data *
+                    var weight = this.data.hiddenLayersModels[i - 1].neuronModels[currentNeuronWeights[j].previousNeuronIndex].data *
                                  currentNeuronWeights[j].data;
                     weightedSum += weight;
                 }
-                weightedSum += model.outputLayerModel.bias;
-                var activatedValue = Activation.Instance.Apply(model.outputLayerModel.neuronModels[i].activationType, weightedSum);
-                model.outputLayerModel.neuronModels[i].data = activatedValue;
+                weightedSum += this.data.outputLayer.bias;
+                var activatedValue = Activation.Instance.Apply(this.data.outputLayer.neuronModels[i].activationType, weightedSum);
+                this.data.outputLayer.neuronModels[i].data = activatedValue;
             }
 
-            var data = new float [model.outputLayerModel.neuronModels.Count];
+            var data = new float [this.data.outputLayer.neuronModels.Count];
 
-            for (var i = 0; i < model.outputLayerModel.neuronModels.Count; i++)
+            for (var i = 0; i < this.data.outputLayer.neuronModels.Count; i++)
             {
-                data[i] = model.outputLayerModel.neuronModels[i].data;
+                data[i] = this.data.outputLayer.neuronModels[i].data;
             }
 
             return data;

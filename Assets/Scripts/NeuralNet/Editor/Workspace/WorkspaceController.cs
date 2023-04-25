@@ -7,8 +7,8 @@ namespace NeuralNet.Editor.Workspace
     {
         public void ProcessEvents(Event e)
         {
-            model.GraphController.ProcessEvents(Event.current);
-            model.GraphController.ProcessNodesEvents(Event.current);
+            model.GraphController.ProcessEvents(e);
+            model.GraphController.ProcessNodesEvents(e);
         }
     }
 }

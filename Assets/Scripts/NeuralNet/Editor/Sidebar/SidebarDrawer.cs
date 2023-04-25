@@ -1,5 +1,4 @@
 using NeuralNet.Editor.Abstract;
-using NeuralNet.Editor.Services;
 using NeuralNet.Editor.Sidebar.MainSection;
 using UnityEngine;
 
@@ -11,10 +10,10 @@ namespace NeuralNet.Editor.Sidebar
         private MainSectionDrawer mainSectionDrawer;
         private MainSectionModel mainSectionModel;
         
-        public SidebarDrawer()
+        public SidebarDrawer(MainSectionModel mainSectionModel, MainSectionDrawer mainSectionDrawer)
         {
-            mainSectionDrawer = ServiceLocator.Instance.GetService<MainSectionDrawer>();
-            mainSectionModel = ServiceLocator.Instance.GetService<MainSectionModel>();
+            this.mainSectionDrawer = mainSectionDrawer;
+            this.mainSectionModel = mainSectionModel;
         }
         
         protected override void ApplyStyles()

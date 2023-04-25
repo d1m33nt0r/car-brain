@@ -6,12 +6,12 @@ using NeuralNet.Core.Neurons.Abstract;
 namespace NeuralNet.Core.Neurons.Output
 {
     [Serializable]
-    public class WeightedNeuronModel : BaseNeuronModel
+    public class WeightedNeuron : BaseNeuron
     {
         public ActivationType activationType;
-        public List<WeightModel> weights;
+        public List<Weight> weights;
         
-        public WeightedNeuronModel(List<WeightModel> weights, ActivationType activationType, float data) : base(data)
+        public WeightedNeuron(List<Weight> weights, ActivationType activationType, float data) : base(data)
         {
             this.weights = weights;
             this.activationType = activationType;

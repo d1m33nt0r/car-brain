@@ -4,6 +4,6 @@ namespace NeuralNet.Editor
 {
     public class WindowState
     {
-        public NeuralNetworkModel SelectedNetworkModel;
+        public NeuralNetworkData SelectedNetworkData;
     }
 }

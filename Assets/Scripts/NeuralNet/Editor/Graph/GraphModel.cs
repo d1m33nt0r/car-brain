@@ -56,7 +56,7 @@ namespace NeuralNet.Editor.NeuralNetwork
             ConnectionModels = connectionModels;
         }
         
-        public GraphModel(NeuralNetworkModel neuralNetworkModel)
+        public GraphModel(NeuralNetworkData neuralNetworkData)
         {
             
             NodesDrawers = new List<BaseNodeDrawer>();
