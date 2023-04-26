@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using NeuralNet.Core.Layers;
 using NeuralNet.Core.Neurons.Abstract;
@@ -10,6 +9,7 @@ namespace NeuralNet.Core
     [CreateAssetMenu(fileName = "BrainAsset", menuName = "NeuralNet/Brain Asset")]
     public class NeuralNetworkData : ScriptableObject
     {
+        
         public Layer<BaseNeuron> inputLayer;
         public List<Layer<WeightedNeuron>> hiddenLayersModels;
         public Layer<WeightedNeuron> outputLayer;

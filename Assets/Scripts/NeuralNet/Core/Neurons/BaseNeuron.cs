@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 namespace NeuralNet.Core.Neurons.Abstract
 {
@@ -6,7 +7,7 @@ namespace NeuralNet.Core.Neurons.Abstract
     public class BaseNeuron
     {
         public float data;
-
+        public Vector2 position;
         public BaseNeuron(float data)
         {
             this.data = data;

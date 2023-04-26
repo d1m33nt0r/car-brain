@@ -58,7 +58,7 @@ namespace NeuralNet.Editor.NeuralNetwork
         
         public GraphModel(NeuralNetworkData neuralNetworkData)
         {
-            
+               
             NodesDrawers = new List<BaseNodeDrawer>();
             NodesModels = new List<BaseNodeModel>();
             NodesControllers = new List<BaseNodeController>();

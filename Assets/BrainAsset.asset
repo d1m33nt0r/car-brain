@@ -15,7 +15,18 @@ MonoBehaviour:
   inputLayer:
     bias: 0
     neuronModels: []
-  hiddenLayersModels: []
+  hiddenLayersModels:
+  - bias: 0
+    neuronModels:
+    - data: 0
+      activationType: 0
+      weights:
+      - previousNeuronIndex: 0
+        data: 0
+      - previousNeuronIndex: 0
+        data: 0
+  - bias: 0
+    neuronModels: []
   outputLayer:
     bias: 0
     neuronModels: []
