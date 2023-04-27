@@ -19,32 +19,32 @@ namespace NeuralNet.Editor
  
         public void Draw()
         {
-            Handles.DrawBezier(
-                inPoint.rect.center,
-                outPoint.rect.center,
-                inPoint.rect.center + Vector2.right * -50f,
-                outPoint.rect.center - Vector2.right * -50f,
-                Color.white,
-                null,
-                2f
-            );
- 
-            Vector2 startPoint = inPoint.rect.center;
-            Vector2 endPoint = outPoint.rect.center;
-            Vector2 startTangent = startPoint + Vector2.right * -50f;
-            Vector2 endTangent = endPoint - Vector2.right * -50f;
-            float thickness = 2f;
+            var startPoint = inPoint.rect.center;
+            var endPoint = outPoint.rect.center;
+            var startTangent = startPoint + Vector2.right * -50f;
+            var endTangent = endPoint - Vector2.right * -50f;
             
+            Handles.DrawBezier(startPoint, endPoint, startTangent,endTangent, Color.black, null, 3f);
+            
+            var bezierPoints = Handles.MakeBezierPoints(startPoint, endPoint, startTangent, endTangent, 7);
 
-            Vector3[] bezierPoints = Handles.MakeBezierPoints(startPoint, endPoint, startTangent, endTangent, 10);
-            
             Vector2 middlePoint = bezierPoints[2];
-            
-            float arrowSize = 10f;
-            Handles.DrawAAPolyLine(thickness, middlePoint, middlePoint + arrowSize * (startPoint - endPoint).normalized);
-            Handles.DrawAAPolyLine(thickness, middlePoint, middlePoint + arrowSize * (endPoint - startPoint).normalized);
-            
-            if (Handles.Button(middlePoint, Quaternion.identity, 4, 8, Handles.CircleHandleCap))
+            var s = bezierPoints[3];
+            var t = bezierPoints[3];
+            var cross = Vector3.Cross((endPoint - startPoint).normalized, Vector3.forward);
+            var diff = (startPoint - endPoint);
+            var direction = diff.normalized;
+
+            new DirectionArrow().DrawArrow(cross, direction, middlePoint, Color.black);
+            /*
+            //Handles.DrawSolidDisc(t, Vector3.forward, 15);
+            // Малюємо круг з полем для введення числа в його центрі
+            EditorGUI.BeginChangeCheck();
+            EditorGUI.FloatField(new Rect(t.x - 30f, t.y - 10f, 60f, 20f), 50);
+            EditorGUI.EndChangeCheck();
+            */
+
+            if (Handles.Button(s, Quaternion.identity, 4, 8, Handles.CircleHandleCap))
             {
                 if (OnClickRemoveConnection != null)
                 {

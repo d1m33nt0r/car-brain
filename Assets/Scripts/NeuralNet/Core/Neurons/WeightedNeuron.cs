@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using NeuralNet.Core.Activations;
 using NeuralNet.Core.Neurons.Abstract;
+using UnityEngine;
 
 namespace NeuralNet.Core.Neurons.Output
 {
@@ -11,7 +12,7 @@ namespace NeuralNet.Core.Neurons.Output
         public ActivationType activationType;
         public List<Weight> weights;
         
-        public WeightedNeuron(List<Weight> weights, ActivationType activationType, float data) : base(data)
+        public WeightedNeuron(List<Weight> weights, ActivationType activationType, float data, Vector2 position) : base(data, position)
         {
             this.weights = weights;
             this.activationType = activationType;

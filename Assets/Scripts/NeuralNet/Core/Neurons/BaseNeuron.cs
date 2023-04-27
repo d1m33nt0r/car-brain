@@ -8,7 +8,7 @@ namespace NeuralNet.Core.Neurons.Abstract
     {
         public float data;
         public Vector2 position;
-        public BaseNeuron(float data)
+        public BaseNeuron(float data, Vector2 position)
         {
             this.data = data;
         }
