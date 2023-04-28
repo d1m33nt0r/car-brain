@@ -5,7 +5,8 @@ namespace NeuralNet.Core
     [Serializable]
     public class Weight
     {
-        public int previousNeuronIndex;
+        public int inputNeuronID;
+        public int outputNeuronID;
         public float data;
     }
 }

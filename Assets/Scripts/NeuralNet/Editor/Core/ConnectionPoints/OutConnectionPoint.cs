@@ -1,5 +1,4 @@
 using System;
-using NeuralNet.Core.Neurons.Abstract;
 using UnityEditor;
 using UnityEngine;
 

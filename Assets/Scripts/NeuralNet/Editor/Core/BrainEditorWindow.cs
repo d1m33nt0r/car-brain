@@ -21,7 +21,6 @@ namespace NeuralNet.Editor
         
         private void OnGUI()
         {
-            Debug.Log(position);
             DrawNodes();
             DrawConnections();
             DrawConnectionLine(Event.current);
