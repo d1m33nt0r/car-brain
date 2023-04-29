@@ -9,10 +9,9 @@ namespace NeuralNet.Core
     [Serializable]
     public class NeuralNetworkData
     {
-        public List<Neuron> allNeurons;
-        
         public List<int> inputNeuronsIDs;
         public List<int> outputNeuronsIDs;
+        public List<Neuron> allNeurons;
         public int nextID;
 
         public NeuralNetworkData()
@@ -22,19 +21,21 @@ namespace NeuralNet.Core
             outputNeuronsIDs = new List<int>();
         }
         
-        public void AddNeuron(Vector2 position)
+        public Neuron AddNeuron(Vector2 position)
         {
             var newNeuron = new Neuron(nextID, position);
             newNeuron.onChangedNeuronType += OnChangedNeuronType;
             allNeurons.Add(newNeuron);
             nextID++;
+            return newNeuron;
         }
 
-        public void AddWeight(Neuron inputNeuron, Neuron outputNeuron)
+        public Weight AddWeight(Neuron fromNeuron, Neuron toNeuron)
         {
-            var newWeight = new Weight { inputNeuron = inputNeuron, outputNeuron = outputNeuron };
-            outputNeuron.inputWeights.Add(newWeight);
-            inputNeuron.outputWeights.Add(newWeight);
+            var newWeight = new Weight(fromNeuron, toNeuron);
+            toNeuron.inputWeights.Add(newWeight);
+            fromNeuron.outputWeights.Add(newWeight);
+            return newWeight;
         }
 
         public void RemoveNeuron(Neuron neuron)

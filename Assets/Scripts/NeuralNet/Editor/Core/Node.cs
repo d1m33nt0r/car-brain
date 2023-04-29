@@ -1,4 +1,5 @@
 using System;
+using NeuralNet.Core.Neurons.Output;
 using UnityEditor;
 using UnityEngine;
 
@@ -6,6 +7,8 @@ namespace NeuralNet.Editor
 {
     public class Node : StylizedDrawer<EmptyDrawerArgs>
     {
+        public Neuron neuron;
+        
         public string title;
         public bool isDragged;
         public bool isSelected;
@@ -18,12 +21,13 @@ namespace NeuralNet.Editor
         
         public Action<Node> OnRemoveNode;
 
-        public Node(Vector2 position, 
+        public Node(Neuron neuron,Vector2 position, 
             Action<ConnectionPoint> OnClickInPoint, 
             Action<ConnectionPoint> OnClickOutPoint, 
             Action<Node> OnClickRemoveNode)
         {
-            rect = new Rect(position.x, position.y, 50, 50);
+            this.neuron = neuron;
+            rect = new Rect(position.x, position.y, 80, 60);
             inPoint = new InConnectionPoint(this, ConnectionPointType.In, OnClickInPoint);
             outPoint = new OutConnectionPoint(this, ConnectionPointType.Out, OnClickOutPoint);
             OnRemoveNode = OnClickRemoveNode;
@@ -91,6 +95,7 @@ namespace NeuralNet.Editor
                     {
                         Drag(e.delta);
                         e.Use();
+                        neuron.position = rect.position;
                         return true;
                     }
                     break;

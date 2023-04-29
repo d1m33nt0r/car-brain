@@ -12,7 +12,6 @@ namespace NeuralNet.Core.Neurons.Output
 
         public int id;
         public float data;
-        public int activationOrder;
         public NeuronType neuronType;
         public ActivationType activationType;
         public List<Weight> inputWeights;

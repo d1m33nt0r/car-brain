@@ -1,4 +1,5 @@
 using System;
+using NeuralNet.Core;
 using UnityEditor;
 using UnityEngine;
 
@@ -6,12 +7,14 @@ namespace NeuralNet.Editor
 {
     public class Connection
     {
+        public Weight weight;
         public ConnectionPoint inPoint;
         public ConnectionPoint outPoint;
         public Action<Connection> OnClickRemoveConnection;
  
-        public Connection(ConnectionPoint inPoint, ConnectionPoint outPoint, Action<Connection> OnClickRemoveConnection)
+        public Connection(Weight weight, ConnectionPoint inPoint, ConnectionPoint outPoint, Action<Connection> OnClickRemoveConnection)
         {
+            this.weight = weight;
             this.inPoint = inPoint;
             this.outPoint = outPoint;
             this.OnClickRemoveConnection = OnClickRemoveConnection;

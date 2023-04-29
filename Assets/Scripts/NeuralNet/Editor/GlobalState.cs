@@ -4,6 +4,6 @@ namespace NeuralNet.Editor
 {
     public class GlobalState
     {
-        public NeuralNetworkData SelectedNetworkData;
+        public NeuralNetworkData CurrentNetworkAsset = new ();
     }
 }

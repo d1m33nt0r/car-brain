@@ -1,4 +1,8 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using NeuralNet.Core;
+using NeuralNet.Editor.Template;
 using UnityEditor;
 using UnityEngine;
 
@@ -6,25 +10,38 @@ namespace NeuralNet.Editor
 {
     public class BrainEditorWindow : EditorWindowSingleton<BrainEditorWindow>
     {
+        public GlobalState State { get; private set; }
+        
         protected override string windowTitle { get; } = "Brain Editor";
-        private List<Node> nodes;
-        private List<Connection> connections;
+        private List<Node> nodes = new ();
+        private List<Connection> connections = new ();
         private ConnectionPoint selectedInPoint;
         private ConnectionPoint selectedOutPoint;
         private Vector2 drag;
-        
+
+        private TopMenu topMenu;
+
         [MenuItem("Window/Brain Editor")]
         private static void OpenWindow()
         {
             var window = Instance;
         }
-        
+
+        private void OnEnable()
+        {
+            topMenu = new TopMenu();
+            topMenu.OnChangedCurrentNetworkAsset += SynchronizeNetwork;
+            State = new GlobalState { CurrentNetworkAsset = new NeuralNetworkData() };
+        }
+
         private void OnGUI()
         {
             DrawNodes();
             DrawConnections();
-            DrawConnectionLine(Event.current);
-       
+            DrawTempConnectionLine(Event.current);
+            
+            topMenu.Draw(new EmptyDrawerArgs());
+            
             ProcessNodeEvents(Event.current);
             ProcessEvents(Event.current);
 
@@ -118,8 +135,8 @@ namespace NeuralNet.Editor
             {
                 nodes = new List<Node>();
             }
- 
-            nodes.Add(new Node(mousePosition, OnClickInPoint, OnClickOutPoint, OnClickRemoveNode));
+            var neuron = State.CurrentNetworkAsset.AddNeuron(mousePosition);
+            nodes.Add(new Node(neuron, mousePosition, OnClickInPoint, OnClickOutPoint, OnClickRemoveNode));
         }
         
         private void OnClickRemoveNode(Node node)
@@ -194,8 +211,8 @@ namespace NeuralNet.Editor
             {
                 connections = new List<Connection>();
             }
- 
-            connections.Add(new Connection(selectedInPoint, selectedOutPoint, OnClickRemoveConnection));
+            var weight = State.CurrentNetworkAsset.AddWeight(selectedOutPoint.node.neuron, selectedInPoint.node.neuron);
+            connections.Add(new Connection(weight, selectedInPoint, selectedOutPoint, OnClickRemoveConnection));
         }
  
         private void ClearConnectionSelection()
@@ -204,7 +221,7 @@ namespace NeuralNet.Editor
             selectedOutPoint = null;
         }
         
-        private void DrawConnectionLine(Event e)
+        private void DrawTempConnectionLine(Event e)
         {
             if (selectedInPoint != null && selectedOutPoint == null)
             {
@@ -234,6 +251,28 @@ namespace NeuralNet.Editor
                 );
  
                 GUI.changed = true;
+            }
+        }
+        
+        private void SynchronizeNetwork()
+        {
+            nodes.Clear();
+            connections.Clear();
+
+            for (var i = 0; i < State.CurrentNetworkAsset.allNeurons.Count; i++)
+            {
+                var neuron = State.CurrentNetworkAsset.allNeurons[i];
+                var node = new Node(neuron,
+                    neuron.position, OnClickInPoint, OnClickOutPoint,
+                    OnClickRemoveNode);
+                nodes.Add(node);
+                for (var j = 0; j < neuron.inputWeights.Count; j++)
+                {
+                    var inPoint = neuron.inputWeights[j].inputNeuron.id;
+                    var res = nodes.FirstOrDefault(n => n.neuron.id == inPoint);
+                    var connection = new Connection(neuron.inputWeights[j], node.inPoint, res.outPoint, OnClickRemoveConnection);
+                    connections.Add(connection);
+                }
             }
         }
     }
