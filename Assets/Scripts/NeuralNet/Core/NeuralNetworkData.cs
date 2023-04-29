@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using NeuralNet.Core.Neurons;
 using NeuralNet.Core.Neurons.Output;
@@ -5,53 +6,48 @@ using UnityEngine;
 
 namespace NeuralNet.Core
 {
-    [CreateAssetMenu(fileName = "BrainEditorAsset", menuName = "NeuralNet/Brain Asset")]
-    public class NeuralNetworkData : ScriptableObject
+    [Serializable]
+    public class NeuralNetworkData
     {
-        public SerializableNeuronDictionary allNeurons;
+        public List<Neuron> allNeurons;
+        
+        public List<int> inputNeuronsIDs;
+        public List<int> outputNeuronsIDs;
+        public int nextID;
 
-        [HideInInspector] public List<int> inputNeuronsIDs;
-        [HideInInspector] public List<int> outputNeuronsIDs;
-        [HideInInspector, SerializeField] private int nextID;
-
+        public NeuralNetworkData()
+        {
+            allNeurons = new List<Neuron>();
+            inputNeuronsIDs = new List<int>();
+            outputNeuronsIDs = new List<int>();
+        }
+        
         public void AddNeuron(Vector2 position)
         {
             var newNeuron = new Neuron(nextID, position);
             newNeuron.onChangedNeuronType += OnChangedNeuronType;
-            allNeurons.Add(nextID, newNeuron);
+            allNeurons.Add(newNeuron);
             nextID++;
         }
 
-        public void AddWeight(int inputNeuronID, int outputNeuronID)
+        public void AddWeight(Neuron inputNeuron, Neuron outputNeuron)
         {
-            var newWeight = new Weight { inputNeuronID = inputNeuronID, outputNeuronID = outputNeuronID };
-            allNeurons[outputNeuronID].inputWeights.Add(newWeight);
-            allNeurons[inputNeuronID].outputWeights.Add(newWeight);
+            var newWeight = new Weight { inputNeuron = inputNeuron, outputNeuron = outputNeuron };
+            outputNeuron.inputWeights.Add(newWeight);
+            inputNeuron.outputWeights.Add(newWeight);
         }
 
         public void RemoveNeuron(Neuron neuron)
         {
-            allNeurons.Remove(neuron.id);
+            allNeurons.Remove(neuron);
             if (inputNeuronsIDs.Contains(neuron.id)) inputNeuronsIDs.Remove(neuron.id);
             if (outputNeuronsIDs.Contains(neuron.id)) outputNeuronsIDs.Remove(neuron.id);
         }
 
         public void RemoveWeight(Weight weight)
         {
-            allNeurons[weight.inputNeuronID].outputWeights.Remove(weight);
-            allNeurons[weight.outputNeuronID].inputWeights.Remove(weight);
-        }
-
-        public bool TryGetNeuron(int neuronID, out Neuron neuron)
-        {
-            if (allNeurons.ContainsKey(neuronID))
-            {
-                neuron = allNeurons[neuronID];
-                return true;
-            }
-
-            neuron = null;
-            return false;
+            weight.inputNeuron.outputWeights.Remove(weight);
+            weight.outputNeuron.inputWeights.Remove(weight);
         }
 
         private void OnChangedNeuronType(Neuron neuron, NeuronType prevNeuronType, NeuronType newNeuronType)
