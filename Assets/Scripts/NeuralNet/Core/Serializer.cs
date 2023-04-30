@@ -8,10 +8,10 @@ namespace NeuralNet.Core
     {
         private static void Sort(NeuralNetworkData nnd)
         {
-            var sorted = nnd.allNeurons.OrderByDependers(n => n.inputWeights.Select(w => w.inputNeuron).ToList()).ToList();
-            nnd.allNeurons = sorted;
+            var sorted = nnd.hiddenNeurons.OrderByDependers(n => n.inputWeights.Select(w => w.inputNeuron).ToList()).ToList();
+            nnd.hiddenNeurons = sorted;
         }
-        
+
         public static string WriteToJson(NeuralNetworkData neuralNetworkData)
         {
             Sort(neuralNetworkData);

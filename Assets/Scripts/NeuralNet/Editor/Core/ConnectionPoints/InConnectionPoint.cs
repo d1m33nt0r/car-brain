@@ -21,7 +21,7 @@ namespace NeuralNet.Editor
         public override void Draw(EmptyDrawerArgs args)
         {
             rect.y = node.rect.y + (node.rect.height * 0.5f) - rect.height * 0.5f;
-            rect.x = node.rect.x - rect.width + 8f;
+            rect.x = node.rect.x - rect.width;
             base.Draw(args);
         }
     }

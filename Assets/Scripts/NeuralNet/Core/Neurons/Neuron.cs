@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using NeuralNet.Core.Activations;
 using UnityEngine;
 
@@ -12,6 +13,7 @@ namespace NeuralNet.Core.Neurons.Output
 
         public int id;
         public float data;
+        public float bias;
         public NeuronType neuronType;
         public ActivationType activationType;
         public List<Weight> inputWeights;
@@ -19,10 +21,11 @@ namespace NeuralNet.Core.Neurons.Output
         
         public Vector2 position;
         
-        public Neuron(int id, Vector2 position)
+        public Neuron(int id, float minRange, float maxRange, Vector2 position)
         {
             this.id = id;
             data = default;
+            bias = UnityEngine.Random.Range(minRange, maxRange);
             inputWeights = new List<Weight>();
             outputWeights = new List<Weight>();
             this.position = position;
@@ -64,7 +67,9 @@ namespace NeuralNet.Core.Neurons.Output
         
         public void Activate()
         {
-            
+            var weightedSum = inputWeights.Sum(w => w.data * w.inputNeuron.data);
+            var activatedValue = Activation.Instance.Apply(activationType, weightedSum + bias);
+            data = activatedValue;
         }
     }
 }

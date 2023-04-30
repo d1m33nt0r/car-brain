@@ -21,8 +21,8 @@ namespace NeuralNet.Editor.Template
             
             if (GUILayout.Button("Open"))
             {
-                var path = EditorUtility.OpenFilePanel("Choose neural network asset", "Assets", "");
-                var s = JsonUtility.FromJson<NeuralNetworkData>(File.ReadAllText(path));
+                var path = EditorUtility.OpenFilePanel("Choose neural network asset", "Assets", "json");
+                var s = Serializer.ReadFromJson(File.ReadAllText(path));
                 BrainEditorWindow.Instance.State.CurrentNetworkAsset = s;
                 OnChangedCurrentNetworkAsset?.Invoke();
             }
@@ -30,7 +30,17 @@ namespace NeuralNet.Editor.Template
             if (GUILayout.Button("Save As"))
             {
                 var s = EditorUtility.SaveFilePanel("Save network asset", "Assets", "BrainAsset", "json");
-                if (s.Length > 0) File.WriteAllText(s, JsonUtility.ToJson(BrainEditorWindow.Instance.State.CurrentNetworkAsset));
+                if (s.Length > 0) File.WriteAllText(s, Serializer.WriteToJson(BrainEditorWindow.Instance.State.CurrentNetworkAsset));
+            }
+            
+            if (GUILayout.Button("Show activation order"))
+            {
+                Debug.Log("start");
+                for (var i = 0; i < BrainEditorWindow.Instance.State.CurrentNetworkAsset.hiddenNeurons.Count; i++)
+                {
+                    Debug.Log($"neuron {BrainEditorWindow.Instance.State.CurrentNetworkAsset.hiddenNeurons[i].id}");
+                }
+                Debug.Log("end");
             }
 
             GUILayout.EndHorizontal();

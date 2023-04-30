@@ -1,4 +1,6 @@
 using System;
+using NeuralNet.Core.Activations;
+using NeuralNet.Core.Neurons;
 using NeuralNet.Core.Neurons.Output;
 using UnityEditor;
 using UnityEngine;
@@ -27,7 +29,7 @@ namespace NeuralNet.Editor
             Action<Node> OnClickRemoveNode)
         {
             this.neuron = neuron;
-            rect = new Rect(position.x, position.y, 80, 60);
+            rect = new Rect(position.x, position.y, 120, 82);
             inPoint = new InConnectionPoint(this, ConnectionPointType.In, OnClickInPoint);
             outPoint = new OutConnectionPoint(this, ConnectionPointType.Out, OnClickOutPoint);
             OnRemoveNode = OnClickRemoveNode;
@@ -53,9 +55,41 @@ namespace NeuralNet.Editor
 
         public override void Draw(EmptyDrawerArgs args)
         {
-            inPoint.Draw(args);
-            outPoint.Draw(args);
-            GUI.Box(rect, title, style);
+            if (neuron.neuronType != NeuronType.Input)
+                inPoint.Draw(args);
+            if (neuron.neuronType != NeuronType.Output)
+                outPoint.Draw(args);
+            
+            var position = rect.position + new Vector2(0, -16);
+            GUILayout.BeginArea(new Rect(position, new Vector2(120, 20)));
+            GUILayout.Label($"Neuron ID: {neuron.id}", new GUIStyle{alignment = TextAnchor.MiddleCenter});
+            GUILayout.EndArea();
+            EditorGUI.DrawRect(rect, new Color(0.14f, 0.15f, 0.2196079f, 0.75f));
+            
+            GUILayout.BeginArea(rect, new GUIStyle{border = new RectOffset()});
+            
+            GUILayout.BeginHorizontal();
+            neuron.data = EditorGUILayout.FloatField(neuron.data);
+            GUILayout.EndHorizontal();
+            
+            GUILayout.BeginHorizontal();
+            var prevActivationValue = neuron.activationType;
+            var nextActivationValue = (ActivationType)EditorGUILayout.EnumPopup(neuron.activationType);
+            if (prevActivationValue != nextActivationValue) neuron.SetActivationType(nextActivationValue);
+            GUILayout.EndHorizontal();
+            
+            GUILayout.BeginHorizontal();
+            var prevNeuronTypeValue = neuron.neuronType;
+            var nextNeuronTypeValue = (NeuronType)EditorGUILayout.EnumPopup(neuron.neuronType);
+            if (nextNeuronTypeValue != prevNeuronTypeValue) neuron.ChangeNeuronType(nextNeuronTypeValue);
+            GUILayout.EndHorizontal();
+            
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("Bias   ");
+            neuron.bias = EditorGUILayout.FloatField(neuron.bias);
+            GUILayout.EndHorizontal();
+            
+            GUILayout.EndArea();
         }
  
         public bool ProcessEvents(Event e)
@@ -105,7 +139,7 @@ namespace NeuralNet.Editor
         
         private void ProcessContextMenu()
         {
-            GenericMenu genericMenu = new GenericMenu();
+            var genericMenu = new GenericMenu();
             genericMenu.AddItem(new GUIContent("Remove node"), false, OnClickRemoveNode);
             genericMenu.ShowAsContext();
         }

@@ -10,10 +10,11 @@ namespace NeuralNet.Core
         public Neuron outputNeuron;
         public float data;
 
-        public Weight(Neuron inputNeuron, Neuron outputNeuron)
+        public Weight(Neuron inputNeuron, Neuron outputNeuron, float minRange, float maxRange)
         {
             this.inputNeuron = inputNeuron;
             this.outputNeuron = outputNeuron;
+            data = UnityEngine.Random.Range(minRange, maxRange);
         }
     }
 }

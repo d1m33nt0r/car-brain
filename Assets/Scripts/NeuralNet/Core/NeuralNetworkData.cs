@@ -9,75 +9,96 @@ namespace NeuralNet.Core
     [Serializable]
     public class NeuralNetworkData
     {
-        public List<int> inputNeuronsIDs;
-        public List<int> outputNeuronsIDs;
-        public List<Neuron> allNeurons;
+        public float fitness;
+        public List<Neuron> inputNeurons;
+        public List<Neuron> hiddenNeurons;
+        public List<Neuron> outputNeurons;
+
         public int nextID;
 
         public NeuralNetworkData()
         {
-            allNeurons = new List<Neuron>();
-            inputNeuronsIDs = new List<int>();
-            outputNeuronsIDs = new List<int>();
+            hiddenNeurons = new List<Neuron>();
+            inputNeurons = new List<Neuron>();
+            outputNeurons = new List<Neuron>();
         }
         
         public Neuron AddNeuron(Vector2 position)
         {
-            var newNeuron = new Neuron(nextID, position);
+            var newNeuron = new Neuron(nextID, -0.5f, 0.5f, position);
             newNeuron.onChangedNeuronType += OnChangedNeuronType;
-            allNeurons.Add(newNeuron);
+            hiddenNeurons.Add(newNeuron);
             nextID++;
             return newNeuron;
         }
 
         public Weight AddWeight(Neuron fromNeuron, Neuron toNeuron)
         {
-            var newWeight = new Weight(fromNeuron, toNeuron);
-            toNeuron.inputWeights.Add(newWeight);
-            fromNeuron.outputWeights.Add(newWeight);
+            var newWeight = new Weight(fromNeuron, toNeuron, -0.5f, 0.5f);
+            toNeuron.AddInputWeight(newWeight);
+            fromNeuron.AddOutputWeight(newWeight);
             return newWeight;
         }
 
         public void RemoveNeuron(Neuron neuron)
         {
-            allNeurons.Remove(neuron);
-            if (inputNeuronsIDs.Contains(neuron.id)) inputNeuronsIDs.Remove(neuron.id);
-            if (outputNeuronsIDs.Contains(neuron.id)) outputNeuronsIDs.Remove(neuron.id);
+            if (hiddenNeurons.Contains(neuron)) hiddenNeurons.Remove(neuron);
+            if (inputNeurons.Contains(neuron)) inputNeurons.Remove(neuron);
+            if (outputNeurons.Contains(neuron)) outputNeurons.Remove(neuron);
         }
 
         public void RemoveWeight(Weight weight)
         {
-            weight.inputNeuron.outputWeights.Remove(weight);
-            weight.outputNeuron.inputWeights.Remove(weight);
+            weight.inputNeuron.RemoveOutputWeight(weight);;
+            weight.outputNeuron.RemoveInputWeight(weight);
         }
 
         private void OnChangedNeuronType(Neuron neuron, NeuronType prevNeuronType, NeuronType newNeuronType)
         {
             if (prevNeuronType == NeuronType.Hidden && newNeuronType == NeuronType.Input)
             {
-                inputNeuronsIDs.Add(neuron.id);
+                neuron.bias = 0;
+                inputNeurons.Add(neuron);
+                hiddenNeurons.Remove(neuron);
             }
 
             if (prevNeuronType == NeuronType.Hidden && newNeuronType == NeuronType.Output)
             {
-                outputNeuronsIDs.Add(neuron.id);
+                neuron.bias = 0;
+                outputNeurons.Add(neuron);
+                hiddenNeurons.Remove(neuron);
             }
 
             if (prevNeuronType == NeuronType.Input)
             {
-                inputNeuronsIDs.Remove(neuron.id);
-                if (newNeuronType == NeuronType.Output)
+                inputNeurons.Remove(neuron);
+                
+                switch (newNeuronType)
                 {
-                    outputNeuronsIDs.Add(neuron.id);
+                    case NeuronType.Output:
+                        neuron.bias = 0;
+                        outputNeurons.Add(neuron);
+                        break;
+                    case NeuronType.Hidden:
+                        neuron.bias = UnityEngine.Random.Range(-0.5f, 0.5f);
+                        hiddenNeurons.Add(neuron);
+                        break;
                 }
             }
 
             if (prevNeuronType == NeuronType.Output)
             {
-                outputNeuronsIDs.Remove(neuron.id);
-                if (newNeuronType == NeuronType.Input)
+                outputNeurons.Remove(neuron);
+                switch (newNeuronType)
                 {
-                    inputNeuronsIDs.Add(neuron.id);
+                    case NeuronType.Input:
+                        neuron.bias = 0;
+                        inputNeurons.Add(neuron);
+                        break;
+                    case NeuronType.Hidden:
+                        neuron.bias = UnityEngine.Random.Range(-0.5f, 0.5f);
+                        hiddenNeurons.Add(neuron);
+                        break;
                 }
             }
         }

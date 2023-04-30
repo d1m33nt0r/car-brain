@@ -36,8 +36,8 @@ namespace NeuralNet.Editor
 
         private void OnGUI()
         {
-            DrawNodes();
             DrawConnections();
+            DrawNodes();
             DrawTempConnectionLine(Event.current);
             
             topMenu.Draw(new EmptyDrawerArgs());
@@ -144,7 +144,7 @@ namespace NeuralNet.Editor
             if (connections != null)
             {
                 List<Connection> connectionsToRemove = new List<Connection>();
- 
+
                 for (int i = 0; i < connections.Count; i++)
                 {
                     if (connections[i].inPoint == node.inPoint || connections[i].outPoint == node.outPoint)
@@ -259,13 +259,37 @@ namespace NeuralNet.Editor
             nodes.Clear();
             connections.Clear();
 
-            for (var i = 0; i < State.CurrentNetworkAsset.allNeurons.Count; i++)
+            for (var i = 0; i < State.CurrentNetworkAsset.inputNeurons.Count; i++)
             {
-                var neuron = State.CurrentNetworkAsset.allNeurons[i];
+                var neuron = State.CurrentNetworkAsset.inputNeurons[i];
                 var node = new Node(neuron,
                     neuron.position, OnClickInPoint, OnClickOutPoint,
                     OnClickRemoveNode);
                 nodes.Add(node);
+            }
+            
+            for (var i = 0; i < State.CurrentNetworkAsset.hiddenNeurons.Count; i++)
+            {
+                var neuron = State.CurrentNetworkAsset.hiddenNeurons[i];
+                var node = new Node(neuron,
+                    neuron.position, OnClickInPoint, OnClickOutPoint,
+                    OnClickRemoveNode);
+                nodes.Add(node);
+            }
+            
+            for (var i = 0; i < State.CurrentNetworkAsset.inputNeurons.Count; i++)
+            {
+                var neuron = State.CurrentNetworkAsset.outputNeurons[i];
+                var node = new Node(neuron,
+                    neuron.position, OnClickInPoint, OnClickOutPoint,
+                    OnClickRemoveNode);
+                nodes.Add(node);
+            }
+
+            for (var i = 0; i < nodes.Count; i++)
+            {
+                var node = nodes[i];
+                var neuron = nodes[i].neuron;
                 for (var j = 0; j < neuron.inputWeights.Count; j++)
                 {
                     var inPoint = neuron.inputWeights[j].inputNeuron.id;
