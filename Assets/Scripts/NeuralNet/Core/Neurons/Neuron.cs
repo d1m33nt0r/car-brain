@@ -17,8 +17,7 @@ namespace NeuralNet.Core.Neurons.Output
         public NeuronType neuronType;
         public ActivationType activationType;
         public List<Weight> inputWeights;
-        public List<Weight> outputWeights;
-        
+
         public Vector2 position;
         
         public Neuron(int id, float minRange, float maxRange, Vector2 position)
@@ -27,7 +26,6 @@ namespace NeuralNet.Core.Neurons.Output
             data = default;
             bias = UnityEngine.Random.Range(minRange, maxRange);
             inputWeights = new List<Weight>();
-            outputWeights = new List<Weight>();
             this.position = position;
             neuronType = NeuronType.Hidden;
             activationType = ActivationType.Sigmoid;
@@ -41,16 +39,6 @@ namespace NeuralNet.Core.Neurons.Output
         public void RemoveInputWeight(Weight weight)
         {
             inputWeights.Remove(weight);
-        }
-        
-        public void AddOutputWeight(Weight weight)
-        {
-            outputWeights.Add(weight);
-        }
-
-        public void RemoveOutputWeight(Weight weight)
-        {
-            outputWeights.Remove(weight);
         }
 
         public void SetActivationType(ActivationType activationType)

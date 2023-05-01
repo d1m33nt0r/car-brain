@@ -36,7 +36,6 @@ namespace NeuralNet.Core
         {
             var newWeight = new Weight(fromNeuron, toNeuron, -0.5f, 0.5f);
             toNeuron.AddInputWeight(newWeight);
-            fromNeuron.AddOutputWeight(newWeight);
             return newWeight;
         }
 
@@ -49,7 +48,6 @@ namespace NeuralNet.Core
 
         public void RemoveWeight(Weight weight)
         {
-            weight.inputNeuron.RemoveOutputWeight(weight);;
             weight.outputNeuron.RemoveInputWeight(weight);
         }
 

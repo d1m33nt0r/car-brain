@@ -19,6 +19,8 @@ namespace NeuralNet.Editor
         private ConnectionPoint selectedOutPoint;
         private Vector2 drag;
 
+        private Dictionary<Node, List<Connection>> asociatedNodes = new ();
+
         private TopMenu topMenu;
 
         [MenuItem("Window/Brain Editor")]
@@ -136,7 +138,9 @@ namespace NeuralNet.Editor
                 nodes = new List<Node>();
             }
             var neuron = State.CurrentNetworkAsset.AddNeuron(mousePosition);
-            nodes.Add(new Node(neuron, mousePosition, OnClickInPoint, OnClickOutPoint, OnClickRemoveNode));
+            var node = new Node(neuron, mousePosition, OnClickInPoint, OnClickOutPoint, OnClickRemoveNode);
+            nodes.Add(node);
+            asociatedNodes.Add(node, new List<Connection>());
         }
         
         private void OnClickRemoveNode(Node node)
@@ -212,7 +216,10 @@ namespace NeuralNet.Editor
                 connections = new List<Connection>();
             }
             var weight = State.CurrentNetworkAsset.AddWeight(selectedOutPoint.node.neuron, selectedInPoint.node.neuron);
-            connections.Add(new Connection(weight, selectedInPoint, selectedOutPoint, OnClickRemoveConnection));
+            var connection = new Connection(weight, selectedInPoint, selectedOutPoint, OnClickRemoveConnection);
+            connections.Add(connection);
+            asociatedNodes[selectedInPoint.node].Add(connection);
+            asociatedNodes[selectedOutPoint.node].Add(connection);
         }
  
         private void ClearConnectionSelection()
@@ -296,6 +303,18 @@ namespace NeuralNet.Editor
                     var res = nodes.FirstOrDefault(n => n.neuron.id == inPoint);
                     var connection = new Connection(neuron.inputWeights[j], node.inPoint, res.outPoint, OnClickRemoveConnection);
                     connections.Add(connection);
+
+                    if (!asociatedNodes.ContainsKey(node))
+                    {
+                        asociatedNodes.Add(node, new List<Connection>());
+                    }
+                    asociatedNodes[node].Add(connection);
+                    
+                    if (!asociatedNodes.ContainsKey(res))
+                    {
+                        asociatedNodes.Add(res, new List<Connection>());
+                    }
+                    asociatedNodes[res].Add(connection);
                 }
             }
         }
