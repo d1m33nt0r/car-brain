@@ -18,7 +18,7 @@ namespace NeuralNet.Editor
         private List<Connection> connections = new ();
         private ConnectionPoint selectedInPoint;
         private ConnectionPoint selectedOutPoint;
-        private GridDrawer gridDrawer;
+        //private GridDrawer gridDrawer;
         private Vector2 drag;
 
         private TopMenu topMenu;
@@ -38,7 +38,7 @@ namespace NeuralNet.Editor
 
         private void OnEnable()
         {
-            gridDrawer = new GridDrawer(rect);
+            //gridDrawer = new GridDrawer(rect);
             topMenu = new TopMenu();
             topMenu.OnChangedCurrentNetworkAsset += SynchronizeNetwork;
             State = new GlobalState { CurrentNetworkAsset = new NeuralNetworkData() };
@@ -47,7 +47,7 @@ namespace NeuralNet.Editor
         private void OnGUI()
         {
             EditorZoomArea.Begin(zoom, rect);
-            gridDrawer.Draw();
+            //gridDrawer.Draw();
             DrawConnections();
             DrawNodes();
             DrawTempConnectionLine(Event.current);
@@ -97,7 +97,7 @@ namespace NeuralNet.Editor
                     if (e.button == 2)
                     {
                         OnDrag(e.delta / zoom);
-                        gridDrawer.OnDrag(e.delta / zoom);
+                        //gridDrawer.OnDrag(e.delta / zoom);
                     }
                     break;
                 case EventType.ScrollWheel:

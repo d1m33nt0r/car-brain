@@ -62,5 +62,43 @@ namespace NeuralNet.Core
 
             return data.outputNeurons.Select(p => p.data).ToArray();
         }
+
+        public void Mutate(int chance, int chanceThreshold, float mutationMinVal, float mutationMaxVal, bool mutateOutputBiases)
+        {
+            for (var n = 0; n < data.hiddenNeurons.Count; n++)
+            {
+                // mutate hidden biases
+                var randValue2 = UnityEngine.Random.Range(0, chanceThreshold);
+                if (randValue2 <= chance) data.hiddenNeurons[n].bias += UnityEngine.Random.Range(mutationMinVal, mutationMaxVal);
+                // mutate hidden weights
+                for (var w = 0; w < data.hiddenNeurons[n].inputWeights.Count; w++)
+                {
+                    var randValue = UnityEngine.Random.Range(0, chanceThreshold);
+                    if (randValue <= chance)
+                    {
+                        data.hiddenNeurons[n].inputWeights[w].data += UnityEngine.Random.Range(mutationMinVal, mutationMaxVal);
+                    }
+                }
+            }
+            
+            for (var n = 0; n < data.outputNeurons.Count; n++)
+            {
+                if (mutateOutputBiases)
+                    // mutate output biases
+                {
+                    var randValue = UnityEngine.Random.Range(0, chanceThreshold);
+                    if (randValue <= chance) data.hiddenNeurons[n].bias += UnityEngine.Random.Range(mutationMinVal, mutationMaxVal);
+                }
+                // mutate output weights
+                for (var w = 0; w < data.outputNeurons[n].inputWeights.Count; w++)
+                {
+                    var randValue = UnityEngine.Random.Range(0, chanceThreshold);
+                    if (randValue <= chance)
+                    {
+                        data.outputNeurons[n].inputWeights[w].data += UnityEngine.Random.Range(mutationMinVal, mutationMaxVal);
+                    }
+                }
+            }
+        }
     }
 }

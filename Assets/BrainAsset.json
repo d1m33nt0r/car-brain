@@ -1,0 +1,809 @@
+{
+  "fitness": 0.0,
+  "inputNeurons": [
+    {
+      "id": 0,
+      "data": 0.0,
+      "bias": 0.0,
+      "neuronType": 0,
+      "activationType": 0,
+      "inputWeights": [],
+      "position": {
+        "x": 208.47413635253907,
+        "y": 101.78128051757813
+      }
+    },
+    {
+      "id": 1,
+      "data": 0.0,
+      "bias": 0.0,
+      "neuronType": 0,
+      "activationType": 0,
+      "inputWeights": [],
+      "position": {
+        "x": 208.9219970703125,
+        "y": 302.0613708496094
+      }
+    },
+    {
+      "id": 2,
+      "data": 0.0,
+      "bias": 0.0,
+      "neuronType": 0,
+      "activationType": 0,
+      "inputWeights": [],
+      "position": {
+        "x": 208.73353576660157,
+        "y": 502.74169921875
+      }
+    },
+    {
+      "id": 3,
+      "data": 0.0,
+      "bias": 0.0,
+      "neuronType": 0,
+      "activationType": 0,
+      "inputWeights": [],
+      "position": {
+        "x": 208.62318420410157,
+        "y": 700.0257568359375
+      }
+    }
+  ],
+  "hiddenNeurons": [
+    {
+      "id": 11,
+      "data": 0.0,
+      "bias": -0.04437917470932007,
+      "neuronType": 1,
+      "activationType": 0,
+      "inputWeights": [
+        {
+          "inputNeuronID": 0,
+          "outputNeuronID": 11,
+          "data": 0.17244933545589448
+        },
+        {
+          "inputNeuronID": 1,
+          "outputNeuronID": 11,
+          "data": -0.393826961517334
+        },
+        {
+          "inputNeuronID": 2,
+          "outputNeuronID": 11,
+          "data": 0.4344627857208252
+        },
+        {
+          "inputNeuronID": 3,
+          "outputNeuronID": 11,
+          "data": 0.33325695991516116
+        }
+      ],
+      "position": {
+        "x": 566.8400268554688,
+        "y": 732.5975341796875
+      }
+    },
+    {
+      "id": 10,
+      "data": 0.0,
+      "bias": 0.359180212020874,
+      "neuronType": 1,
+      "activationType": 0,
+      "inputWeights": [
+        {
+          "inputNeuronID": 3,
+          "outputNeuronID": 10,
+          "data": -0.20263296365737916
+        },
+        {
+          "inputNeuronID": 2,
+          "outputNeuronID": 10,
+          "data": 0.19797693192958833
+        },
+        {
+          "inputNeuronID": 1,
+          "outputNeuronID": 10,
+          "data": 0.310184121131897
+        },
+        {
+          "inputNeuronID": 0,
+          "outputNeuronID": 10,
+          "data": -0.288307785987854
+        }
+      ],
+      "position": {
+        "x": 577.1429443359375,
+        "y": 619.999755859375
+      }
+    },
+    {
+      "id": 9,
+      "data": 0.0,
+      "bias": 0.10933750867843628,
+      "neuronType": 1,
+      "activationType": 0,
+      "inputWeights": [
+        {
+          "inputNeuronID": 3,
+          "outputNeuronID": 9,
+          "data": 0.40745365619659426
+        },
+        {
+          "inputNeuronID": 2,
+          "outputNeuronID": 9,
+          "data": 0.008846461772918702
+        },
+        {
+          "inputNeuronID": 1,
+          "outputNeuronID": 9,
+          "data": -0.13365477323532105
+        },
+        {
+          "inputNeuronID": 0,
+          "outputNeuronID": 9,
+          "data": 0.15679262578487397
+        }
+      ],
+      "position": {
+        "x": 568.0520629882813,
+        "y": 540.9525756835938
+      }
+    },
+    {
+      "id": 8,
+      "data": 0.0,
+      "bias": 0.4353286027908325,
+      "neuronType": 1,
+      "activationType": 0,
+      "inputWeights": [
+        {
+          "inputNeuronID": 0,
+          "outputNeuronID": 8,
+          "data": -0.10661929845809937
+        },
+        {
+          "inputNeuronID": 1,
+          "outputNeuronID": 8,
+          "data": -0.21934515237808228
+        },
+        {
+          "inputNeuronID": 2,
+          "outputNeuronID": 8,
+          "data": -0.04313439130783081
+        },
+        {
+          "inputNeuronID": 3,
+          "outputNeuronID": 8,
+          "data": -0.06463021039962769
+        }
+      ],
+      "position": {
+        "x": 577.1428833007813,
+        "y": 427.1429443359375
+      }
+    },
+    {
+      "id": 7,
+      "data": 0.0,
+      "bias": 0.21846769750118257,
+      "neuronType": 1,
+      "activationType": 0,
+      "inputWeights": [
+        {
+          "inputNeuronID": 3,
+          "outputNeuronID": 7,
+          "data": 0.2955688238143921
+        },
+        {
+          "inputNeuronID": 2,
+          "outputNeuronID": 7,
+          "data": -0.059126436710357669
+        },
+        {
+          "inputNeuronID": 1,
+          "outputNeuronID": 7,
+          "data": 0.43948209285736086
+        },
+        {
+          "inputNeuronID": 0,
+          "outputNeuronID": 7,
+          "data": -0.2993837594985962
+        }
+      ],
+      "position": {
+        "x": 575.7142333984375,
+        "y": 332.8570861816406
+      }
+    },
+    {
+      "id": 6,
+      "data": 0.0,
+      "bias": -0.4949469566345215,
+      "neuronType": 1,
+      "activationType": 0,
+      "inputWeights": [
+        {
+          "inputNeuronID": 3,
+          "outputNeuronID": 6,
+          "data": -0.2807333469390869
+        },
+        {
+          "inputNeuronID": 3,
+          "outputNeuronID": 6,
+          "data": 0.10360711812973023
+        },
+        {
+          "inputNeuronID": 2,
+          "outputNeuronID": 6,
+          "data": 0.4395545721054077
+        },
+        {
+          "inputNeuronID": 1,
+          "outputNeuronID": 6,
+          "data": -0.34469282627105715
+        },
+        {
+          "inputNeuronID": 0,
+          "outputNeuronID": 6,
+          "data": 0.3401376008987427
+        }
+      ],
+      "position": {
+        "x": 575.71435546875,
+        "y": 235.71429443359376
+      }
+    },
+    {
+      "id": 5,
+      "data": 0.0,
+      "bias": -0.40994811058044436,
+      "neuronType": 1,
+      "activationType": 0,
+      "inputWeights": [
+        {
+          "inputNeuronID": 1,
+          "outputNeuronID": 5,
+          "data": -0.07620340585708618
+        },
+        {
+          "inputNeuronID": 1,
+          "outputNeuronID": 5,
+          "data": 0.17350874841213227
+        },
+        {
+          "inputNeuronID": 1,
+          "outputNeuronID": 5,
+          "data": 0.21682046353816987
+        },
+        {
+          "inputNeuronID": 2,
+          "outputNeuronID": 5,
+          "data": 0.1709267944097519
+        },
+        {
+          "inputNeuronID": 3,
+          "outputNeuronID": 5,
+          "data": 0.4666140079498291
+        }
+      ],
+      "position": {
+        "x": 577.1427001953125,
+        "y": 138.57144165039063
+      }
+    },
+    {
+      "id": 4,
+      "data": 0.0,
+      "bias": 0.26718175411224368,
+      "neuronType": 1,
+      "activationType": 0,
+      "inputWeights": [
+        {
+          "inputNeuronID": 0,
+          "outputNeuronID": 4,
+          "data": -0.27877140045166018
+        },
+        {
+          "inputNeuronID": 1,
+          "outputNeuronID": 4,
+          "data": -0.4442918300628662
+        },
+        {
+          "inputNeuronID": 2,
+          "outputNeuronID": 4,
+          "data": -0.03299802541732788
+        },
+        {
+          "inputNeuronID": 3,
+          "outputNeuronID": 4,
+          "data": -0.14057618379592896
+        }
+      ],
+      "position": {
+        "x": 567.8789672851563,
+        "y": 58.095245361328128
+      }
+    },
+    {
+      "id": 19,
+      "data": 0.0,
+      "bias": -0.3428664207458496,
+      "neuronType": 1,
+      "activationType": 0,
+      "inputWeights": [
+        {
+          "inputNeuronID": 4,
+          "outputNeuronID": 19,
+          "data": 0.12231940031051636
+        },
+        {
+          "inputNeuronID": 5,
+          "outputNeuronID": 19,
+          "data": 0.22391627728939057
+        },
+        {
+          "inputNeuronID": 6,
+          "outputNeuronID": 19,
+          "data": 0.49549055099487307
+        },
+        {
+          "inputNeuronID": 7,
+          "outputNeuronID": 19,
+          "data": -0.3772817850112915
+        },
+        {
+          "inputNeuronID": 8,
+          "outputNeuronID": 19,
+          "data": -0.36823225021362307
+        },
+        {
+          "inputNeuronID": 9,
+          "outputNeuronID": 19,
+          "data": -0.29155242443084719
+        },
+        {
+          "inputNeuronID": 10,
+          "outputNeuronID": 19,
+          "data": -0.3983323574066162
+        },
+        {
+          "inputNeuronID": 11,
+          "outputNeuronID": 19,
+          "data": -0.19242829084396363
+        }
+      ],
+      "position": {
+        "x": 971.2122192382813,
+        "y": 734.8486328125
+      }
+    },
+    {
+      "id": 18,
+      "data": 0.0,
+      "bias": -0.4103299379348755,
+      "neuronType": 1,
+      "activationType": 0,
+      "inputWeights": [
+        {
+          "inputNeuronID": 4,
+          "outputNeuronID": 18,
+          "data": 0.05437523126602173
+        },
+        {
+          "inputNeuronID": 5,
+          "outputNeuronID": 18,
+          "data": -0.3365902900695801
+        },
+        {
+          "inputNeuronID": 6,
+          "outputNeuronID": 18,
+          "data": 0.11082059144973755
+        },
+        {
+          "inputNeuronID": 7,
+          "outputNeuronID": 18,
+          "data": 0.406024694442749
+        },
+        {
+          "inputNeuronID": 8,
+          "outputNeuronID": 18,
+          "data": -0.47053277492523196
+        },
+        {
+          "inputNeuronID": 9,
+          "outputNeuronID": 18,
+          "data": 0.40710699558258059
+        },
+        {
+          "inputNeuronID": 10,
+          "outputNeuronID": 18,
+          "data": -0.3285393714904785
+        },
+        {
+          "inputNeuronID": 11,
+          "outputNeuronID": 18,
+          "data": 0.4827467203140259
+        }
+      ],
+      "position": {
+        "x": 971.2119750976563,
+        "y": 639.39404296875
+      }
+    },
+    {
+      "id": 17,
+      "data": 0.0,
+      "bias": -0.06342405080795288,
+      "neuronType": 1,
+      "activationType": 0,
+      "inputWeights": [
+        {
+          "inputNeuronID": 4,
+          "outputNeuronID": 17,
+          "data": -0.14035433530807496
+        },
+        {
+          "inputNeuronID": 5,
+          "outputNeuronID": 17,
+          "data": -0.2803218364715576
+        },
+        {
+          "inputNeuronID": 6,
+          "outputNeuronID": 17,
+          "data": 0.09716492891311646
+        },
+        {
+          "inputNeuronID": 7,
+          "outputNeuronID": 17,
+          "data": 0.22175811231136323
+        },
+        {
+          "inputNeuronID": 8,
+          "outputNeuronID": 17,
+          "data": 0.014682233333587647
+        },
+        {
+          "inputNeuronID": 9,
+          "outputNeuronID": 17,
+          "data": -0.0913962721824646
+        },
+        {
+          "inputNeuronID": 10,
+          "outputNeuronID": 17,
+          "data": -0.34961605072021487
+        },
+        {
+          "inputNeuronID": 11,
+          "outputNeuronID": 17,
+          "data": 0.29301154613494875
+        }
+      ],
+      "position": {
+        "x": 972.7271728515625,
+        "y": 540.9091796875
+      }
+    },
+    {
+      "id": 16,
+      "data": 0.0,
+      "bias": 0.08479887247085571,
+      "neuronType": 1,
+      "activationType": 0,
+      "inputWeights": [
+        {
+          "inputNeuronID": 4,
+          "outputNeuronID": 16,
+          "data": 0.44785499572753909
+        },
+        {
+          "inputNeuronID": 5,
+          "outputNeuronID": 16,
+          "data": -0.0669052004814148
+        },
+        {
+          "inputNeuronID": 6,
+          "outputNeuronID": 16,
+          "data": -0.29282665252685549
+        },
+        {
+          "inputNeuronID": 7,
+          "outputNeuronID": 16,
+          "data": -0.47005200386047366
+        },
+        {
+          "inputNeuronID": 8,
+          "outputNeuronID": 16,
+          "data": -0.0661042332649231
+        },
+        {
+          "inputNeuronID": 9,
+          "outputNeuronID": 16,
+          "data": -0.3085273504257202
+        },
+        {
+          "inputNeuronID": 10,
+          "outputNeuronID": 16,
+          "data": -0.3438791036605835
+        },
+        {
+          "inputNeuronID": 11,
+          "outputNeuronID": 16,
+          "data": 0.020628392696380616
+        }
+      ],
+      "position": {
+        "x": 971.2120971679688,
+        "y": 445.45458984375
+      }
+    },
+    {
+      "id": 15,
+      "data": 0.0,
+      "bias": -0.016807496547698976,
+      "neuronType": 1,
+      "activationType": 0,
+      "inputWeights": [
+        {
+          "inputNeuronID": 11,
+          "outputNeuronID": 15,
+          "data": -0.30404961109161379
+        },
+        {
+          "inputNeuronID": 10,
+          "outputNeuronID": 15,
+          "data": 0.4037892818450928
+        },
+        {
+          "inputNeuronID": 9,
+          "outputNeuronID": 15,
+          "data": 0.2480323165655136
+        },
+        {
+          "inputNeuronID": 8,
+          "outputNeuronID": 15,
+          "data": 0.4227086305618286
+        },
+        {
+          "inputNeuronID": 7,
+          "outputNeuronID": 15,
+          "data": 0.18774639070034028
+        },
+        {
+          "inputNeuronID": 6,
+          "outputNeuronID": 15,
+          "data": 0.14274655282497407
+        },
+        {
+          "inputNeuronID": 5,
+          "outputNeuronID": 15,
+          "data": -0.26262152194976809
+        },
+        {
+          "inputNeuronID": 4,
+          "outputNeuronID": 15,
+          "data": 0.1116834282875061
+        }
+      ],
+      "position": {
+        "x": 971.2120971679688,
+        "y": 345.4545593261719
+      }
+    },
+    {
+      "id": 14,
+      "data": 0.0,
+      "bias": 0.3491593599319458,
+      "neuronType": 1,
+      "activationType": 0,
+      "inputWeights": [
+        {
+          "inputNeuronID": 4,
+          "outputNeuronID": 14,
+          "data": -0.3700566291809082
+        },
+        {
+          "inputNeuronID": 5,
+          "outputNeuronID": 14,
+          "data": -0.4700601100921631
+        },
+        {
+          "inputNeuronID": 6,
+          "outputNeuronID": 14,
+          "data": -0.010341823101043702
+        },
+        {
+          "inputNeuronID": 7,
+          "outputNeuronID": 14,
+          "data": -0.06294065713882446
+        },
+        {
+          "inputNeuronID": 8,
+          "outputNeuronID": 14,
+          "data": 0.20488594472408296
+        },
+        {
+          "inputNeuronID": 9,
+          "outputNeuronID": 14,
+          "data": -0.08351987600326538
+        },
+        {
+          "inputNeuronID": 10,
+          "outputNeuronID": 14,
+          "data": -0.39635539054870608
+        },
+        {
+          "inputNeuronID": 11,
+          "outputNeuronID": 14,
+          "data": 0.480338454246521
+        }
+      ],
+      "position": {
+        "x": 972.7271728515625,
+        "y": 250.0000457763672
+      }
+    },
+    {
+      "id": 13,
+      "data": 0.0,
+      "bias": 0.3690981864929199,
+      "neuronType": 1,
+      "activationType": 0,
+      "inputWeights": [
+        {
+          "inputNeuronID": 4,
+          "outputNeuronID": 13,
+          "data": 0.3984881639480591
+        },
+        {
+          "inputNeuronID": 5,
+          "outputNeuronID": 13,
+          "data": -0.03100532293319702
+        },
+        {
+          "inputNeuronID": 6,
+          "outputNeuronID": 13,
+          "data": -0.48048198223114016
+        },
+        {
+          "inputNeuronID": 7,
+          "outputNeuronID": 13,
+          "data": -0.23399215936660767
+        },
+        {
+          "inputNeuronID": 8,
+          "outputNeuronID": 13,
+          "data": -0.209153950214386
+        },
+        {
+          "inputNeuronID": 9,
+          "outputNeuronID": 13,
+          "data": 0.02271825075149536
+        },
+        {
+          "inputNeuronID": 10,
+          "outputNeuronID": 13,
+          "data": -0.2737933397293091
+        },
+        {
+          "inputNeuronID": 11,
+          "outputNeuronID": 13,
+          "data": 0.018794596195220948
+        }
+      ],
+      "position": {
+        "x": 971.2122802734375,
+        "y": 153.0302734375
+      }
+    },
+    {
+      "id": 12,
+      "data": 0.0,
+      "bias": 0.3664180040359497,
+      "neuronType": 1,
+      "activationType": 0,
+      "inputWeights": [
+        {
+          "inputNeuronID": 4,
+          "outputNeuronID": 12,
+          "data": 0.24929068982601167
+        },
+        {
+          "inputNeuronID": 5,
+          "outputNeuronID": 12,
+          "data": -0.037956178188323978
+        },
+        {
+          "inputNeuronID": 6,
+          "outputNeuronID": 12,
+          "data": -0.24227410554885865
+        },
+        {
+          "inputNeuronID": 7,
+          "outputNeuronID": 12,
+          "data": -0.13989585638046266
+        },
+        {
+          "inputNeuronID": 8,
+          "outputNeuronID": 12,
+          "data": 0.35842037200927737
+        },
+        {
+          "inputNeuronID": 9,
+          "outputNeuronID": 12,
+          "data": 0.4441196918487549
+        },
+        {
+          "inputNeuronID": 10,
+          "outputNeuronID": 12,
+          "data": 0.15383504331111909
+        },
+        {
+          "inputNeuronID": 11,
+          "outputNeuronID": 12,
+          "data": -0.48782503604888918
+        }
+      ],
+      "position": {
+        "x": 975.7573852539063,
+        "y": 56.06059646606445
+      }
+    }
+  ],
+  "outputNeurons": [
+    {
+      "id": 20,
+      "data": 0.0,
+      "bias": 0.0,
+      "neuronType": 2,
+      "activationType": 0,
+      "inputWeights": [
+        {
+          "inputNeuronID": 12,
+          "outputNeuronID": 20,
+          "data": 0.4950838088989258
+        },
+        {
+          "inputNeuronID": 13,
+          "outputNeuronID": 20,
+          "data": 0.4127768278121948
+        },
+        {
+          "inputNeuronID": 14,
+          "outputNeuronID": 20,
+          "data": 0.2872748374938965
+        },
+        {
+          "inputNeuronID": 15,
+          "outputNeuronID": 20,
+          "data": 0.32916104793548586
+        },
+        {
+          "inputNeuronID": 16,
+          "outputNeuronID": 20,
+          "data": -0.13797646760940553
+        },
+        {
+          "inputNeuronID": 17,
+          "outputNeuronID": 20,
+          "data": 0.44705212116241457
+        },
+        {
+          "inputNeuronID": 18,
+          "outputNeuronID": 20,
+          "data": 0.44514262676239016
+        },
+        {
+          "inputNeuronID": 19,
+          "outputNeuronID": 20,
+          "data": 0.013380706310272217
+        }
+      ],
+      "position": {
+        "x": 1306.060302734375,
+        "y": 389.3939208984375
+      }
+    }
+  ],
+  "nextID": 21
+}

@@ -16,8 +16,8 @@ namespace NeuralNet.Editor
         
         public void Draw()
         {
-            DrawGrid(20, 0.2f, new Color(0.1f, 0.1f, 0.1f, 0.05f));
-            DrawGrid(100, 0.4f, new Color(0.1f, 0.1f, 0.1f, 0.1f));
+            DrawGrid(20, 0.2f, new Color(0.1f, 0.1f, 0.1f, 0.0025f));
+            DrawGrid(100, 0.4f, new Color(0.1f, 0.1f, 0.1f, 0.05f));
         }
 
         public void OnDrag(Vector2 delta)
