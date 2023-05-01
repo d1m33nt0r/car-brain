@@ -19,8 +19,6 @@ namespace NeuralNet.Editor
         private ConnectionPoint selectedOutPoint;
         private Vector2 drag;
 
-        private Dictionary<Node, List<Connection>> asociatedNodes = new ();
-
         private TopMenu topMenu;
 
         [MenuItem("Window/Brain Editor")]
@@ -140,7 +138,6 @@ namespace NeuralNet.Editor
             var neuron = State.CurrentNetworkAsset.AddNeuron(mousePosition);
             var node = new Node(neuron, mousePosition, OnClickInPoint, OnClickOutPoint, OnClickRemoveNode);
             nodes.Add(node);
-            asociatedNodes.Add(node, new List<Connection>());
         }
         
         private void OnClickRemoveNode(Node node)
@@ -160,11 +157,34 @@ namespace NeuralNet.Editor
                 for (int i = 0; i < connectionsToRemove.Count; i++)
                 {
                     connections.Remove(connectionsToRemove[i]);
+                    var neuronID = connectionsToRemove[i].outPoint.node.neuron.id;
+                    for (var n = 0; n < State.CurrentNetworkAsset.hiddenNeurons.Count; n++)
+                    {
+                        for (var w = 0; w < State.CurrentNetworkAsset.hiddenNeurons[n].inputWeights.Count; w++)
+                        {
+                            if (State.CurrentNetworkAsset.hiddenNeurons[n].inputWeights[w].inputNeuron.id == neuronID)
+                                State.CurrentNetworkAsset.hiddenNeurons[n].inputWeights
+                                    .Remove(State.CurrentNetworkAsset.hiddenNeurons[n].inputWeights[w]);
+                        }
+
+                        if (State.CurrentNetworkAsset.outputNeurons.Count > 0)
+                        {
+                            for (var w = 0; w < State.CurrentNetworkAsset.outputNeurons[n].inputWeights.Count; w++)
+                            {
+                                if (State.CurrentNetworkAsset.outputNeurons[n].inputWeights[w].inputNeuron.id == neuronID)
+                                    State.CurrentNetworkAsset.outputNeurons[n].inputWeights
+                                        .Remove(State.CurrentNetworkAsset.outputNeurons[n].inputWeights[w]);
+                            }
+                        }
+                    }
+                    
+                    State.CurrentNetworkAsset.RemoveWeight(connectionsToRemove[i].weight);
                 }
- 
+            
                 connectionsToRemove = null;
             }
  
+            State.CurrentNetworkAsset.RemoveNeuron(node.neuron);
             nodes.Remove(node);
         }
         
@@ -218,8 +238,6 @@ namespace NeuralNet.Editor
             var weight = State.CurrentNetworkAsset.AddWeight(selectedOutPoint.node.neuron, selectedInPoint.node.neuron);
             var connection = new Connection(weight, selectedInPoint, selectedOutPoint, OnClickRemoveConnection);
             connections.Add(connection);
-            asociatedNodes[selectedInPoint.node].Add(connection);
-            asociatedNodes[selectedOutPoint.node].Add(connection);
         }
  
         private void ClearConnectionSelection()
@@ -303,18 +321,6 @@ namespace NeuralNet.Editor
                     var res = nodes.FirstOrDefault(n => n.neuron.id == inPoint);
                     var connection = new Connection(neuron.inputWeights[j], node.inPoint, res.outPoint, OnClickRemoveConnection);
                     connections.Add(connection);
-
-                    if (!asociatedNodes.ContainsKey(node))
-                    {
-                        asociatedNodes.Add(node, new List<Connection>());
-                    }
-                    asociatedNodes[node].Add(connection);
-                    
-                    if (!asociatedNodes.ContainsKey(res))
-                    {
-                        asociatedNodes.Add(res, new List<Connection>());
-                    }
-                    asociatedNodes[res].Add(connection);
                 }
             }
         }
