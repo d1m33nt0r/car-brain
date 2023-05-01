@@ -18,10 +18,18 @@ namespace NeuralNet.Editor
         private List<Connection> connections = new ();
         private ConnectionPoint selectedInPoint;
         private ConnectionPoint selectedOutPoint;
+        private GridDrawer gridDrawer;
         private Vector2 drag;
 
         private TopMenu topMenu;
 
+        Rect rect = new Rect(new Vector2(0, 0), Vector2.one * 100000);
+        public float kZoomMin = 0.1f;
+        public float kZoomMax = 10.0f;
+        
+        public float zoom = 1.0f;
+        public Vector2 zoomCoordsOrigin = Vector2.zero;
+        
         [MenuItem("Window/Brain Editor")]
         private static void OpenWindow()
         {
@@ -30,6 +38,7 @@ namespace NeuralNet.Editor
 
         private void OnEnable()
         {
+            gridDrawer = new GridDrawer(rect);
             topMenu = new TopMenu();
             topMenu.OnChangedCurrentNetworkAsset += SynchronizeNetwork;
             State = new GlobalState { CurrentNetworkAsset = new NeuralNetworkData() };
@@ -37,12 +46,13 @@ namespace NeuralNet.Editor
 
         private void OnGUI()
         {
-    
+            EditorZoomArea.Begin(zoom, rect);
+            gridDrawer.Draw();
             DrawConnections();
             DrawNodes();
             DrawTempConnectionLine(Event.current);
-          
-            topMenu.Draw(new EmptyDrawerArgs());
+          EditorZoomArea.End();
+          topMenu.Draw(new EmptyDrawerArgs());
             
             ProcessNodeEvents(Event.current);
             ProcessEvents(Event.current);
@@ -75,22 +85,40 @@ namespace NeuralNet.Editor
 
         private void ProcessEvents(Event e)
         {
-            drag = Vector2.zero;            
             switch (e.type)
             {
                 case EventType.MouseDown:
                     if (e.button == 1)
                     {
-                        ProcessContextMenu(e.mousePosition);
+                        ProcessContextMenu(e.mousePosition / zoom);
                     }
                     break;
                 case EventType.MouseDrag:
                     if (e.button == 2)
                     {
-                        OnDrag(e.delta);
+                        OnDrag(e.delta / zoom);
+                        gridDrawer.OnDrag(e.delta / zoom);
                     }
                     break;
+                case EventType.ScrollWheel:
+                    var screenCoordsMousePos = Event.current.mousePosition;
+                    var delta = Event.current.delta;
+                    var zoomCoordsMousePos = ConvertScreenCoordsToZoomCoords(screenCoordsMousePos);
+                    var zoomDelta = -delta.y / 150.0f;
+                    var oldZoom = zoom;
+                    zoom += zoomDelta;
+                    zoom = Mathf.Clamp(zoom, kZoomMin, kZoomMax);
+                    zoomCoordsOrigin += (zoomCoordsMousePos - zoomCoordsOrigin) -
+                                              (oldZoom / zoom) * (zoomCoordsMousePos - zoomCoordsOrigin);
+
+                    Event.current.Use();
+                    break;
             }
+        }
+        
+        private Vector2 ConvertScreenCoordsToZoomCoords(Vector2 screenCoords)
+        {
+            return (screenCoords - position.TopLeft()) / zoom + zoomCoordsOrigin;
         }
         
         private void ProcessNodeEvents(Event e)
@@ -99,7 +127,7 @@ namespace NeuralNet.Editor
             {
                 for (int i = nodes.Count - 1; i >= 0; i--)
                 {
-                    bool guiChanged = nodes[i].ProcessEvents(e);
+                    bool guiChanged = nodes[i].ProcessEvents(e, e.mousePosition - rect.position, zoom);
  
                     if (guiChanged)
                     {
@@ -118,7 +146,7 @@ namespace NeuralNet.Editor
  
         private void OnDrag(Vector2 delta)
         {
-            drag = delta;
+          
  
             if (nodes != null)
             {

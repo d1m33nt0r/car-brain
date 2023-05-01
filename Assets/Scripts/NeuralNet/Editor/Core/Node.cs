@@ -92,14 +92,14 @@ namespace NeuralNet.Editor
             GUILayout.EndArea();
         }
  
-        public bool ProcessEvents(Event e)
+        public bool ProcessEvents(Event e, Vector2 mousePosition, float zoom)
         {
             switch (e.type)
             {
                 case EventType.MouseDown:
                     if (e.button == 0)
                     {
-                        if (rect.Contains(e.mousePosition))
+                        if (rect.Contains(mousePosition  / zoom))
                         {
                             isDragged = true;
                             GUI.changed = true;
@@ -113,7 +113,7 @@ namespace NeuralNet.Editor
                             style = defaultNodeStyle;
                         }
                     }
-                    if (e.button == 1 && isSelected && rect.Contains(e.mousePosition))
+                    if (e.button == 1 && isSelected && rect.Contains(mousePosition  / zoom))
                     {
                         ProcessContextMenu();
                         e.Use();
@@ -127,7 +127,8 @@ namespace NeuralNet.Editor
                 case EventType.MouseDrag:
                     if (e.button == 0 && isDragged)
                     {
-                        Drag(e.delta);
+                        var newDelta = e.delta / zoom;
+                        Drag(newDelta);
                         e.Use();
                         neuron.position = rect.position;
                         return true;
