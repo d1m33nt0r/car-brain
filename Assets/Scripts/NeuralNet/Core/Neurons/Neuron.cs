@@ -53,9 +53,9 @@ namespace NeuralNet.Core.Neurons.Output
             onChangedNeuronType?.Invoke(this, prevNeuronType, newNeuronType);
         }
         
-        public void Activate()
+        public void Activate(BrainController controller)
         {
-            var weightedSum = inputWeights.Sum(w => w.data * w.inputNeuron.data);
+            var weightedSum = inputWeights.Sum(w => w.data * controller.allNeurons[w.inputNeuronID].data);
             var activatedValue = Activation.Instance.Apply(activationType, weightedSum + bias);
             data = activatedValue;
         }

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using NeuralNet.Core;
+using NeuralNet.Core.Neurons.Output;
 using NeuralNet.Editor.Template;
 using UnityEditor;
 using UnityEngine;
@@ -302,7 +303,7 @@ namespace NeuralNet.Editor
                 nodes.Add(node);
             }
             
-            for (var i = 0; i < State.CurrentNetworkAsset.inputNeurons.Count; i++)
+            for (var i = 0; i < State.CurrentNetworkAsset.outputNeurons.Count; i++)
             {
                 var neuron = State.CurrentNetworkAsset.outputNeurons[i];
                 var node = new Node(neuron,
@@ -317,6 +318,32 @@ namespace NeuralNet.Editor
                 var neuron = nodes[i].neuron;
                 for (var j = 0; j < neuron.inputWeights.Count; j++)
                 {
+                    Neuron inputNeuron = null;
+                    for (var k = 0; k < State.CurrentNetworkAsset.outputNeurons.Count; k++)
+                    {
+                        var isNeededNeuron = neuron.inputWeights[j].inputNeuronID == State.CurrentNetworkAsset.outputNeurons[k].id;
+                        if (isNeededNeuron)
+                        {
+                            inputNeuron = State.CurrentNetworkAsset.outputNeurons[k];
+                        }
+                    }
+                    for (var k = 0; k < State.CurrentNetworkAsset.hiddenNeurons.Count; k++)
+                    {
+                        var isNeededNeuron = neuron.inputWeights[j].inputNeuronID == State.CurrentNetworkAsset.hiddenNeurons[k].id;
+                        if (isNeededNeuron)
+                        {
+                            inputNeuron = State.CurrentNetworkAsset.hiddenNeurons[k];
+                        }
+                    }
+                    for (var k = 0; k < State.CurrentNetworkAsset.inputNeurons.Count; k++)
+                    {
+                        var isNeededNeuron = neuron.inputWeights[j].inputNeuronID == State.CurrentNetworkAsset.inputNeurons[k].id;
+                        if (isNeededNeuron)
+                        {
+                            inputNeuron = State.CurrentNetworkAsset.inputNeurons[k];
+                        }
+                    }
+                    neuron.inputWeights[j].AttachNeurons(inputNeuron, neuron);
                     var inPoint = neuron.inputWeights[j].inputNeuron.id;
                     var res = nodes.FirstOrDefault(n => n.neuron.id == inPoint);
                     var connection = new Connection(neuron.inputWeights[j], node.inPoint, res.outPoint, OnClickRemoveConnection);

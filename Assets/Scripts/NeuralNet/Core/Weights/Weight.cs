@@ -6,15 +6,24 @@ namespace NeuralNet.Core
     [Serializable]
     public class Weight
     {
-        public Neuron inputNeuron;
-        public Neuron outputNeuron;
+        public int inputNeuronID;
+        public int outputNeuronID;
         public float data;
 
-        public Weight(Neuron inputNeuron, Neuron outputNeuron, float minRange, float maxRange)
+        public Neuron inputNeuron { get; private set; }
+        public Neuron outputNeuron { get; private set; }
+        
+        public Weight(int inputNeuronID, int outputNeuronID, float minRange, float maxRange)
+        {
+            this.inputNeuronID = inputNeuronID;
+            this.outputNeuronID = outputNeuronID;
+            data = UnityEngine.Random.Range(minRange, maxRange);
+        }
+
+        public void AttachNeurons(Neuron inputNeuron, Neuron outputNeuron)
         {
             this.inputNeuron = inputNeuron;
             this.outputNeuron = outputNeuron;
-            data = UnityEngine.Random.Range(minRange, maxRange);
         }
     }
 }
