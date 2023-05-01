@@ -9,6 +9,7 @@ namespace NeuralNet.Core
         private static void Sort(NeuralNetworkData nnd)
         {
             var sorted = nnd.hiddenNeurons.OrderByDependers(n => n.inputWeights.Select(w => w.inputNeuron).ToList()).ToList();
+            sorted.Reverse();
             nnd.hiddenNeurons = sorted;
         }
 

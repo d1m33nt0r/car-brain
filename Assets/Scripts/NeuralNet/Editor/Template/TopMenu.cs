@@ -40,6 +40,10 @@ namespace NeuralNet.Editor.Template
                 {
                     Debug.Log($"neuron {BrainEditorWindow.Instance.State.CurrentNetworkAsset.hiddenNeurons[i].id}");
                 }
+                for (var i = 0; i < BrainEditorWindow.Instance.State.CurrentNetworkAsset.outputNeurons.Count; i++)
+                {
+                    Debug.Log($"neuron {BrainEditorWindow.Instance.State.CurrentNetworkAsset.outputNeurons[i].id}");
+                }
                 Debug.Log("end");
             }
 

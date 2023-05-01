@@ -37,10 +37,11 @@ namespace NeuralNet.Editor
 
         private void OnGUI()
         {
+    
             DrawConnections();
             DrawNodes();
             DrawTempConnectionLine(Event.current);
-            
+          
             topMenu.Draw(new EmptyDrawerArgs());
             
             ProcessNodeEvents(Event.current);
