@@ -1,13 +1,17 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using NeuralNet;
+using NeuralNet.Core;
 using UnityEngine;
 
 public class Manager : MonoBehaviour
 {
     private int generation = 1;
     private int deadCount;
-   
+    private bool first;
+    private bool second;
+    private bool third;
     public event Action onGenerationStarted;
     public event Action onGenerationEnded;
     public event Action<int, float> onUpdateUI;
@@ -17,7 +21,7 @@ public class Manager : MonoBehaviour
     [SerializeField] private Map map;
     [SerializeField] private int top;
     
-    private List<NeuralNetwork> lastPopupation = new ();
+    private List<BrainController> lastPopupation = new ();
     private List<Bird> birdList = new ();
     private int[] layers = { 4, 8, 8, 1 };
     private float bestScore;
@@ -54,14 +58,14 @@ public class Manager : MonoBehaviour
         {
             birdList.Add(Instantiate(birdPrefab, Vector3.left * 5, Quaternion.identity));
             birdList[i].Inject(map);
-            NeuralNetwork brain;
+            BrainController brain;
             if (generation > 1)
             {
                 brain = lastPopupation[i];
             }
             else
             {
-                brain = new NeuralNetwork(layers, new[] { "sigmoid", "sigmoid", "sigmoid", "sigmoid"});
+                brain = new BrainController("Assets/BestBirdBrainAsset2.json");
             }
             birdList[i].SetBrain(brain);
             birdList[i].onDead += OnBirdDeathCallback;
@@ -77,6 +81,24 @@ public class Manager : MonoBehaviour
             lastPopupation.Add(bird.brain);
             Destroy(bird.gameObject);
         }
+
+        /*if (birdList.First().fitness > 2 && !first)
+        {
+            Serializer.WriteToJson("Assets/BestBirdBrainAsset1.json", birdList.First().brain.Data, false);
+            first = true;
+        }
+        
+        if (birdList.First().fitness > 18 && !second)
+        {
+            Serializer.WriteToJson("Assets/BestBirdBrainAsset2.json", birdList.First().brain.Data, false);
+            second = true;
+        }
+        
+        if (birdList.First().fitness > 75 && !third)
+        {
+            Serializer.WriteToJson("Assets/BestBirdBrainAsset3.json", birdList.First().brain.Data, false);
+            third = true;
+        }*/
         ApplyMutation();
         birdList.Clear();
         generation++;
@@ -96,7 +118,7 @@ public class Manager : MonoBehaviour
         {
             if (i < top)
             {
-                brain.Mutate(3, 5f);
+                brain.Mutate(50, 100, -10f, 10f, false);
             }
             i++;
         }

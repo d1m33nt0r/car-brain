@@ -7,10 +7,11 @@ namespace NeuralNet.Core
 {
     public class BrainController
     {
+        public NeuralNetworkData Data => data;
         private NeuralNetworkData data;
         public Dictionary<int, Neuron> allNeurons { get; }
 
-        public BrainController(string brainPath, bool enableMutation, float fitnessThreshold)
+        public BrainController(string brainPath)
         {
             data = Serializer.ReadFromJson(brainPath);
             allNeurons = new Dictionary<int, Neuron>();
@@ -18,13 +19,29 @@ namespace NeuralNet.Core
             {
                 allNeurons.Add(neuron.id, neuron);
             }
+            foreach (var neuron in data.hiddenNeurons)
+            {
+                allNeurons.Add(neuron.id, neuron);
+            }
+            foreach (var neuron in data.outputNeurons)
+            {
+                allNeurons.Add(neuron.id, neuron);
+            }
         }
 
-        public BrainController(NeuralNetworkData data, bool enableMutation, float fitnessThreshold)
+        public BrainController(NeuralNetworkData data)
         {
             this.data = data;
             allNeurons = new Dictionary<int, Neuron>();
             foreach (var neuron in data.inputNeurons)
+            {
+                allNeurons.Add(neuron.id, neuron);
+            }
+            foreach (var neuron in data.hiddenNeurons)
+            {
+                allNeurons.Add(neuron.id, neuron);
+            }
+            foreach (var neuron in data.outputNeurons)
             {
                 allNeurons.Add(neuron.id, neuron);
             }

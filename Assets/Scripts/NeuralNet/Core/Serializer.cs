@@ -1,3 +1,4 @@
+using System.IO;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -13,16 +14,17 @@ namespace NeuralNet.Core
             nnd.hiddenNeurons = sorted;
         }
 
-        public static string WriteToJson(NeuralNetworkData neuralNetworkData)
+        public static void WriteToJson(string path, NeuralNetworkData neuralNetworkData, bool needToSort)
         {
-            Sort(neuralNetworkData);
+            if (needToSort) Sort(neuralNetworkData);
             var json = JsonUtility.ToJson(neuralNetworkData);
-            return json;
+            File.WriteAllText(path, json);
         }
 
         public static NeuralNetworkData ReadFromJson(string path)
         {
-            var networkData = JsonUtility.FromJson<NeuralNetworkData>(path);
+            var jsonString = File.ReadAllText(path);
+            var networkData = JsonUtility.FromJson<NeuralNetworkData>(jsonString);
             return networkData;
         }
     }

@@ -22,7 +22,7 @@ namespace NeuralNet.Editor.Template
             if (GUILayout.Button("Open"))
             {
                 var path = EditorUtility.OpenFilePanel("Choose neural network asset", "Assets", "json");
-                var s = Serializer.ReadFromJson(File.ReadAllText(path));
+                var s = Serializer.ReadFromJson(path);
                 BrainEditorWindow.Instance.State.CurrentNetworkAsset = s;
                 OnChangedCurrentNetworkAsset?.Invoke();
             }
@@ -30,7 +30,7 @@ namespace NeuralNet.Editor.Template
             if (GUILayout.Button("Save As"))
             {
                 var s = EditorUtility.SaveFilePanel("Save network asset", "Assets", "BrainAsset", "json");
-                if (s.Length > 0) File.WriteAllText(s, Serializer.WriteToJson(BrainEditorWindow.Instance.State.CurrentNetworkAsset));
+                if (s.Length > 0) Serializer.WriteToJson(s, BrainEditorWindow.Instance.State.CurrentNetworkAsset, true);
             }
             
             if (GUILayout.Button("Show activation order"))

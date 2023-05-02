@@ -1,5 +1,6 @@
 using System;
 using NeuralNet;
+using NeuralNet.Core;
 using UnityEngine;
 
 public class Bird : MonoBehaviour
@@ -7,7 +8,7 @@ public class Bird : MonoBehaviour
     public event Action<Bird> onDead;
     public bool isAlive { get; private set; }
     public float fitness { get; private set; }
-    public NeuralNetwork brain { get; private set; }
+    public BrainController brain { get; private set; }
     
     [SerializeField] private float jumpPower;
 
@@ -23,7 +24,7 @@ public class Bird : MonoBehaviour
         this.map = map;
     }
     
-    public void SetBrain(NeuralNetwork brain)
+    public void SetBrain(BrainController brain)
     {
         this.brain = brain;
         fitness = 0;
