@@ -81,24 +81,13 @@ public class Manager : MonoBehaviour
             lastPopupation.Add(bird.brain);
             Destroy(bird.gameObject);
         }
-
-        /*if (birdList.First().fitness > 2 && !first)
-        {
-            Serializer.WriteToJson("Assets/BestBirdBrainAsset1.json", birdList.First().brain.Data, false);
-            first = true;
-        }
-        
-        if (birdList.First().fitness > 18 && !second)
-        {
-            Serializer.WriteToJson("Assets/BestBirdBrainAsset2.json", birdList.First().brain.Data, false);
-            second = true;
-        }
         
         if (birdList.First().fitness > 75 && !third)
         {
             Serializer.WriteToJson("Assets/BestBirdBrainAsset3.json", birdList.First().brain.Data, false);
             third = true;
-        }*/
+        }
+        
         ApplyMutation();
         birdList.Clear();
         generation++;
