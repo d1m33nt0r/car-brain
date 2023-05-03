@@ -28,26 +28,8 @@ namespace NeuralNet.Core
                 allNeurons.Add(neuron.id, neuron);
             }
         }
-        
-        public BrainController()
-        {
-            data = new NeuralNetworkData();
-            allNeurons = new Dictionary<int, Neuron>();
-            foreach (var neuron in data.inputNeurons)
-            {
-                allNeurons.Add(neuron.id, neuron);
-            }
-            foreach (var neuron in data.hiddenNeurons)
-            {
-                allNeurons.Add(neuron.id, neuron);
-            }
-            foreach (var neuron in data.outputNeurons)
-            {
-                allNeurons.Add(neuron.id, neuron);
-            }
-        }
 
-        public BrainController(NeuralNetworkData data)
+        private BrainController(NeuralNetworkData data)
         {
             this.data = data;
             allNeurons = new Dictionary<int, Neuron>();

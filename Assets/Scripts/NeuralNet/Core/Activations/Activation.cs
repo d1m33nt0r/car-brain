@@ -25,6 +25,12 @@ namespace NeuralNet.Core.Activations
             activations = new Dictionary<ActivationType, BaseActivationController>();
             var sigmoidModel = new ActivationModel{Type = ActivationType.Sigmoid};
             activations.Add(sigmoidModel.Type, new Sigmoid(sigmoidModel));
+            var reluModel = new ActivationModel{Type = ActivationType.Relu};
+            activations.Add(reluModel.Type, new Relu(reluModel));
+            var leakyRelu = new ActivationModel{Type = ActivationType.Leakyrelu};
+            activations.Add(leakyRelu.Type, new Leakyrelu(leakyRelu));
+            var tanh = new ActivationModel{Type = ActivationType.Tanh};
+            activations.Add(tanh.Type, new Tanh(tanh));
         }
         
         public float Apply(ActivationType activationType, float weightedSum)

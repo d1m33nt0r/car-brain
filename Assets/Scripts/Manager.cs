@@ -66,7 +66,7 @@ public class Manager : MonoBehaviour
             }
             else
             {
-                brain = new BrainController("Assets/BrainAsset.json");
+                brain = new BrainController("Assets/BrainAsset42.json");
             }
             birdList[i].SetBrain(brain);
             birdList[i].onDead += OnBirdDeathCallback;
@@ -85,7 +85,7 @@ public class Manager : MonoBehaviour
         
         if (birdList.First().fitness > 75 && !third)
         {
-            Serializer.WriteToJson("Assets/BestBirdBrainAsset4.json", birdList.First().brain.Data, false);
+            Serializer.WriteToJson("Assets/BrainAsset42_75.json", birdList.First().brain.Data, false);
             third = true;
         }
         

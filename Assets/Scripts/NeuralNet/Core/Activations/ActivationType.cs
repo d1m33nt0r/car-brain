@@ -5,6 +5,9 @@ namespace NeuralNet.Core.Activations
     [Serializable]
     public enum ActivationType
     {
-        Sigmoid
+        Sigmoid,
+        Relu,
+        Leakyrelu,
+        Tanh
     }
 }
