@@ -28,6 +28,24 @@ namespace NeuralNet.Core
                 allNeurons.Add(neuron.id, neuron);
             }
         }
+        
+        public BrainController()
+        {
+            data = new NeuralNetworkData();
+            allNeurons = new Dictionary<int, Neuron>();
+            foreach (var neuron in data.inputNeurons)
+            {
+                allNeurons.Add(neuron.id, neuron);
+            }
+            foreach (var neuron in data.hiddenNeurons)
+            {
+                allNeurons.Add(neuron.id, neuron);
+            }
+            foreach (var neuron in data.outputNeurons)
+            {
+                allNeurons.Add(neuron.id, neuron);
+            }
+        }
 
         public BrainController(NeuralNetworkData data)
         {
@@ -45,6 +63,33 @@ namespace NeuralNet.Core
             {
                 allNeurons.Add(neuron.id, neuron);
             }
+        }
+
+        public BrainController Copy()
+        {
+            var nnd = new NeuralNetworkData()
+            {
+                fitness = data.fitness,
+                nextID = data.nextID
+            };
+            
+            foreach (var neuron in data.inputNeurons)
+            {
+                nnd.inputNeurons.Add(neuron.Copy());
+            }
+            
+            foreach (var neuron in data.hiddenNeurons)
+            {
+                nnd.hiddenNeurons.Add(neuron.Copy());
+            }
+            
+            foreach (var neuron in data.outputNeurons)
+            {
+                nnd.outputNeurons.Add(neuron.Copy());
+            }
+
+            var bc = new BrainController(nnd);
+            return bc;
         }
 
         public float[] FeedForward(float[] input)

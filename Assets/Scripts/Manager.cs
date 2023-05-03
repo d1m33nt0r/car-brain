@@ -61,11 +61,12 @@ public class Manager : MonoBehaviour
             BrainController brain;
             if (generation > 1)
             {
-                brain = lastPopupation[i];
+                brain = lastPopupation[0].Copy();
+                brain.Mutate(50, 100, -10, 10, true);
             }
             else
             {
-                brain = new BrainController("Assets/BestBirdBrainAsset2.json");
+                brain = new BrainController("Assets/BrainAsset.json");
             }
             birdList[i].SetBrain(brain);
             birdList[i].onDead += OnBirdDeathCallback;
@@ -84,11 +85,11 @@ public class Manager : MonoBehaviour
         
         if (birdList.First().fitness > 75 && !third)
         {
-            Serializer.WriteToJson("Assets/BestBirdBrainAsset3.json", birdList.First().brain.Data, false);
+            Serializer.WriteToJson("Assets/BestBirdBrainAsset4.json", birdList.First().brain.Data, false);
             third = true;
         }
         
-        ApplyMutation();
+       // ApplyMutation();
         birdList.Clear();
         generation++;
         onGenerationEnded?.Invoke();

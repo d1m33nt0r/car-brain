@@ -31,6 +31,33 @@ namespace NeuralNet.Core.Neurons.Output
             activationType = ActivationType.Sigmoid;
         }
 
+        public Neuron()
+        {
+            
+        }
+
+        public Neuron Copy()
+        {
+            var weights = new List<Weight>();
+
+            for (var i = 0; i < inputWeights.Count; i++)
+            {
+                weights.Add(inputWeights[i].Copy());
+            }
+
+            return new Neuron()
+            {
+                id = id,
+                activationType = activationType,
+                bias = bias,
+                data = data,
+                inputWeights = weights,
+                neuronType = neuronType,
+                onChangedNeuronType = onChangedNeuronType,
+                position = position
+            };
+        }
+
         public void AddInputWeight(Weight weight)
         {
             inputWeights.Add(weight);

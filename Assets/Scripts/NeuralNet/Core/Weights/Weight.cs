@@ -25,5 +25,20 @@ namespace NeuralNet.Core
             this.inputNeuron = inputNeuron;
             this.outputNeuron = outputNeuron;
         }
+
+        public Weight()
+        {
+            
+        }
+
+        public Weight Copy()
+        {
+            return new Weight()
+            {
+                inputNeuronID = inputNeuronID,
+                data = data,
+                outputNeuronID = outputNeuronID
+            };
+        }
     }
 }
