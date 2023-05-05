@@ -11,7 +11,7 @@ namespace NeuralNet.Core
         private NeuralNetworkData data;
         public Dictionary<int, Neuron> allNeurons { get; }
 
-        public BrainController(string brainPath)
+        public BrainController(string brainPath, bool randomize)
         {
             data = Serializer.ReadFromJson(brainPath);
             allNeurons = new Dictionary<int, Neuron>();
@@ -26,6 +26,19 @@ namespace NeuralNet.Core
             foreach (var neuron in data.outputNeurons)
             {
                 allNeurons.Add(neuron.id, neuron);
+            }
+
+            if (randomize)
+            {
+                var hiddenNeurons = data.hiddenNeurons;
+                foreach (var neuron in hiddenNeurons)
+                {
+                    neuron.bias += UnityEngine.Random.Range(-50f, 50f);
+                    foreach (var weight in neuron.inputWeights)
+                    {
+                        weight.data += UnityEngine.Random.Range(-30f, 30f);
+                    }
+                }
             }
         }
 

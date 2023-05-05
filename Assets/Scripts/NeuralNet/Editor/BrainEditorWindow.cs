@@ -16,8 +16,8 @@ namespace NeuralNet.Editor
         protected override string windowTitle { get; } = "Brain Editor";
         private List<Node> nodes = new ();
         private List<Connection> connections = new ();
-        private ConnectionPoint selectedInPoint;
-        private ConnectionPoint selectedOutPoint;
+        private NodeConnectionPoint selectedInPoint;
+        private NodeConnectionPoint selectedOutPoint;
         //private GridDrawer gridDrawer;
         private Vector2 drag;
 
@@ -62,11 +62,13 @@ namespace NeuralNet.Editor
 
         private void DrawConnections()
         {
+            var args = new EmptyDrawerArgs();
+            
             if (connections != null)
             {
                 for (var i = 0; i < connections.Count; i++)
                 {
-                    connections[i].Draw();
+                    connections[i].Draw(args);
                 } 
             }
         }
@@ -178,7 +180,7 @@ namespace NeuralNet.Editor
 
                 for (int i = 0; i < connections.Count; i++)
                 {
-                    if (connections[i].inPoint == node.inPoint || connections[i].outPoint == node.outPoint)
+                    if (connections[i].inPoint == node.InNodeNodePoint || connections[i].outPoint == node.OutNodeNodePoint)
                     {
                         connectionsToRemove.Add(connections[i]);
                     }
@@ -218,7 +220,7 @@ namespace NeuralNet.Editor
             nodes.Remove(node);
         }
         
-        private void OnClickInPoint(ConnectionPoint inPoint)
+        private void OnClickInPoint(NodeConnectionPoint inPoint)
         {
             selectedInPoint = inPoint;
  
@@ -236,7 +238,7 @@ namespace NeuralNet.Editor
             }
         }
  
-        private void OnClickOutPoint(ConnectionPoint outPoint)
+        private void OnClickOutPoint(NodeConnectionPoint outPoint)
         {
             selectedOutPoint = outPoint;
  
@@ -375,7 +377,7 @@ namespace NeuralNet.Editor
                     neuron.inputWeights[j].AttachNeurons(inputNeuron, neuron);
                     var inPoint = neuron.inputWeights[j].inputNeuron.id;
                     var res = nodes.FirstOrDefault(n => n.neuron.id == inPoint);
-                    var connection = new Connection(neuron.inputWeights[j], node.inPoint, res.outPoint, OnClickRemoveConnection);
+                    var connection = new Connection(neuron.inputWeights[j], node.InNodeNodePoint, res.OutNodeNodePoint, OnClickRemoveConnection);
                     connections.Add(connection);
                 }
             }

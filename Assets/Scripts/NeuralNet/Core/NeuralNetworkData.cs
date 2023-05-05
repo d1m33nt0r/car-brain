@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using NeuralNet.Core.Activations;
 using NeuralNet.Core.Neurons;
 using NeuralNet.Core.Neurons.Output;
 using UnityEngine;
@@ -21,6 +23,82 @@ namespace NeuralNet.Core
             hiddenNeurons = new List<Neuron>();
             inputNeurons = new List<Neuron>();
             outputNeurons = new List<Neuron>();
+        }
+        
+        public NeuralNetworkData(int inputs, 
+            int outputs, 
+            int[] hiddenLayers, 
+            ActivationType outputActivationType, 
+            ActivationType[] hiddenActivationTypes, 
+            float neuronRandomRange, 
+            float weightRandomRange)
+        {
+            hiddenNeurons = new List<Neuron>();
+            inputNeurons = new List<Neuron>();
+            outputNeurons = new List<Neuron>();
+
+            var horizontalSpaceLength = 200;
+            var verticalSpaceLength = 100;
+            var startNodesPosition = Vector2.zero;
+            
+            for (var i = 0; i < inputs; i++)
+            {
+                var newNeuron = new Neuron(nextID, 0, 0, new Vector2 ( startNodesPosition.x, startNodesPosition.y + i * verticalSpaceLength));
+                newNeuron.neuronType = NeuronType.Input;
+                newNeuron.onChangedNeuronType += OnChangedNeuronType;
+                inputNeurons.Add(newNeuron);
+                nextID++;
+            }
+
+            var previousHiddenLayer = new List<int>();
+            
+            for (var i = 0; i < hiddenLayers.Length; i++)
+            {
+                var nextHiddenLayer = new List<int>();
+                
+                for (var j = 0; j < hiddenLayers[i]; j++)
+                {
+                    var newNeuron = new Neuron(nextID, -0.5f, 0.5f, new Vector2 ( startNodesPosition.x + (i + 1) * horizontalSpaceLength, startNodesPosition.y + j * verticalSpaceLength));
+                    newNeuron.onChangedNeuronType += OnChangedNeuronType;
+                    hiddenNeurons.Add(newNeuron);
+                    nextID++;
+                    if (i == 0)
+                    {
+                        for (var w = 0; w < inputNeurons.Count; w++)
+                        {
+                            var weight = new Weight(inputNeurons[w].id, newNeuron.id, -0.5f, 0.5f);
+                            newNeuron.AddInputWeight(weight);
+                        }
+                    }
+                    else
+                    {
+                        for (var w = 0; w < previousHiddenLayer.Count; w++)
+                        {
+                            var weight = new Weight(previousHiddenLayer[w], newNeuron.id, -0.5f, 0.5f);
+                            newNeuron.AddInputWeight(weight);
+                        }
+                    }
+                    nextHiddenLayer.Add(newNeuron.id);
+                }
+
+                previousHiddenLayer = nextHiddenLayer;
+
+            }
+            
+            for (var i = 0; i < outputs; i++)
+            {
+                var newNeuron = new Neuron(nextID, -0.5f, 0.5f, new Vector2 ( startNodesPosition.x +
+                                                                              (hiddenLayers.Length + 1) * horizontalSpaceLength, startNodesPosition.y + i * verticalSpaceLength));
+                newNeuron.onChangedNeuronType += OnChangedNeuronType;
+                outputNeurons.Add(newNeuron);
+                nextID++;
+                for (var w = 0; w < previousHiddenLayer.Count; w++)
+                {
+                    var weight = new Weight(previousHiddenLayer[w], newNeuron.id, -0.5f, 0.5f);
+                    newNeuron.AddInputWeight(weight);
+                }
+                newNeuron.neuronType = NeuronType.Output;
+            }
         }
         
         public Neuron AddNeuron(Vector2 position)

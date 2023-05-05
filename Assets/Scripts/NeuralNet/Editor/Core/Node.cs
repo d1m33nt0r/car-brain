@@ -15,8 +15,8 @@ namespace NeuralNet.Editor
         public bool isDragged;
         public bool isSelected;
         
-        public InConnectionPoint inPoint;
-        public OutConnectionPoint outPoint;
+        public InNodeNodeConnectionPoint InNodeNodePoint;
+        public OutNodeNodeConnectionPoint OutNodeNodePoint;
         
         public GUIStyle defaultNodeStyle;
         public GUIStyle selectedNodeStyle;
@@ -24,14 +24,14 @@ namespace NeuralNet.Editor
         public Action<Node> OnRemoveNode;
 
         public Node(Neuron neuron,Vector2 position, 
-            Action<ConnectionPoint> OnClickInPoint, 
-            Action<ConnectionPoint> OnClickOutPoint, 
+            Action<NodeConnectionPoint> OnClickInPoint, 
+            Action<NodeConnectionPoint> OnClickOutPoint, 
             Action<Node> OnClickRemoveNode)
         {
             this.neuron = neuron;
             rect = new Rect(position.x, position.y, 120, 82);
-            inPoint = new InConnectionPoint(this, ConnectionPointType.In, OnClickInPoint);
-            outPoint = new OutConnectionPoint(this, ConnectionPointType.Out, OnClickOutPoint);
+            InNodeNodePoint = new InNodeNodeConnectionPoint(this, ConnectionPointType.In, OnClickInPoint);
+            OutNodeNodePoint = new OutNodeNodeConnectionPoint(this, ConnectionPointType.Out, OnClickOutPoint);
             OnRemoveNode = OnClickRemoveNode;
         }
  
@@ -56,9 +56,9 @@ namespace NeuralNet.Editor
         public override void Draw(EmptyDrawerArgs args)
         {
             if (neuron.neuronType != NeuronType.Input)
-                inPoint.Draw(args);
+                InNodeNodePoint.Draw(args);
             if (neuron.neuronType != NeuronType.Output)
-                outPoint.Draw(args);
+                OutNodeNodePoint.Draw(args);
             
             var position = rect.position + new Vector2(0, -16);
             GUILayout.BeginArea(new Rect(position, new Vector2(120, 20)));
