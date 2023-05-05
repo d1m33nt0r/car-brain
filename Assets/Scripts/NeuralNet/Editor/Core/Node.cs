@@ -60,7 +60,7 @@ namespace NeuralNet.Editor
             if (neuron.neuronType != NeuronType.Output)
                 OutNodeNodePoint.Draw(args);
             
-            var position = rect.position + new Vector2(0, -16);
+            var position = rect.position + new Vector2(0, 0);
             GUILayout.BeginArea(new Rect(position, new Vector2(120, 20)));
             GUILayout.Label($"Neuron ID: {neuron.id}", new GUIStyle{alignment = TextAnchor.MiddleCenter});
             GUILayout.EndArea();

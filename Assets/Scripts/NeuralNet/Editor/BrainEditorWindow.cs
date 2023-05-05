@@ -41,6 +41,7 @@ namespace NeuralNet.Editor
             //gridDrawer = new GridDrawer(rect);
             topMenu = new TopMenu();
             topMenu.OnChangedCurrentNetworkAsset += SynchronizeNetwork;
+            topMenu.newAssetPopup.OnChangedCurrentNetworkAsset += SynchronizeNetwork;
             State = new GlobalState { CurrentNetworkAsset = new NeuralNetworkData() };
         }
 
@@ -53,7 +54,7 @@ namespace NeuralNet.Editor
             DrawTempConnectionLine(Event.current);
           EditorZoomArea.End();
           topMenu.Draw(new EmptyDrawerArgs());
-            
+          
             ProcessNodeEvents(Event.current);
             ProcessEvents(Event.current);
 
