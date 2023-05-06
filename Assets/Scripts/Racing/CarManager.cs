@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using NaughtyAttributes;
 using NeuralNet;
 using NeuralNet.Core;
 using TMPro;
@@ -10,6 +11,8 @@ public class CarManager : MonoBehaviour
 {
     [SerializeField] private Transform carSpawnPoint;
     [SerializeField] private TextMeshProUGUI gen;
+    [SerializeField] private TextMeshProUGUI bestFit;
+    [SerializeField] private CameraFollow cameraFollow;
     
     private int generation = 1;
     private int deadCount;
@@ -24,27 +27,14 @@ public class CarManager : MonoBehaviour
     [SerializeField] private int populationSize;
     [SerializeField] private int top;
     
-    private List<BrainController> lastPopupation = new ();
-    private List<NeuralBehaviour> birdList = new ();
-    private float bestScore;
+    private List<NeuralBehaviour> carList = new ();
+    private BrainController bestBrain;
     
     private void Start()
     {
         StartGeneration();
         onGenerationEnded += StartGeneration;
-        onGenerationEnded += UpdateUI;
-    }
-
-    private void UpdateUI()
-    {
-        birdList.Sort(SortByFitness);
-        bestScore = birdList[0].fitness;
-        onUpdateUI?.Invoke(generation, bestScore);
-    }
-
-    private void Update()
-    {
-        UpdateUI();
+ 
     }
 
     private void StartGeneration()
@@ -56,73 +46,66 @@ public class CarManager : MonoBehaviour
 
     private void InstantiatePopulation()
     {
-        var mutation = false;
         for (var i = 0; i < populationSize; i++)
         {
-            var carInstance = Instantiate(carPrefab, carSpawnPoint.position, Quaternion.identity);
+            var carInstance = Instantiate(carPrefab, carSpawnPoint.position, Quaternion.AngleAxis(90, Vector3.up));
             var neuralBehaviour = carInstance.GetComponentInChildren<NeuralBehaviour>();
-            birdList.Add(neuralBehaviour);
+            carList.Add(neuralBehaviour);
             BrainController brain;
             if (generation > 1)
             {
-                brain = lastPopupation[0].Copy();
-                if (mutation)
-                {
-                    brain.Mutate(50, 100, -30, 30, true);
-                }
-                mutation = true;
+                brain = bestBrain.Copy();
+                brain.Mutate(100, 100, -30, 30, true);
             }
             else
             {
-                brain = new BrainController("Assets/BrainAssetNew.json", true);
+                brain = new BrainController("Assets/SuperCar.json", true);
             }
-            birdList[i].SetBrain(brain);
-            birdList[i].onFailed += OnNeuralFail;
+            carList[i].SetBrain(brain);
+            carList[i].onFailed += OnNeuralFail;
         }
+        cameraFollow.SetTarget(carList[0].transform);
     }
 
+    [Button("End Generation")]
     private void EndGeneration()
     {
-        lastPopupation.Clear();
-        birdList.Sort(SortByFitness);
-        foreach (var bird in birdList)
+        carList.Sort(SortByFitness);
+       
+        if (bestBrain != null) 
         {
-            lastPopupation.Add(bird.brain);
-            Destroy(bird.transform.parent.gameObject);
+            if (bestBrain.fitness < carList.First().brain.fitness)
+                bestBrain = carList.First().brain.Copy();
+        }
+        else
+        {
+            bestBrain = carList.First().brain.Copy();
         }
         
-        if (birdList.First().fitness > 75 && !third)
+        bestFit.text = "Best score: " + bestBrain.fitness;
+        
+        foreach (var car in carList)
         {
-            Serializer.WriteToJson("Assets/CarBrainAssetResult.json", birdList.First().brain.Data, false);
-            third = true;
+            Destroy(car.transform.parent.gameObject);
         }
         
-       // ApplyMutation();
-        birdList.Clear();
+        carList.Clear();
         generation++;
-        gen.text = "Gen " + generation;
+        gen.text = "Generation: " + generation;
         onGenerationEnded?.Invoke();
+    }
+
+    [Button("Save best")]
+    private void SaveBestResult()
+    {
+        Serializer.WriteToJson("Assets/CarBrainAssetResult2.json", bestBrain.Data, false);
     }
 
     private int SortByFitness(NeuralBehaviour a, NeuralBehaviour b)
     {
-        return -a.fitness.CompareTo(b.fitness);
+        return -a.brain.fitness.CompareTo(b.brain.fitness);
     }
-    
-    private void ApplyMutation()
-    {
-       
-        var i = 0;
-        foreach (var brain in lastPopupation)
-        {
-            if (i < top)
-            {
-                brain.Mutate(50, 100, -10f, 10f, false);
-            }
-            i++;
-        }
-    }
-    
+
     private void OnNeuralFail(NeuralBehaviour bird)
     {
         deadCount++;

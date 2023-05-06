@@ -101,8 +101,7 @@ namespace DavidJalbert
         private float scaleAdjustment = 1;
         private float cubicScale = 1;
         private float inverseScaleAdjustment = 1;
-
-        private Vector3 startPosition;
+        
         private float totalDistance;
         private float avgSpeed;
         private float timeStart;
@@ -110,11 +109,13 @@ namespace DavidJalbert
         [SerializeField] private float speedMultiplier;
         [SerializeField] private float distanceMultiplier;
         private Vector3 prevPos;
+        private Coroutine coroutine;
+        public bool isAlive;
+        
         virtual protected void Start()
         {
-            startPosition = transform.position;
+            isAlive = true;
             timeStart = Time.time;
-            StartCoroutine(CheckPosition());
             body = GetComponent<Rigidbody>();
             sphereCollider = GetComponent<SphereCollider>();
 
@@ -137,6 +138,7 @@ namespace DavidJalbert
         virtual protected void Update()
         {
             // refresh rigid body and collider parameters
+            if (!isAlive) return;
             body.hideFlags = HideFlags.NotEditable;
             sphereCollider.hideFlags = HideFlags.NotEditable;
 
@@ -154,7 +156,6 @@ namespace DavidJalbert
             sphereCollider.material = customPhysicMaterial;
             UseBrain();
             CalculateFitness();
-            if (prevPos == transform.position) StartCoroutine(WaitAndCheckPosition());
             prevPos = transform.position;
         }
 
@@ -162,24 +163,12 @@ namespace DavidJalbert
         {
             totalDistance += Vector3.Distance(transform.position, prevPos);
             avgSpeed = totalDistance / timeStart;
-
-            fitness = totalDistance * distanceMultiplier + avgSpeed * speedMultiplier;
         }
         
-        private IEnumerator CheckPosition()
-        {
-            yield return new WaitForSeconds(3);
-            if (totalDistance < 200) OnFailed();
-        }
-        
-        private IEnumerator WaitAndCheckPosition()
-        {
-            yield return new WaitForSeconds(5);
-            if (prevPos == transform.position) OnFailed();
-        }
-
         virtual protected void FixedUpdate()
         {
+            if (!isAlive) return;
+            
             averageScale = (transform.lossyScale.x + transform.lossyScale.y + transform.lossyScale.z) / 3f;
             scaleAdjustment = (adjustToScale ? averageScale : 1);
             inverseScaleAdjustment = scaleAdjustment == 0 ? 0 : 1f / scaleAdjustment;
@@ -629,33 +618,71 @@ namespace DavidJalbert
                     hitSidePosition = hit.point;
                 }
             }
+
+            if (collision.collider.CompareTag("Wall"))
+            {
+                isAlive = false;
+                body.isKinematic = true;
+                //OnFailed();
+                GetComponent<NeuralBehaviour>().AddFitness(totalDistance * distanceMultiplier + avgSpeed * speedMultiplier);
+            }
         }
 
+        [Tooltip("For how long the boost should last in seconds.")]
+        public float boostDuration = 1;
+        [Tooltip("How long to wait after a boost has been used before it can be used again, in seconds.")]
+        public float boostCoolOff = 0;
+        private float boostTimer = 0;
+        [Tooltip("The value by which to multiply the speed and acceleration of the car when a boost is used.")]
+        public float boostMultiplier2 = 2;
         public override void UseBrain()
         {
             var layerMask = LayerMask.GetMask("RaceWall");
             Physics.Raycast(transform.position, transform.forward, out var forwardHit, Mathf.Infinity, layerMask);
-            Debug.DrawRay(transform.position,forwardHit.point - (transform.parent.position + transform.localPosition), Color.blue);
+            Debug.DrawRay(transform.position,forwardHit.point - transform.position, Color.blue);
             
             Physics.Raycast(transform.position, -transform.forward, out var backHit, Mathf.Infinity, layerMask);
-            Debug.DrawRay(transform.position, backHit.point - (transform.parent.position + transform.localPosition), Color.blue);
+            Debug.DrawRay(transform.position, backHit.point - transform.position, Color.blue);
             
             Physics.Raycast(transform.position, transform.right, out var rightHit, Mathf.Infinity, layerMask);
-            Debug.DrawRay(transform.position, rightHit.point - (transform.parent.position + transform.localPosition), Color.yellow);
+            Debug.DrawRay(transform.position, rightHit.point - transform.position, Color.yellow);
             
             Physics.Raycast(transform.position, -transform.right, out var leftHit, Mathf.Infinity, layerMask);
-            Debug.DrawRay(transform.position, leftHit.point - (transform.parent.position + transform.localPosition), Color.yellow);
+            Debug.DrawRay(transform.position, leftHit.point - transform.position, Color.yellow);
             
-            var inputs = new[] { forwardHit.distance, backHit.distance, leftHit.distance, rightHit.distance };
+            var rotation = Quaternion.Euler(0f, 45, 0f); // кватерніон повороту на 45 градусів по Y
+            var direction = rotation * transform.forward; // напрямок під кутом 45 градусів відносно vector.forward
+            direction.Normalize();
+            Physics.Raycast(transform.position, direction, out var right45, Mathf.Infinity, layerMask);
+            Debug.DrawRay(transform.position,right45.point - transform.position, Color.green);
+            
+            var rotation2 = Quaternion.Euler(0f, -45, 0f); // кватерніон повороту на 45 градусів по Y
+            var direction2 = rotation2 * transform.forward; // напрямок під кутом 45 градусів відносно vector.forward
+            direction2.Normalize();
+            Physics.Raycast(transform.position, direction2, out var left45, Mathf.Infinity, layerMask);
+            Debug.DrawRay(transform.position,left45.point - transform.position, Color.green);
+            
+            var inputs = new[] { forwardHit.distance, backHit.distance, leftHit.distance, rightHit.distance, left45.distance, right45.distance };
             var result = brain.FeedForward(inputs);
 
             var forwardInput = result[0] > 0 ? 1 : 0;
             var reverseInput = result[1] > 0 ? 1 : 0;
             var steerLeftInput = result[2] > 0 ? 1 : 0;
             var steerRightInput = result[3] > 0 ? 1 : 0;
+            var nitroInput = result[4] > 0 ? 1 : 0;
             
             var motorDelta = forwardInput - reverseInput;
             var steeringDelta = steerRightInput - steerLeftInput;
+            
+            if (nitroInput == 1 && boostTimer == 0)
+            {
+                boostTimer = boostCoolOff + boostDuration;
+            }
+            else if (boostTimer > 0)
+            {
+                boostTimer = Mathf.Max(boostTimer - Time.deltaTime, 0);
+                setBoostMultiplier(boostTimer > boostCoolOff ? boostMultiplier2 : 1);
+            }
             
             setSteering(steeringDelta);
             setMotor(motorDelta);

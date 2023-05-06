@@ -7,6 +7,7 @@ namespace NeuralNet.Core
 {
     public class BrainController
     {
+        public float fitness;
         public NeuralNetworkData Data => data;
         private NeuralNetworkData data;
         public Dictionary<int, Neuron> allNeurons { get; }
@@ -83,7 +84,10 @@ namespace NeuralNet.Core
                 nnd.outputNeurons.Add(neuron.Copy());
             }
 
-            var bc = new BrainController(nnd);
+            var bc = new BrainController(nnd)
+            {
+                fitness = fitness
+            };
             return bc;
         }
 

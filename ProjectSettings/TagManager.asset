@@ -6,6 +6,7 @@ TagManager:
   tags:
   - CheckPoint
   - Car
+  - Wall
   layers:
   - Default
   - TransparentFX

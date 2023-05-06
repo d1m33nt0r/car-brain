@@ -77,7 +77,7 @@ namespace DavidJalbert
 
         void FixedUpdate()
         {
-            if (!carController.gameObject.activeInHierarchy)
+            if (!carController.isAlive)
             {
                 return;
             }

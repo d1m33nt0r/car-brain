@@ -17,17 +17,9 @@ namespace NeuralNet
             this.brain = brain;
         }
 
-        public void OnCollisionEnter(Collision collision)
-        {
-            if ((layerMask.value & 1 << collision.gameObject.layer) == 1 << collision.gameObject.layer)
-            {
-                OnFailed();
-            }
-        }
-
         public void AddFitness(float fitnessValue)
         {
-            fitness += fitnessValue;
+            brain.fitness += fitnessValue;
         }
 
         public abstract void UseBrain();
