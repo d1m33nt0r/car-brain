@@ -12,8 +12,7 @@ public class CarManager : MonoBehaviour
     [SerializeField] private Transform carSpawnPoint;
     [SerializeField] private TextMeshProUGUI gen;
     [SerializeField] private TextMeshProUGUI bestFit;
-    [SerializeField] private CameraFollow cameraFollow;
-    
+
     private int generation = 1;
     private int deadCount;
     private bool first;
@@ -34,7 +33,6 @@ public class CarManager : MonoBehaviour
     {
         StartGeneration();
         onGenerationEnded += StartGeneration;
- 
     }
 
     private void StartGeneration()
@@ -55,6 +53,7 @@ public class CarManager : MonoBehaviour
             if (generation > 1)
             {
                 brain = bestBrain.Copy();
+                brain.fitness = 0;
                 brain.Mutate(100, 100, -30, 30, true);
             }
             else
@@ -64,7 +63,6 @@ public class CarManager : MonoBehaviour
             carList[i].SetBrain(brain);
             carList[i].onFailed += OnNeuralFail;
         }
-        cameraFollow.SetTarget(carList[0].transform);
     }
 
     [Button("End Generation")]

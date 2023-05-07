@@ -4,6 +4,8 @@ namespace NeuralNet.Core.Activations
     {
         private ActivationModel model;
         public abstract float Apply(float weightedSum);
+        
+        public abstract float Derivative(float x);
 
         protected BaseActivationController(ActivationModel model)
         {

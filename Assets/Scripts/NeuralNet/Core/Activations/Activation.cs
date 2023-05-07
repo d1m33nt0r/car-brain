@@ -37,5 +37,10 @@ namespace NeuralNet.Core.Activations
         {
             return activations[activationType].Apply(weightedSum);
         }
+
+        public float Derivative(ActivationType activationType, float neuronActiveValue)
+        {
+            return activations[activationType].Derivative(neuronActiveValue);
+        }
     }
 }

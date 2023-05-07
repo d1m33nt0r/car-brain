@@ -10,5 +10,10 @@ namespace NeuralNet.Core.Activations
         {
             return (0 >= weightedSum) ? 0 : weightedSum;
         }
+
+        public override float Derivative(float x)
+        {
+            return default;
+        }
     }
 }

@@ -86,5 +86,10 @@ namespace NeuralNet.Core.Neurons.Output
             var activatedValue = Activation.Instance.Apply(activationType, weightedSum + bias);
             data = activatedValue;
         }
+
+        public float Derivative()
+        {
+            return Activation.Instance.Derivative(activationType, data);
+        }
     }
 }

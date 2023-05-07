@@ -23,5 +23,11 @@ namespace DefaultNamespace
             var k = (double)Math.Exp(weightedSum);
             Debug.Log(k / (1.0f + k));
         }
+
+        [Button("Test")]
+        public void Tests()
+        {
+            Debug.Log(Math.Pow(3.3f - 0.5f, 2));
+        }
     }
 }

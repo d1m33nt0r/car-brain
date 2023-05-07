@@ -161,5 +161,51 @@ namespace NeuralNet.Core
                 }
             }
         }
+        
+        /*public void BackPropagation(float[] input, float[] expected, float learningRate = 0.1f)
+        {
+            var output = FeedForward(input);
+
+            var outputMistakeDelta = new float[output.Length];
+            for (var i = 0; i < output.Length; i++)
+            {
+                outputMistakeDelta[i] = expected[i] - input[i];
+            }
+
+            var previousLayerIDs = GetPreviousLayerNeuronIDs(data.outputNeurons);
+            var difference = bv
+
+            for (var i = 0; i < data.outputNeurons.Count; i++)
+            {
+                var currentNeuron = data.outputNeurons[i];
+                for (var w = 0; w < data.outputNeurons[i].inputWeights.Count; w++)
+                {
+                    var currentWeight = currentNeuron.inputWeights[w];
+                    
+                    var deltaWeight = outputMistakeDelta[i] * currentWeight.data * currentNeuron.Derivative() * learningRate;
+                    currentWeight.data += deltaWeight;
+                }
+            }
+            
+            for (var n = 0; n < data.hiddenNeurons)
+            
+        }
+
+        private List<int> GetPreviousLayerNeuronIDs(List<Neuron> currentLayer)
+        {
+            var previousLayerNeuronsIDs = new List<int>();
+            
+            for (var i = 0; i < currentLayer.Count; i++)
+            {
+                var currentNeuron = currentLayer[i];
+                for (var w = 0; w < currentNeuron.inputWeights.Count; w++)
+                {
+                    if (!previousLayerNeuronsIDs.Contains(currentNeuron.inputWeights[w].inputNeuronID))
+                        previousLayerNeuronsIDs.Add(currentNeuron.inputWeights[w].inputNeuronID); 
+                }
+            }
+
+            return previousLayerNeuronsIDs;
+        }*/
     }
 }

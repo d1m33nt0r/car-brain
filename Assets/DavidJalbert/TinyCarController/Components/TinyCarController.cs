@@ -111,6 +111,7 @@ namespace DavidJalbert
         private Vector3 prevPos;
         private Coroutine coroutine;
         public bool isAlive;
+        [SerializeField] private bool useBrain;
         
         virtual protected void Start()
         {
@@ -631,12 +632,13 @@ namespace DavidJalbert
         [Tooltip("For how long the boost should last in seconds.")]
         public float boostDuration = 1;
         [Tooltip("How long to wait after a boost has been used before it can be used again, in seconds.")]
-        public float boostCoolOff = 0;
+        public float boostCoolOff = 5;
         private float boostTimer = 0;
         [Tooltip("The value by which to multiply the speed and acceleration of the car when a boost is used.")]
         public float boostMultiplier2 = 2;
         public override void UseBrain()
         {
+            if (!useBrain) return;
             var layerMask = LayerMask.GetMask("RaceWall");
             Physics.Raycast(transform.position, transform.forward, out var forwardHit, Mathf.Infinity, layerMask);
             Debug.DrawRay(transform.position,forwardHit.point - transform.position, Color.blue);

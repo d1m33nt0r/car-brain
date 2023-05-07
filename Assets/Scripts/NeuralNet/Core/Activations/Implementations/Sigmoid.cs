@@ -16,5 +16,10 @@ namespace NeuralNet.Core.Activations
             var k = (float)Math.Exp(weightedSum);
             return k / (1.0f + k);
         }
+        
+        public override float Derivative(float x)
+        {
+            return x * (1 - x);
+        }
     }
 }
