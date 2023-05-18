@@ -8,12 +8,12 @@ namespace NeuralNet.Core.Activations
         {
         }
         
-        public override float Apply(float weightedSum)
+        public override double Apply(double weightedSum)
         {
             return (float)Math.Tanh(weightedSum);
         }
 
-        public override float Derivative(float x)
+        public override double Derivative(double x)
         {
             return default;
         }

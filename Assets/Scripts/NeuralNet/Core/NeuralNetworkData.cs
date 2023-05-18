@@ -68,6 +68,8 @@ namespace NeuralNet.Core
                         {
                             var weight = new Weight(inputNeurons[w].id, newNeuron.id, -0.5f, 0.5f);
                             newNeuron.AddInputWeight(weight);
+                            var neuron = inputNeurons.Find(n => n.id == weight.inputNeuronID);
+                            neuron.AddOutputWeight(weight);
                         }
                     }
                     else
@@ -76,6 +78,8 @@ namespace NeuralNet.Core
                         {
                             var weight = new Weight(previousHiddenLayer[w], newNeuron.id, -0.5f, 0.5f);
                             newNeuron.AddInputWeight(weight);
+                            var neuron = hiddenNeurons.Find(n => n.id == weight.inputNeuronID);
+                            neuron.AddOutputWeight(weight);
                         }
                     }
                     nextHiddenLayer.Add(newNeuron.id);
@@ -96,6 +100,8 @@ namespace NeuralNet.Core
                 {
                     var weight = new Weight(previousHiddenLayer[w], newNeuron.id, -0.5f, 0.5f);
                     newNeuron.AddInputWeight(weight);
+                    var neuron = hiddenNeurons.Find(n => n.id == weight.inputNeuronID);
+                    neuron.AddOutputWeight(weight);
                 }
                 newNeuron.neuronType = NeuronType.Output;
             }
@@ -115,6 +121,7 @@ namespace NeuralNet.Core
             var newWeight = new Weight(fromNeuron.id, toNeuron.id, -0.5f, 0.5f);
             newWeight.AttachNeurons(fromNeuron, toNeuron);
             toNeuron.AddInputWeight(newWeight);
+            fromNeuron.AddOutputWeight(newWeight);
             return newWeight;
         }
 

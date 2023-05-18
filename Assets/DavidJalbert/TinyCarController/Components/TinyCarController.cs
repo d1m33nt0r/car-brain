@@ -15,6 +15,7 @@ namespace DavidJalbert
     {
         private static float GroundCheckDistanceDelta = 0.1f;
         private static float GroundCheckSkinWidthDelta = 0.05f;
+        public float[] inputs { get; private set; }
 
         public enum GRAVITY_MODE
         {
@@ -113,10 +114,21 @@ namespace DavidJalbert
         public bool isAlive;
         [SerializeField] private bool useBrain;
         
-        virtual protected void Start()
+        public float threshold;
+        public float checkInterval;
+
+        private Vector3 lastPosition;
+        private float timeSinceLastCheck;
+
+        private void Awake()
         {
             isAlive = true;
             timeStart = Time.time;
+            lastPosition = transform.position;
+        }
+
+        private void Start()
+        {
             body = GetComponent<Rigidbody>();
             sphereCollider = GetComponent<SphereCollider>();
 
@@ -136,7 +148,7 @@ namespace DavidJalbert
             crossUp = transform.up;
         }
 
-        virtual protected void Update()
+        private void Update()
         {
             // refresh rigid body and collider parameters
             if (!isAlive) return;
@@ -158,12 +170,28 @@ namespace DavidJalbert
             UseBrain();
             CalculateFitness();
             prevPos = transform.position;
+            
+            //////////////////////////////////////
+            timeSinceLastCheck += Time.deltaTime;
+
+            if (timeSinceLastCheck > checkInterval)
+            {
+                timeSinceLastCheck = 0f;
+                Vector3 currentPosition = transform.position;
+
+                if (Vector3.Distance(lastPosition, currentPosition) < threshold)
+                {
+                    lastPosition = currentPosition;
+                    GetComponent<NeuralBehaviour>().AddFitness(totalDistance * distanceMultiplier);
+                    //OnFailed();
+                }
+            }
         }
 
         private void CalculateFitness()
         {
-            totalDistance += Vector3.Distance(transform.position, prevPos);
-            avgSpeed = totalDistance / timeStart;
+            //totalDistance += Vector3.Distance(transform.position, prevPos);
+            //avgSpeed = totalDistance == 0 ? 0 : totalDistance / timeStart;
         }
         
         virtual protected void FixedUpdate()
@@ -620,25 +648,23 @@ namespace DavidJalbert
                 }
             }
 
+            if (!useBrain) return;
             if (collision.collider.CompareTag("Wall"))
             {
                 isAlive = false;
                 body.isKinematic = true;
+                GetComponent<NeuralBehaviour>().AddFitness(totalDistance * distanceMultiplier);
                 //OnFailed();
-                GetComponent<NeuralBehaviour>().AddFitness(totalDistance * distanceMultiplier + avgSpeed * speedMultiplier);
             }
         }
-
-        [Tooltip("For how long the boost should last in seconds.")]
+        
         public float boostDuration = 1;
-        [Tooltip("How long to wait after a boost has been used before it can be used again, in seconds.")]
         public float boostCoolOff = 5;
         private float boostTimer = 0;
-        [Tooltip("The value by which to multiply the speed and acceleration of the car when a boost is used.")]
         public float boostMultiplier2 = 2;
+        
         public override void UseBrain()
         {
-            if (!useBrain) return;
             var layerMask = LayerMask.GetMask("RaceWall");
             Physics.Raycast(transform.position, transform.forward, out var forwardHit, Mathf.Infinity, layerMask);
             Debug.DrawRay(transform.position,forwardHit.point - transform.position, Color.blue);
@@ -652,19 +678,20 @@ namespace DavidJalbert
             Physics.Raycast(transform.position, -transform.right, out var leftHit, Mathf.Infinity, layerMask);
             Debug.DrawRay(transform.position, leftHit.point - transform.position, Color.yellow);
             
-            var rotation = Quaternion.Euler(0f, 45, 0f); // кватерніон повороту на 45 градусів по Y
-            var direction = rotation * transform.forward; // напрямок під кутом 45 градусів відносно vector.forward
+            var rotation = Quaternion.Euler(0f, 45, 0f);
+            var direction = rotation * transform.forward; 
             direction.Normalize();
             Physics.Raycast(transform.position, direction, out var right45, Mathf.Infinity, layerMask);
             Debug.DrawRay(transform.position,right45.point - transform.position, Color.green);
             
-            var rotation2 = Quaternion.Euler(0f, -45, 0f); // кватерніон повороту на 45 градусів по Y
-            var direction2 = rotation2 * transform.forward; // напрямок під кутом 45 градусів відносно vector.forward
+            var rotation2 = Quaternion.Euler(0f, -45, 0f); 
+            var direction2 = rotation2 * transform.forward; 
             direction2.Normalize();
             Physics.Raycast(transform.position, direction2, out var left45, Mathf.Infinity, layerMask);
             Debug.DrawRay(transform.position,left45.point - transform.position, Color.green);
             
-            var inputs = new[] { forwardHit.distance, backHit.distance, leftHit.distance, rightHit.distance, left45.distance, right45.distance };
+            inputs = new[] { forwardHit.distance, backHit.distance, leftHit.distance, rightHit.distance, left45.distance, right45.distance };
+            if (!useBrain) return;
             var result = brain.FeedForward(inputs);
 
             var forwardInput = result[0] > 0 ? 1 : 0;

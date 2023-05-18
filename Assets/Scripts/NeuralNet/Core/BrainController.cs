@@ -7,7 +7,6 @@ namespace NeuralNet.Core
 {
     public class BrainController
     {
-        public float fitness;
         public NeuralNetworkData Data => data;
         private NeuralNetworkData data;
         public Dictionary<int, Neuron> allNeurons { get; }
@@ -34,16 +33,16 @@ namespace NeuralNet.Core
                 var hiddenNeurons = data.hiddenNeurons;
                 foreach (var neuron in hiddenNeurons)
                 {
-                    neuron.bias += UnityEngine.Random.Range(-50f, 50f);
+                    neuron.bias += UnityEngine.Random.Range(-1f, 1f);
                     foreach (var weight in neuron.inputWeights)
                     {
-                        weight.data += UnityEngine.Random.Range(-30f, 30f);
+                        weight.data += UnityEngine.Random.Range(-1f, 1f);
                     }
                 }
             }
         }
 
-        private BrainController(NeuralNetworkData data)
+        public BrainController(NeuralNetworkData data)
         {
             this.data = data;
             allNeurons = new Dictionary<int, Neuron>();
@@ -84,14 +83,46 @@ namespace NeuralNet.Core
                 nnd.outputNeurons.Add(neuron.Copy());
             }
 
-            var bc = new BrainController(nnd)
-            {
-                fitness = fitness
-            };
+            var bc = new BrainController(nnd);
+            bc.Data.fitness = data.fitness;
+         
             return bc;
         }
 
-        public float[] FeedForward(float[] input)
+        public double[] FeedForward(float[] input)
+        {
+            if (input.Length > data.inputNeurons.Count)
+                throw new Exception(
+                    "Discrepancy between the number of signals given and the number of neural network inputs");
+            
+            for (var i = 0; i < data.inputNeurons.Count; i++)
+            {
+                if (i < input.Length)
+                {
+                    data.inputNeurons[i].data = input[i];
+                }
+                else
+                {
+                    data.inputNeurons[i].data = default;
+                    throw new Exception(
+                        "The input neuron is assigned a default value because the number of signals given is less than the number of inputs for the neural network");
+                }
+            }
+
+            for (var i = 0; i < data.hiddenNeurons.Count; i++)
+            {
+                data.hiddenNeurons[i].Activate(this);
+            }
+            
+            for (var i = 0; i < data.outputNeurons.Count; i++)
+            {
+                data.outputNeurons[i].Activate(this);
+            }
+
+            return data.outputNeurons.Select(p => p.data).ToArray();
+        }
+        
+        public double[] FeedForward(double[] input)
         {
             if (input.Length > data.inputNeurons.Count)
                 throw new Exception(
@@ -162,19 +193,16 @@ namespace NeuralNet.Core
             }
         }
         
-        /*public void BackPropagation(float[] input, float[] expected, float learningRate = 0.1f)
+        public void BackPropagation(float[] input, float[] expected, float learningRate = 0.1f)
         {
             var output = FeedForward(input);
-
-            var outputMistakeDelta = new float[output.Length];
+            
             for (var i = 0; i < output.Length; i++)
             {
-                outputMistakeDelta[i] = expected[i] - input[i];
+                data.outputNeurons[i].delta = Math.Pow(output[i] - expected[i], 2); // to math pow, maybe
             }
 
-            var previousLayerIDs = GetPreviousLayerNeuronIDs(data.outputNeurons);
-            var difference = bv
-
+            // Change to weights
             for (var i = 0; i < data.outputNeurons.Count; i++)
             {
                 var currentNeuron = data.outputNeurons[i];
@@ -182,30 +210,41 @@ namespace NeuralNet.Core
                 {
                     var currentWeight = currentNeuron.inputWeights[w];
                     
-                    var deltaWeight = outputMistakeDelta[i] * currentWeight.data * currentNeuron.Derivative() * learningRate;
+                    var deltaWeight = currentNeuron.delta * currentWeight.data * currentNeuron.Derivative() * learningRate;
                     currentWeight.data += deltaWeight;
                 }
             }
             
-            for (var n = 0; n < data.hiddenNeurons)
-            
-        }
-
-        private List<int> GetPreviousLayerNeuronIDs(List<Neuron> currentLayer)
-        {
-            var previousLayerNeuronsIDs = new List<int>();
-            
-            for (var i = 0; i < currentLayer.Count; i++)
+            for (var n = data.hiddenNeurons.Count - 1; n >= 0; n--)
             {
-                var currentNeuron = currentLayer[i];
-                for (var w = 0; w < currentNeuron.inputWeights.Count; w++)
+                var neuron = data.hiddenNeurons[n];
+                double diff = 0;
+                for (var w = 0; w < neuron.outputWeights.Count; w++)
                 {
-                    if (!previousLayerNeuronsIDs.Contains(currentNeuron.inputWeights[w].inputNeuronID))
-                        previousLayerNeuronsIDs.Add(currentNeuron.inputWeights[w].inputNeuronID); 
+                    var weight = neuron.outputWeights[w];
+                    diff += Math.Pow(allNeurons[weight.outputNeuronID].data - allNeurons[weight.outputNeuronID].delta, 2);
+                }
+                diff /= neuron.outputWeights.Count;
+                neuron.delta = diff;
+            }
+            
+            // Change to weights
+            for (var i = data.hiddenNeurons.Count - 1; i >= 0; i--)
+            {
+                var currentNeuron = data.hiddenNeurons[i];
+                for (var w = 0; w < data.hiddenNeurons[i].inputWeights.Count; w++)
+                {
+                    var currentWeight = currentNeuron.inputWeights[w];
+                    
+                    var deltaWeight = currentNeuron.delta * currentWeight.data * currentNeuron.Derivative() * learningRate;
+                    currentWeight.data += deltaWeight;
                 }
             }
+        }
 
-            return previousLayerNeuronsIDs;
-        }*/
+        public void Save(string assetName)
+        {
+            Serializer.WriteToJson("Assets/" + assetName + ".json", data, false);
+        }
     }
 }

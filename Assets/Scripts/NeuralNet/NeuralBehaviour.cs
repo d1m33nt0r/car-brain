@@ -7,9 +7,7 @@ namespace NeuralNet
     public abstract class NeuralBehaviour : MonoBehaviour
     {
         [SerializeField] private LayerMask layerMask;
-        public event Action<NeuralBehaviour> onFailed; 
-
-        public float fitness { get; protected set; }
+        public event Action<NeuralBehaviour> onFailed;
         public BrainController brain { get; protected set; }
 
         public void SetBrain(BrainController brain)
@@ -19,7 +17,7 @@ namespace NeuralNet
 
         public void AddFitness(float fitnessValue)
         {
-            brain.fitness += fitnessValue;
+            brain.Data.fitness += fitnessValue;
         }
 
         public abstract void UseBrain();

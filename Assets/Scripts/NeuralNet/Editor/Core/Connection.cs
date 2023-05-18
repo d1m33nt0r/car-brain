@@ -48,7 +48,7 @@ namespace NeuralNet.Editor
             //Handles.DrawSolidDisc(t, Vector3.forward, 15);
             // Малюємо круг з полем для введення числа в його центрі
             EditorGUI.BeginChangeCheck();
-            weight.data = EditorGUI.FloatField(new Rect(centerPoint.x - 30f, centerPoint.y - 10f, 60f, 20f), weight.data);
+            weight.data = EditorGUI.DoubleField(new Rect(centerPoint.x - 30f, centerPoint.y - 10f, 60f, 20f), weight.data);
             EditorGUI.EndChangeCheck();
             
 

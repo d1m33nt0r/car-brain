@@ -60,7 +60,7 @@ namespace NeuralNet.Editor
             if (neuron.neuronType != NeuronType.Output)
                 OutNodeNodePoint.Draw(args);
             
-            var position = rect.position + new Vector2(0, 0);
+            var position = rect.position + new Vector2(0, -20);
             GUILayout.BeginArea(new Rect(position, new Vector2(120, 20)));
             GUILayout.Label($"Neuron ID: {neuron.id}", new GUIStyle{alignment = TextAnchor.MiddleCenter});
             GUILayout.EndArea();
@@ -69,7 +69,7 @@ namespace NeuralNet.Editor
             GUILayout.BeginArea(rect, new GUIStyle{border = new RectOffset()});
             
             GUILayout.BeginHorizontal();
-            neuron.data = EditorGUILayout.FloatField(neuron.data);
+            neuron.data = EditorGUILayout.DoubleField(neuron.data);
             GUILayout.EndHorizontal();
             
             GUILayout.BeginHorizontal();

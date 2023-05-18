@@ -12,12 +12,13 @@ namespace NeuralNet.Core.Neurons.Output
         public event Action<Neuron, NeuronType, NeuronType> onChangedNeuronType; 
 
         public int id;
-        public float data;
+        public double data;
+        public double delta;
         public float bias;
         public NeuronType neuronType;
         public ActivationType activationType;
         public List<Weight> inputWeights;
-
+        public List<Weight> outputWeights;
         public Vector2 position;
         
         public Neuron(int id, float minRange, float maxRange, Vector2 position)
@@ -26,6 +27,7 @@ namespace NeuralNet.Core.Neurons.Output
             data = default;
             bias = UnityEngine.Random.Range(minRange, maxRange);
             inputWeights = new List<Weight>();
+            outputWeights = new List<Weight>();
             this.position = position;
             neuronType = NeuronType.Hidden;
             activationType = ActivationType.Sigmoid;
@@ -67,6 +69,16 @@ namespace NeuralNet.Core.Neurons.Output
         {
             inputWeights.Remove(weight);
         }
+        
+        public void AddOutputWeight(Weight weight)
+        {
+            outputWeights.Add(weight);
+        }
+
+        public void RemoveOutputWeight(Weight weight)
+        {
+            outputWeights.Remove(weight);
+        }
 
         public void SetActivationType(ActivationType activationType)
         {
@@ -87,7 +99,7 @@ namespace NeuralNet.Core.Neurons.Output
             data = activatedValue;
         }
 
-        public float Derivative()
+        public double Derivative()
         {
             return Activation.Instance.Derivative(activationType, data);
         }

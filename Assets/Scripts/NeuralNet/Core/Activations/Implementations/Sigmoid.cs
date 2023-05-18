@@ -8,7 +8,7 @@ namespace NeuralNet.Core.Activations
         {
         }
         
-        public override float Apply(float weightedSum)
+        public override double Apply(double weightedSum)
         {
             if (weightedSum > 38.53f) return 1.0f;
             if (weightedSum < -38.53f) return 0.0f;
@@ -17,7 +17,7 @@ namespace NeuralNet.Core.Activations
             return k / (1.0f + k);
         }
         
-        public override float Derivative(float x)
+        public override double Derivative(double x)
         {
             return x * (1 - x);
         }

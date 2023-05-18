@@ -43,6 +43,7 @@ namespace NeuralNet.Editor
             topMenu.OnChangedCurrentNetworkAsset += SynchronizeNetwork;
             topMenu.newAssetPopup.OnChangedCurrentNetworkAsset += SynchronizeNetwork;
             State = new GlobalState { CurrentNetworkAsset = new NeuralNetworkData() };
+            State.brainController = new BrainController(State.CurrentNetworkAsset);
         }
 
         private void OnGUI()

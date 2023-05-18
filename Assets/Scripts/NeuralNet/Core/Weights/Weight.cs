@@ -8,7 +8,7 @@ namespace NeuralNet.Core
     {
         public int inputNeuronID;
         public int outputNeuronID;
-        public float data;
+        public double data;
 
         public Neuron inputNeuron { get; private set; }
         public Neuron outputNeuron { get; private set; }

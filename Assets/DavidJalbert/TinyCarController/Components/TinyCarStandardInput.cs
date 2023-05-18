@@ -1,9 +1,11 @@
-﻿using UnityEngine;
+﻿using NeuralNet;
+using UnityEngine;
 
 namespace DavidJalbert
 {
     public class TinyCarStandardInput : MonoBehaviour
     {
+        public LearnManager learnManager;
         public TinyCarController carController;
         
         [Tooltip("For how long the boost should last in seconds.")]
@@ -15,7 +17,7 @@ namespace DavidJalbert
 
         private float boostTimer = 0;
         
-        void Update()
+        private void Update()
         {
             var steerLeftInput = 0;
             if (Input.GetKey(KeyCode.A))
@@ -46,6 +48,8 @@ namespace DavidJalbert
             {
                 boostInput = 1;
             }
+            
+            learnManager.LearnDataSet.data.Add(new LearnData(carController.inputs, new float[]{forwardInput, reverseInput, steerLeftInput, steerRightInput, boostInput}));
             
             float motorDelta = forwardInput - reverseInput;
             float steeringDelta = steerRightInput - steerLeftInput;

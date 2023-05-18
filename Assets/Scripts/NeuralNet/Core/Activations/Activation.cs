@@ -33,12 +33,12 @@ namespace NeuralNet.Core.Activations
             activations.Add(tanh.Type, new Tanh(tanh));
         }
         
-        public float Apply(ActivationType activationType, float weightedSum)
+        public double Apply(ActivationType activationType, double weightedSum)
         {
             return activations[activationType].Apply(weightedSum);
         }
 
-        public float Derivative(ActivationType activationType, float neuronActiveValue)
+        public double Derivative(ActivationType activationType, double neuronActiveValue)
         {
             return activations[activationType].Derivative(neuronActiveValue);
         }

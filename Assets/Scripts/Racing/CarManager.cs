@@ -53,12 +53,14 @@ public class CarManager : MonoBehaviour
             if (generation > 1)
             {
                 brain = bestBrain.Copy();
-                brain.fitness = 0;
-                brain.Mutate(100, 100, -30, 30, true);
+                brain.Data.fitness = 0;
+                var range = UnityEngine.Random.Range(0, 30f);
+                var chance = UnityEngine.Random.Range(0, 100);
+                brain.Mutate(chance, 100, -range, range, true);
             }
             else
             {
-                brain = new BrainController("Assets/SuperCar.json", true);
+                brain = new BrainController("Assets/Brain/CarBrainAssetResultWithNitroFinal2.json", false);
             }
             carList[i].SetBrain(brain);
             carList[i].onFailed += OnNeuralFail;
@@ -72,7 +74,7 @@ public class CarManager : MonoBehaviour
        
         if (bestBrain != null) 
         {
-            if (bestBrain.fitness < carList.First().brain.fitness)
+            if (bestBrain.Data.fitness < carList.First().brain.Data.fitness)
                 bestBrain = carList.First().brain.Copy();
         }
         else
@@ -80,7 +82,7 @@ public class CarManager : MonoBehaviour
             bestBrain = carList.First().brain.Copy();
         }
         
-        bestFit.text = "Best score: " + bestBrain.fitness;
+        bestFit.text = "Best score: " + bestBrain.Data.fitness;
         
         foreach (var car in carList)
         {
@@ -96,12 +98,12 @@ public class CarManager : MonoBehaviour
     [Button("Save best")]
     private void SaveBestResult()
     {
-        Serializer.WriteToJson("Assets/CarBrainAssetResult2.json", bestBrain.Data, false);
+        Serializer.WriteToJson("Assets/Brain/TestRes.json", bestBrain.Data, false);
     }
 
     private int SortByFitness(NeuralBehaviour a, NeuralBehaviour b)
     {
-        return -a.brain.fitness.CompareTo(b.brain.fitness);
+        return -a.brain.Data.fitness.CompareTo(b.brain.Data.fitness);
     }
 
     private void OnNeuralFail(NeuralBehaviour bird)

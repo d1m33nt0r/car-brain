@@ -1,7 +1,5 @@
 using System;
-using System.IO;
 using NeuralNet.Core;
-using NeuralNet.Core.Activations;
 using UnityEditor;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -11,6 +9,8 @@ namespace NeuralNet.Editor.Template
     public class TopMenu : StylizedDrawer<EmptyDrawerArgs>
     {
         public NewAssetPopup newAssetPopup = new ();
+        public TestPopup testPopup = new();
+        
         public event Action OnChangedCurrentNetworkAsset;
         private string[] menuItems = { "New", "Open", "Randomization", "Save as", "Show activate order" };
         protected override void ApplyStyles()
@@ -23,20 +23,12 @@ namespace NeuralNet.Editor.Template
             EditorGUI.DrawRect(rect, new Color(0.2196079f, 0.2196079f, 0.2196079f, 1f));
             GUILayout.BeginHorizontal();
 
-            var sideButtonRect = BrainEditorWindow.Instance.position.width / 5;
+            var sideButtonRect = BrainEditorWindow.Instance.position.width / 6;
             GUILayout.BeginArea(new Rect(new Vector2(0,0), new Vector2(sideButtonRect, 23)));
 
             if (GUILayout.Button("New"))
             {
                 BrainEditorWindow.Instance.State.showAssetPopup = !BrainEditorWindow.Instance.State.showAssetPopup;
-                /*BrainEditorWindow.Instance.State.CurrentNetworkAsset = new NeuralNetworkData(4, 4,
-                    new int[] { 24, 16, 8 }, ActivationType.Sigmoid, new ActivationType[]
-                    {
-                        ActivationType.Sigmoid,
-                        ActivationType.Sigmoid,
-                        ActivationType.Sigmoid
-                    }, 0.1f, 0.05f);
-                OnChangedCurrentNetworkAsset?.Invoke();*/
             }
             GUILayout.EndArea();
             
@@ -65,6 +57,7 @@ namespace NeuralNet.Editor.Template
                 {
                     var s = Serializer.ReadFromJson(path);
                     BrainEditorWindow.Instance.State.CurrentNetworkAsset = s;
+                    BrainEditorWindow.Instance.State.brainController = new BrainController(s);
                     OnChangedCurrentNetworkAsset?.Invoke();
                 }
             }
@@ -79,6 +72,16 @@ namespace NeuralNet.Editor.Template
             GUILayout.EndArea();
             
             GUILayout.BeginArea(new Rect(new Vector2(sideButtonRect * 4,0), new Vector2(sideButtonRect, 23)));
+            if (GUILayout.Button("Test"))
+            {
+                BrainEditorWindow.Instance.State.showTestPopup = !BrainEditorWindow.Instance.State.showTestPopup;
+            }
+            GUILayout.EndArea();
+
+            DrawTestPopup(new Vector2(sideButtonRect * 4, 23), new Vector2(sideButtonRect,
+                ((BrainEditorWindow.Instance.State.CurrentNetworkAsset.inputNeurons.Count + 1) * 20) + 3));
+            
+            GUILayout.BeginArea(new Rect(new Vector2(sideButtonRect * 5,0), new Vector2(sideButtonRect, 23)));
             if (GUILayout.Button("Show activation order"))
             {
                 Debug.Log("start");
@@ -102,6 +105,11 @@ namespace NeuralNet.Editor.Template
         private void DrawNewAssetPopup(float width)
         {
             newAssetPopup.Draw(new NewAssetPopupArgs(){width = width});
+        }
+        
+        private void DrawTestPopup(Vector2 position, Vector2 size)
+        {
+            testPopup.Draw(new TestAssetPopupArgs(){position = position, size = size});
         }
     }
 }
