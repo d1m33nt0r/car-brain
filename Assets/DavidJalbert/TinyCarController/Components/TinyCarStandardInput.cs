@@ -1,4 +1,5 @@
-﻿using NeuralNet;
+﻿using System.Linq;
+using NeuralNet;
 using UnityEngine;
 
 namespace DavidJalbert
@@ -48,8 +49,12 @@ namespace DavidJalbert
             {
                 boostInput = 1;
             }
-            
-            learnManager.LearnDataSet.data.Add(new LearnData(carController.inputs, new float[]{forwardInput, reverseInput, steerLeftInput, steerRightInput, boostInput}));
+            double[] doubleArray = new double[carController.inputs.Length];
+            for (int i = 0; i < carController.inputs.Length; i++)
+            {
+                doubleArray[i] = (double)carController.inputs[i];
+            }
+            learnManager.LearnDataSet.data.Add(new LearnData(doubleArray, new double[]{forwardInput, reverseInput, steerLeftInput, steerRightInput, boostInput}));
             
             float motorDelta = forwardInput - reverseInput;
             float steeringDelta = steerRightInput - steerLeftInput;

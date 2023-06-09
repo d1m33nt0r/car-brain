@@ -5,10 +5,10 @@ namespace NeuralNet
     [Serializable]
     public struct LearnData
     {
-        public float[] expectedInputs;
-        public float[] inputParams;
+        public double[] expectedInputs;
+        public double[] inputParams;
 
-        public LearnData(float[] inputParams, float[] expectedInputs)
+        public LearnData(double[] inputParams, double[] expectedInputs)
         {
             this.expectedInputs = expectedInputs;
             this.inputParams = inputParams;

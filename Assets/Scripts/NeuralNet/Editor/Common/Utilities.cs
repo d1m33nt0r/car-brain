@@ -1,7 +1,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace NeuralNet.Editor
+namespace NeuralNet.Editor.Common
 {
     public static class Utilities
     {

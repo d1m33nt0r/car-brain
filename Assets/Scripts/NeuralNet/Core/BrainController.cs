@@ -9,23 +9,24 @@ namespace NeuralNet.Core
     {
         public NeuralNetworkData Data => data;
         private NeuralNetworkData data;
-        public Dictionary<int, Neuron> allNeurons { get; }
+        public Dictionary<int, Neuron> allNeurons { get => AllNeurons; }
+        private Dictionary<int, Neuron> AllNeurons;
 
         public BrainController(string brainPath, bool randomize)
         {
             data = Serializer.ReadFromJson(brainPath);
-            allNeurons = new Dictionary<int, Neuron>();
+            AllNeurons = new Dictionary<int, Neuron>();
             foreach (var neuron in data.inputNeurons)
             {
-                allNeurons.Add(neuron.id, neuron);
+                AllNeurons.Add(neuron.id, neuron);
             }
             foreach (var neuron in data.hiddenNeurons)
             {
-                allNeurons.Add(neuron.id, neuron);
+                AllNeurons.Add(neuron.id, neuron);
             }
             foreach (var neuron in data.outputNeurons)
             {
-                allNeurons.Add(neuron.id, neuron);
+                AllNeurons.Add(neuron.id, neuron);
             }
 
             if (randomize)
@@ -45,18 +46,18 @@ namespace NeuralNet.Core
         public BrainController(NeuralNetworkData data)
         {
             this.data = data;
-            allNeurons = new Dictionary<int, Neuron>();
+            AllNeurons = new Dictionary<int, Neuron>();
             foreach (var neuron in data.inputNeurons)
             {
-                allNeurons.Add(neuron.id, neuron);
+                AllNeurons.Add(neuron.id, neuron);
             }
             foreach (var neuron in data.hiddenNeurons)
             {
-                allNeurons.Add(neuron.id, neuron);
+                AllNeurons.Add(neuron.id, neuron);
             }
             foreach (var neuron in data.outputNeurons)
             {
-                allNeurons.Add(neuron.id, neuron);
+                AllNeurons.Add(neuron.id, neuron);
             }
         }
 
@@ -192,14 +193,14 @@ namespace NeuralNet.Core
                 }
             }
         }
-        
-        public void BackPropagation(float[] input, float[] expected, float learningRate = 0.1f)
+
+        public void BackPropagation(double[] input, double[] expected, float learningRate = 0.1f)
         {
             var output = FeedForward(input);
             
             for (var i = 0; i < output.Length; i++)
             {
-                data.outputNeurons[i].delta = Math.Pow(output[i] - expected[i], 2); // to math pow, maybe
+                data.outputNeurons[i].delta = expected[i] - output[i]; // to math pow, maybe
             }
 
             // Change to weights
@@ -209,37 +210,26 @@ namespace NeuralNet.Core
                 for (var w = 0; w < data.outputNeurons[i].inputWeights.Count; w++)
                 {
                     var currentWeight = currentNeuron.inputWeights[w];
-                    
-                    var deltaWeight = currentNeuron.delta * currentWeight.data * currentNeuron.Derivative() * learningRate;
+                    AllNeurons[currentWeight.inputNeuronID].delta = currentNeuron.delta * currentWeight.data;
+                    var derivative = AllNeurons[currentWeight.inputNeuronID].Derivative();
+                    var deltaWeight = currentNeuron.delta * currentWeight.data * derivative * learningRate;
                     currentWeight.data += deltaWeight;
                 }
             }
             
-            for (var n = data.hiddenNeurons.Count - 1; n >= 0; n--)
-            {
-                var neuron = data.hiddenNeurons[n];
-                double diff = 0;
-                for (var w = 0; w < neuron.outputWeights.Count; w++)
-                {
-                    var weight = neuron.outputWeights[w];
-                    diff += Math.Pow(allNeurons[weight.outputNeuronID].data - allNeurons[weight.outputNeuronID].delta, 2);
-                }
-                diff /= neuron.outputWeights.Count;
-                neuron.delta = diff;
-            }
-            
-            // Change to weights
             for (var i = data.hiddenNeurons.Count - 1; i >= 0; i--)
             {
                 var currentNeuron = data.hiddenNeurons[i];
                 for (var w = 0; w < data.hiddenNeurons[i].inputWeights.Count; w++)
                 {
                     var currentWeight = currentNeuron.inputWeights[w];
-                    
-                    var deltaWeight = currentNeuron.delta * currentWeight.data * currentNeuron.Derivative() * learningRate;
+                    AllNeurons[currentWeight.inputNeuronID].delta = currentNeuron.delta * currentWeight.data;
+                    var derivative = AllNeurons[currentWeight.inputNeuronID].Derivative();
+                    var deltaWeight = currentNeuron.delta * currentWeight.data * derivative * learningRate;
                     currentWeight.data += deltaWeight;
                 }
             }
+            
         }
 
         public void Save(string assetName)

@@ -2,13 +2,18 @@ using System;
 using NeuralNet.Core.Activations;
 using NeuralNet.Core.Neurons;
 using NeuralNet.Core.Neurons.Output;
+using NeuralNet.Editor.Args;
+using NeuralNet.Editor.Common.Abstract;
+using NeuralNet.Editor.Core.ConnectionPoints;
 using UnityEditor;
 using UnityEngine;
 
-namespace NeuralNet.Editor
+namespace NeuralNet.Editor.Core
 {
-    public class Node : StylizedDrawer<EmptyDrawerArgs>
+    public class Node : StylizedDrawer<EmptyArgs>
     {
+        public const string SELECTED_NODE_STYLE_KEY = "selectedNodeStyle";
+        public const string DEFAULT_NODE_STYLE_KEY = "defaultNodeStyle";
         public Neuron neuron;
         
         public string title;
@@ -17,9 +22,8 @@ namespace NeuralNet.Editor
         
         public InNodeNodeConnectionPoint InNodeNodePoint;
         public OutNodeNodeConnectionPoint OutNodeNodePoint;
-        
-        public GUIStyle defaultNodeStyle;
-        public GUIStyle selectedNodeStyle;
+
+        private GUIStyle currentNodeStyle;
         
         public Action<Node> OnRemoveNode;
 
@@ -42,18 +46,21 @@ namespace NeuralNet.Editor
 
         protected override void ApplyStyles()
         {
-            defaultNodeStyle = new GUIStyle();
+            var defaultNodeStyle = new GUIStyle();
             defaultNodeStyle.normal.background = EditorGUIUtility.Load("builtin skins/darkskin/images/node1.png") as Texture2D;
             defaultNodeStyle.border = new RectOffset(12, 12, 12, 12);
             
-            selectedNodeStyle = new GUIStyle();
+            var selectedNodeStyle = new GUIStyle();
             selectedNodeStyle.normal.background = EditorGUIUtility.Load("builtin skins/darkskin/images/node1 on.png") as Texture2D;
             selectedNodeStyle.border = new RectOffset(12, 12, 12, 12);
 
-            style = defaultNodeStyle;
+            styles.Add(DEFAULT_NODE_STYLE_KEY, defaultNodeStyle);
+            styles.Add(SELECTED_NODE_STYLE_KEY, selectedNodeStyle);
+
+            currentNodeStyle = defaultNodeStyle;
         }
 
-        public override void Draw(EmptyDrawerArgs args)
+        public override void Draw(EmptyArgs args)
         {
             if (neuron.neuronType != NeuronType.Input)
                 InNodeNodePoint.Draw(args);
@@ -104,13 +111,13 @@ namespace NeuralNet.Editor
                             isDragged = true;
                             GUI.changed = true;
                             isSelected = true;
-                            style = selectedNodeStyle;
+                            currentNodeStyle = styles[SELECTED_NODE_STYLE_KEY];
                         }
                         else
                         {
                             GUI.changed = true;
                             isSelected = false;
-                            style = defaultNodeStyle;
+                            currentNodeStyle = styles[DEFAULT_NODE_STYLE_KEY];
                         }
                     }
                     if (e.button == 1 && isSelected && rect.Contains(mousePosition  / zoom))

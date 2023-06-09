@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using NeuralNet.Core.Activations;
 using NeuralNet.Core.Neurons;
 using NeuralNet.Core.Neurons.Output;
@@ -8,13 +6,14 @@ using UnityEngine;
 
 namespace NeuralNet.Core
 {
-    [Serializable]
-    public class NeuralNetworkData
+    public class NeuralNetworkData : ScriptableObject
     {
+        public string brainName;
         public float fitness;
         public List<Neuron> inputNeurons;
         public List<Neuron> hiddenNeurons;
         public List<Neuron> outputNeurons;
+        public List<int> allNeurons;
 
         public int nextID;
 
@@ -23,9 +22,10 @@ namespace NeuralNet.Core
             hiddenNeurons = new List<Neuron>();
             inputNeurons = new List<Neuron>();
             outputNeurons = new List<Neuron>();
+            allNeurons = new List<int>();
         }
         
-        public NeuralNetworkData(int inputs, 
+        public void Init(int inputs, 
             int outputs, 
             int[] hiddenLayers, 
             ActivationType outputActivationType, 
@@ -47,6 +47,7 @@ namespace NeuralNet.Core
                 newNeuron.neuronType = NeuronType.Input;
                 newNeuron.onChangedNeuronType += OnChangedNeuronType;
                 inputNeurons.Add(newNeuron);
+                allNeurons.Add(newNeuron.id);
                 nextID++;
             }
 
@@ -61,6 +62,7 @@ namespace NeuralNet.Core
                     var newNeuron = new Neuron(nextID, -0.5f, 0.5f, new Vector2 ( startNodesPosition.x + (i + 1) * horizontalSpaceLength, startNodesPosition.y + j * verticalSpaceLength));
                     newNeuron.onChangedNeuronType += OnChangedNeuronType;
                     hiddenNeurons.Add(newNeuron);
+                    allNeurons.Add(newNeuron.id);
                     nextID++;
                     if (i == 0)
                     {
@@ -95,6 +97,7 @@ namespace NeuralNet.Core
                                                                               (hiddenLayers.Length + 1) * horizontalSpaceLength, startNodesPosition.y + i * verticalSpaceLength));
                 newNeuron.onChangedNeuronType += OnChangedNeuronType;
                 outputNeurons.Add(newNeuron);
+                allNeurons.Add(newNeuron.id);
                 nextID++;
                 for (var w = 0; w < previousHiddenLayer.Count; w++)
                 {
@@ -112,6 +115,7 @@ namespace NeuralNet.Core
             var newNeuron = new Neuron(nextID, -0.5f, 0.5f, position);
             newNeuron.onChangedNeuronType += OnChangedNeuronType;
             hiddenNeurons.Add(newNeuron);
+            allNeurons.Add(newNeuron.id);
             nextID++;
             return newNeuron;
         }
@@ -130,6 +134,7 @@ namespace NeuralNet.Core
             if (hiddenNeurons.Contains(neuron)) hiddenNeurons.Remove(neuron);
             if (inputNeurons.Contains(neuron)) inputNeurons.Remove(neuron);
             if (outputNeurons.Contains(neuron)) outputNeurons.Remove(neuron);
+            if (allNeurons.Contains(neuron.id)) allNeurons.Remove(neuron.id);
         }
 
         public void RemoveWeight(Weight weight)

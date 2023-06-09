@@ -1,11 +1,16 @@
 using System;
 using NeuralNet.Core;
+using NeuralNet.Editor.Args;
+using NeuralNet.Editor.Common;
+using NeuralNet.Editor.Common.Abstract;
+using NeuralNet.Editor.Common.Drawers;
+using NeuralNet.Editor.Core.ConnectionPoints;
 using UnityEditor;
 using UnityEngine;
 
-namespace NeuralNet.Editor
+namespace NeuralNet.Editor.Core
 {
-    public class Connection : StylizedDrawer<EmptyDrawerArgs>
+    public class Connection : StylizedDrawer<EmptyArgs>
     {
         public Weight weight;
         public NodeConnectionPoint inPoint;
@@ -25,7 +30,7 @@ namespace NeuralNet.Editor
             
         }
 
-        public override void Draw(EmptyDrawerArgs args)
+        public override void Draw(EmptyArgs args)
         {
             var startPoint = inPoint.rect.center;
             var endPoint = outPoint.rect.center;

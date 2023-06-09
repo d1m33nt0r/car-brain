@@ -2,20 +2,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using NeuralNet;
+using Unity.Mathematics;
 using UnityEngine;
 
 namespace DavidJalbert
 {
     [RequireComponent(typeof(Rigidbody))]
     [RequireComponent(typeof(SphereCollider))]
-
-    [ExecuteInEditMode]
-
+    
     public class TinyCarController : NeuralBehaviour
     {
         private static float GroundCheckDistanceDelta = 0.1f;
         private static float GroundCheckSkinWidthDelta = 0.05f;
-        public float[] inputs { get; private set; }
+        public float[] inputs { get; private set; } = new float[6];
 
         public enum GRAVITY_MODE
         {
@@ -190,8 +189,8 @@ namespace DavidJalbert
 
         private void CalculateFitness()
         {
-            //totalDistance += Vector3.Distance(transform.position, prevPos);
-            //avgSpeed = totalDistance == 0 ? 0 : totalDistance / timeStart;
+            totalDistance += Vector3.Distance(transform.position, prevPos);
+            avgSpeed = totalDistance == 0 ? 0 : totalDistance / timeStart;
         }
         
         virtual protected void FixedUpdate()

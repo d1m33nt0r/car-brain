@@ -13,7 +13,9 @@ namespace NeuralNet.Core.Activations
 
         public override double Derivative(double x)
         {
-            return default;
+            if (x > 0) return 1;
+            if (x == 0) return 0.5;
+            return 0;
         }
     }
 }

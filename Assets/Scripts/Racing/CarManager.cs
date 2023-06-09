@@ -60,7 +60,7 @@ public class CarManager : MonoBehaviour
             }
             else
             {
-                brain = new BrainController("Assets/Brain/CarBrainAssetResultWithNitroFinal2.json", false);
+                brain = new BrainController("Assets/Brain/BackProp.json", false);
             }
             carList[i].SetBrain(brain);
             carList[i].onFailed += OnNeuralFail;
@@ -98,7 +98,7 @@ public class CarManager : MonoBehaviour
     [Button("Save best")]
     private void SaveBestResult()
     {
-        Serializer.WriteToJson("Assets/Brain/TestRes.json", bestBrain.Data, false);
+        Serializer.WriteToJson("Assets/Brain/backpropresult.json", bestBrain.Data, false);
     }
 
     private int SortByFitness(NeuralBehaviour a, NeuralBehaviour b)

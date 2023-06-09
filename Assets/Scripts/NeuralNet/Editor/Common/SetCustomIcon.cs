@@ -1,7 +1,6 @@
 using UnityEditor;
-using UnityEngine;
 
-namespace NeuralNet.Editor
+namespace NeuralNet.Editor.Common
 {
     public class SetCustomIcon : AssetModificationProcessor
     {

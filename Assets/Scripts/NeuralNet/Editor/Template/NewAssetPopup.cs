@@ -1,16 +1,15 @@
-using System;
 using System.Collections.Generic;
 using NeuralNet.Core;
 using NeuralNet.Core.Activations;
+using NeuralNet.Editor.Args.Draw;
+using NeuralNet.Editor.Common.Abstract;
 using UnityEditor;
 using UnityEngine;
 
 namespace NeuralNet.Editor.Template
 {
-    public class NewAssetPopup : StylizedDrawer<NewAssetPopupArgs>
+    public class NewAssetPopup : StylizedDrawer<NewAssetPopupDrawArgs>
     {
-        public event Action OnChangedCurrentNetworkAsset;
-        
         private float height;
         
         protected override void ApplyStyles()
@@ -18,12 +17,12 @@ namespace NeuralNet.Editor.Template
             
         }
 
-        public override void Draw(NewAssetPopupArgs args)
+        public override void Draw(NewAssetPopupDrawArgs drawArgs)
         {
             if (!BrainEditorWindow.Instance.State.showAssetPopup) return;
             
             var data = BrainEditorWindow.Instance.State.NewAssetData;
-            var customRect = new Rect(new Vector2(0, 23), new Vector2(args.width, 145+ 40 * data.hiddens));
+            var customRect = new Rect(new Vector2(0, 23), new Vector2(drawArgs.width, 145+ 40 * data.hiddens));
             EditorGUI.DrawRect(customRect, new Color(0.2196079f, 0.42f, 0.2196079f, 1f));
             
             GUILayout.BeginArea(customRect, new GUIStyle{ contentOffset = new Vector2(15, 15)});
@@ -84,10 +83,11 @@ namespace NeuralNet.Editor.Template
             
             if (GUILayout.Button("Generate"))
             {
-                BrainEditorWindow.Instance.State.CurrentNetworkAsset = new NeuralNetworkData(data.inputs, data.outputs,
+                var asset = ScriptableObject.CreateInstance<NeuralNetworkData>();
+                asset.Init(data.inputs, data.outputs,
                     data.hiddenLayers.ToArray(), data.outputActivationType,
                     data.hiddenActivationTypes.ToArray(), data.neuronRandomRange, data.weightRandomRange);
-                OnChangedCurrentNetworkAsset?.Invoke();
+                BrainEditorWindow.Instance.State.SetCurrentNetworkAsset(asset);
             }
             
             GUILayout.EndArea();

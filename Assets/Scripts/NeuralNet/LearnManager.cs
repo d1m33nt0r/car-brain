@@ -9,20 +9,21 @@ namespace NeuralNet
     {
         public LearnDataSet LearnDataSet => learnDataSet;
         [SerializeField] private LearnDataSet learnDataSet;
-        [SerializeField] private string learnedAssetName;
-        
+        [SerializeField] private string learnedAssetPath;
+        [SerializeField] private string assetPathToLearning;
+        [SerializeField] private float learningRate;
         
         [Button("Learn")]
         private void Learn()
         {
-            var brain = new BrainController("Assets/Test.json", false);
+            var brain = new BrainController(assetPathToLearning, false);
             Debug.Log("Learning started");
             
             for (var i = 0; i < learnDataSet.data.Count; i++)
             {
-                brain.BackPropagation(learnDataSet.data[i].inputParams, learnDataSet.data[i].expectedInputs);
+                brain.BackPropagation(learnDataSet.data[i].inputParams, learnDataSet.data[i].expectedInputs, learningRate);
             }
-            brain.Save(learnedAssetName);
+            brain.Save(learnedAssetPath);
             
             Debug.Log("Learning finished");
         }
