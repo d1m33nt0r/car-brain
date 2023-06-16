@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace NeuralNet.Editor.Template.MiddleSection
 {
-    public class Canvas : StylizedDrawer<EmptyArgs>, ISizeListener, IInitializable<CanvasInitArgs>
+    public class Canvas : StylizedDrawer<EmptyArgs, EmptyArgs>, ISizeListener, IInitializable<CanvasInitArgs>
     {
         private const string CANVAS_STYLE = "border";
         private const string TOOLBAR_STYLE = "toolbar";
@@ -23,7 +23,7 @@ namespace NeuralNet.Editor.Template.MiddleSection
         private float XCoord => verticalSplitLine.Width;
         private float lastXCoord;
         
-        protected override void ApplyStyles()
+        protected override void ApplyStyles(EmptyArgs args)
         {
             var canvasBackground = new Texture2D(1, 1);
             canvasBackground.SetPixel(1, 1, new Color(0.25f, 0.25f, 0.25f, 1f));

@@ -1,4 +1,3 @@
-using NeuralNet.Core;
 using NeuralNet.Editor.Args;
 using NeuralNet.Editor.Common.Abstract;
 using UnityEditor;
@@ -6,9 +5,9 @@ using UnityEngine;
 
 namespace NeuralNet.Editor.Template.LeftSection.Foldouts
 {
-    public class ImportExportFoldout : StylizedDrawer<EmptyArgs>
+    public class ImportExportFoldout : StylizedDrawer<EmptyArgs, EmptyArgs>
     {
-        protected override void ApplyStyles()
+        protected override void ApplyStyles(EmptyArgs args)
         {
             
         }
@@ -39,6 +38,10 @@ namespace NeuralNet.Editor.Template.LeftSection.Foldouts
             {
                 
             }
+        }
+
+        public ImportExportFoldout(EmptyArgs styleArgs) : base(styleArgs)
+        {
         }
     }
 }

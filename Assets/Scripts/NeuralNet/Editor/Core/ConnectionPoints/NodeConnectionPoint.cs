@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace NeuralNet.Editor.Core.ConnectionPoints
 {
-    public abstract class NodeConnectionPoint : StylizedDrawer<EmptyArgs>
+    public abstract class NodeConnectionPoint : StylizedDrawer<EmptyArgs, EmptyArgs>
     {
         protected const string IN_CONNECTION_POINT_STYLE = "inConnectionPoint";
         protected const string OUT_CONNECTION_POINT_STYLE = "outConnectionPoint";
@@ -14,7 +14,7 @@ namespace NeuralNet.Editor.Core.ConnectionPoints
         public Node node;
         public Action<NodeConnectionPoint> OnClickConnectionPoint;
     
-        protected override void ApplyStyles()
+        protected override void ApplyStyles(EmptyArgs args)
         {
             var inStyle = new GUIStyle();
             inStyle.normal.background = EditorGUIUtility.Load("builtin skins/darkskin/images/btn left.png") as Texture2D;

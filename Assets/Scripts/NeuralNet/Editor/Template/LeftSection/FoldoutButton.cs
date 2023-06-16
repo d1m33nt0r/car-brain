@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace NeuralNet.Editor.Template.LeftSection
 {
-    public class FoldoutButton : StylizedDrawer<EmptyArgs>
+    public class FoldoutButton : StylizedDrawer<EmptyArgs, EmptyArgs>
     {
         public event Action<int, bool> onClick;
         
@@ -24,7 +24,7 @@ namespace NeuralNet.Editor.Template.LeftSection
             isActive = initState;
         }
         
-        protected override void ApplyStyles()
+        protected override void ApplyStyles(EmptyArgs args)
         {
             var characterButton = new Texture2D(1, 1);
             characterButton.SetPixel(1, 1, new Color(0.17f, 0.17f, 0.17f, 0.8f));
@@ -64,6 +64,10 @@ namespace NeuralNet.Editor.Template.LeftSection
                 isActive = !isActive;
                 onClick?.Invoke(buttonIndex, isActive);
             }
+        }
+
+        public FoldoutButton(EmptyArgs styleArgs) : base(styleArgs)
+        {
         }
     }
 }

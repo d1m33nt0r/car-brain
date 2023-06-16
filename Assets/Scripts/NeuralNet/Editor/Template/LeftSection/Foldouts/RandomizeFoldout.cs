@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace NeuralNet.Editor.Template.LeftSection.Foldouts
 {
-    public class RandomizeFoldout : StylizedDrawer<EmptyArgs>
+    public class RandomizeFoldout : StylizedDrawer<EmptyArgs, EmptyArgs>
     {
         private float min;
         private float max;
@@ -13,7 +13,7 @@ namespace NeuralNet.Editor.Template.LeftSection.Foldouts
         private int chanceRandomization;
         private bool isChancedRandomization;
         
-        protected override void ApplyStyles()
+        protected override void ApplyStyles(EmptyArgs args)
         {
             
         }
@@ -49,6 +49,10 @@ namespace NeuralNet.Editor.Template.LeftSection.Foldouts
             {
                 
             }
+        }
+
+        public RandomizeFoldout(EmptyArgs styleArgs) : base(styleArgs)
+        {
         }
     }
 }

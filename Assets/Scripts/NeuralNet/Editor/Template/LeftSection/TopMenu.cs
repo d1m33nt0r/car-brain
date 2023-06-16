@@ -1,4 +1,4 @@
-using System;
+/*using System;
 using NeuralNet.Core;
 using NeuralNet.Editor.Args;
 using NeuralNet.Editor.Args.Draw;
@@ -9,14 +9,14 @@ using Random = UnityEngine.Random;
 
 namespace NeuralNet.Editor.Template.LeftSection
 {
-    public class TopMenu : StylizedDrawer<EmptyArgs>
+    public class TopMenu : StylizedDrawer<EmptyArgs, EmptyArgs>
     {
         public NewAssetPopup newAssetPopup = new ();
         public TestPopup testPopup = new();
         
         public event Action OnChangedCurrentNetworkAsset;
         private string[] menuItems = { "New", "Open", "Randomization", "Save as", "Show activate order" };
-        protected override void ApplyStyles()
+        protected override void ApplyStyles(EmptyArgs args)
         {
             rect = new Rect(new Vector2(0, 0), new Vector2(BrainEditorWindow.Instance.position.width, 23));
         }
@@ -63,7 +63,7 @@ namespace NeuralNet.Editor.Template.LeftSection
                     BrainEditorWindow.Instance.State.BrainController = new BrainController(s);
                     OnChangedCurrentNetworkAsset?.Invoke();
                 }
-            }*/
+            }#1#
             GUILayout.EndArea();
             
             GUILayout.BeginArea(new Rect(new Vector2(sideButtonRect * 3,0), new Vector2(sideButtonRect, 23)));
@@ -114,5 +114,9 @@ namespace NeuralNet.Editor.Template.LeftSection
         {
             testPopup.Draw(new TestAssetPopupDrawArgs(){position = position, size = size});
         }
+
+        public TopMenu(EmptyArgs styleArgs) : base(styleArgs)
+        {
+        }
     }
-}
+}*/

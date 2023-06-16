@@ -7,8 +7,8 @@ namespace NeuralNet.Core
 {
     public class BrainController
     {
-        public NeuralNetworkData Data => data;
-        private NeuralNetworkData data;
+        public BrainData Data => data;
+        private BrainData data;
         public Dictionary<int, Neuron> allNeurons { get => AllNeurons; }
         private Dictionary<int, Neuron> AllNeurons;
 
@@ -43,7 +43,7 @@ namespace NeuralNet.Core
             }
         }
 
-        public BrainController(NeuralNetworkData data)
+        public BrainController(BrainData data)
         {
             this.data = data;
             AllNeurons = new Dictionary<int, Neuron>();
@@ -63,7 +63,7 @@ namespace NeuralNet.Core
 
         public BrainController Copy()
         {
-            var nnd = new NeuralNetworkData()
+            var nnd = new BrainData()
             {
                 fitness = data.fitness,
                 nextID = data.nextID

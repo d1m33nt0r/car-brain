@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace NeuralNet.Editor.Core
 {
-    public class Connection : StylizedDrawer<EmptyArgs>
+    public class Connection : StylizedDrawer<EmptyArgs, EmptyArgs>
     {
         public Weight weight;
         public NodeConnectionPoint inPoint;
@@ -25,7 +25,7 @@ namespace NeuralNet.Editor.Core
             this.OnClickRemoveConnection = OnClickRemoveConnection;
         }
 
-        protected override void ApplyStyles()
+        protected override void ApplyStyles(EmptyArgs args)
         {
             
         }

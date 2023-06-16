@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+/*using System.Collections.Generic;
 using NeuralNet.Core;
 using NeuralNet.Core.Activations;
 using NeuralNet.Editor.Args.Draw;
@@ -83,7 +83,7 @@ namespace NeuralNet.Editor.Template
             
             if (GUILayout.Button("Generate"))
             {
-                var asset = ScriptableObject.CreateInstance<NeuralNetworkData>();
+                var asset = ScriptableObject.CreateInstance<BrainData>();
                 asset.Init(data.inputs, data.outputs,
                     data.hiddenLayers.ToArray(), data.outputActivationType,
                     data.hiddenActivationTypes.ToArray(), data.neuronRandomRange, data.weightRandomRange);
@@ -93,4 +93,4 @@ namespace NeuralNet.Editor.Template
             GUILayout.EndArea();
         }
     }
-}
+}*/

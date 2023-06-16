@@ -14,9 +14,9 @@ using UnityEngine;
 
 namespace NeuralNet.Editor.Template.MiddleSection
 {
-    public class Graph : StylizedDrawer<EmptyArgs>, ISizeListener, IInitializable<GraphInitArgs>
+    public class Graph : StylizedDrawer<EmptyArgs, EmptyArgs>, ISizeListener, IInitializable<GraphInitArgs>
     {
-        private NeuralNetworkData currentNetworkAsset;
+        private BrainData currentNetworkAsset;
         
         private List<Node> nodes = new ();
         private List<Connection> connections = new ();
@@ -29,7 +29,7 @@ namespace NeuralNet.Editor.Template.MiddleSection
         public float zoom = 1.0f;
         public Vector2 zoomCoordsOrigin = Vector2.zero;
         
-        protected override void ApplyStyles()
+        protected override void ApplyStyles(EmptyArgs args)
         {
             
         }
@@ -302,7 +302,7 @@ namespace NeuralNet.Editor.Template.MiddleSection
             }
         }
 
-        private void SynchronizeNetwork(NeuralNetworkData networkData)
+        private void SynchronizeNetwork(BrainData networkData)
         {
             currentNetworkAsset = networkData;
             nodes.Clear();

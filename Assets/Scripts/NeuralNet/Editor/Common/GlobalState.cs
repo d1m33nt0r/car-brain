@@ -6,15 +6,15 @@ namespace NeuralNet.Editor.Common
 {
     public class GlobalState
     {
-        public event Action<NeuralNetworkData> onChangeNetworkAsset;
+        public event Action<BrainData> onChangeNetworkAsset;
         
-        public NeuralNetworkData CurrentNetworkAsset { get; private set; }
+        public BrainData CurrentNetworkAsset { get; private set; }
         public bool showAssetPopup;
         public bool showTestPopup;
         public NewAssetData NewAssetData = new ();
         public EditorData EditorData { get; private set; }
         
-        public void SetCurrentNetworkAsset(NeuralNetworkData brainAsset)
+        public void SetCurrentNetworkAsset(BrainData brainAsset)
         {
             CurrentNetworkAsset = brainAsset;
             onChangeNetworkAsset?.Invoke(brainAsset);

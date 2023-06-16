@@ -9,8 +9,8 @@ namespace NeuralNet.Editor.Common
         public class Window
         {
             public static readonly Vector2 minSize = new Vector2(200, 100);
-            public static readonly string editorDataFolderPath = "Assets/Plugins/EasyBrain/Editor";
-            public static readonly string editorDataFolderName = "Data";
+            public static readonly string editorDataFolderPath = "Assets/Plugins/EasyBrain/Editor/Data";
+            public static readonly string brainCollectionsFolderPath = "Assets/Plugins/EasyBrain/Editor/Data/Collections";
         }
         
         public class LeftSection

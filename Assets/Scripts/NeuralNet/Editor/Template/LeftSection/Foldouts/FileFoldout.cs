@@ -1,34 +1,28 @@
 using System;
 using NeuralNet.Core;
 using NeuralNet.Editor.Args;
-using NeuralNet.Editor.Common.Abstract;
 using UnityEditor;
 using UnityEngine;
 
 namespace NeuralNet.Editor.Template.LeftSection.Foldouts
 {
-    public class FileFoldout : StylizedDrawer<EmptyArgs>
+    public class FileFoldout : BaseFoldout<EmptyArgs, EmptyArgs>
     {
-        public event Action<NeuralNetworkData> onChangeNetworkAsset;
+        public event Action<BrainData> onChangeNetworkAsset;
         public event Action<string> onChangeAssetPath;
         
-        private NeuralNetworkData prevObject;
+        private BrainData prevObject;
         
-        private NeuralNetworkData selectedObject;
+        private BrainData selectedObject;
         private string assetPath;
         
         private bool newAssetFoldoutState;
         private string assetName;
-        
-        protected override void ApplyStyles()
-        {
-            
-        }
 
-        public override void Draw(EmptyArgs args)
+        protected override void Draw()
         {
             GUILayout.Label("Brain Asset:");
-            selectedObject = (NeuralNetworkData) EditorGUILayout.ObjectField(selectedObject, typeof(NeuralNetworkData));
+            selectedObject = (BrainData) EditorGUILayout.ObjectField(selectedObject, typeof(BrainData));
             if (selectedObject != prevObject) SetCurrentNetworkAsset(selectedObject, true);
 
             var newAssetButton = GUILayout.Button("New asset");
@@ -58,7 +52,7 @@ namespace NeuralNet.Editor.Template.LeftSection.Foldouts
                 assetName = EditorGUILayout.TextField(assetName);
                 if (GUILayout.Button("Create"))
                 {
-                    var brainAsset = ScriptableObject.CreateInstance<NeuralNetworkData>();
+                    var brainAsset = ScriptableObject.CreateInstance<BrainData>();
                     brainAsset.brainName = assetName;
                     var path = $"Assets/Plugins/EasyBrain/Editor/Data/{assetName}.asset";
                     AssetDatabase.CreateAsset(brainAsset, path);
@@ -78,11 +72,15 @@ namespace NeuralNet.Editor.Template.LeftSection.Foldouts
             prevObject = selectedObject;
         }
 
-        public void SetCurrentNetworkAsset(NeuralNetworkData brainAsset, bool onEvent)
+        public void SetCurrentNetworkAsset(BrainData brainAsset, bool onEvent)
         {
             selectedObject = brainAsset;
             if (!onEvent) return;
             onChangeNetworkAsset?.Invoke(brainAsset);
+        }
+
+        public FileFoldout(EmptyArgs styleArgs) : base(styleArgs)
+        {
         }
     }
 }

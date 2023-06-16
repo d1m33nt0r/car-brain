@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using NeuralNet.Core;
 using NeuralNet.Editor.Args;
 using NeuralNet.Editor.Args.Init;
+using NeuralNet.Editor.Common;
 using NeuralNet.Editor.Common.Abstract;
 using NeuralNet.Editor.Common.Drawers;
 using NeuralNet.Editor.Common.Interfaces;
@@ -11,7 +12,7 @@ using UnityEngine;
 
 namespace NeuralNet.Editor.Template.LeftSection
 {
-    public class SidebarDrawer : StylizedDrawer<EmptyArgs>, ISizeListener, IInitializable<SidebarInitArgs>
+    public class SidebarDrawer : StylizedDrawer<EmptyArgs, EmptyArgs>, ISizeListener, IInitializable<SidebarInitArgs>
     {
         private const string AREA_STYLE = "area";
 
@@ -42,23 +43,22 @@ namespace NeuralNet.Editor.Template.LeftSection
             var initFoldoutState = false;
             for (var i = 0; i < tabNames.Length; i++)
             {
-                var buttonInstance = new FoldoutButton();
+                var buttonInstance = new FoldoutButton(Constants.Args.EmptyArgs);
                 buttonInstance.Initialize(tabNames[i], i, initFoldoutState);
                 buttonInstance.onClick += (index, state) => foldoutStates[index] = state;
                 sidebarButtons.Add(buttonInstance);
                 foldoutStates.Add(initFoldoutState);
             }
 
-            var fileFoldout = new FileFoldout();
+            var fileFoldout = new FileFoldout(Constants.Args.EmptyArgs);
             fileFoldout.onChangeNetworkAsset += args.State.SetCurrentNetworkAsset;
-            //fileFoldout.on
             foldouts.Add(fileFoldout);
-            foldouts.Add(new RandomizeFoldout());
-            foldouts.Add(new ImportExportFoldout());
-            foldouts.Add(new RandomizeFoldout());
+            foldouts.Add(new RandomizeFoldout(Constants.Args.EmptyArgs));
+            foldouts.Add(new ImportExportFoldout(Constants.Args.EmptyArgs));
+            foldouts.Add(new BrainCollectionFoldout(Constants.Args.EmptyArgs));
         }
         
-        protected override void ApplyStyles()
+        protected override void ApplyStyles(EmptyArgs args)
         {
             styles.Add(AREA_STYLE, new GUIStyle());
             styles[AREA_STYLE].border = new RectOffset(10, 10, 10, 10);
@@ -92,7 +92,7 @@ namespace NeuralNet.Editor.Template.LeftSection
             rect = new Rect(rect.position, new Vector2(delta, rect.size.y));
         }
         
-        private void SetCurrentAssetToFileFoldout(NeuralNetworkData brainAsset)
+        private void SetCurrentAssetToFileFoldout(BrainData brainAsset)
         {
             (foldouts[0] as FileFoldout).SetCurrentNetworkAsset(brainAsset, false);
         }

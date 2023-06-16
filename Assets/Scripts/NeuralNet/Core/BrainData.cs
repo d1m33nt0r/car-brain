@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace NeuralNet.Core
 {
-    public class NeuralNetworkData : ScriptableObject
+    public class BrainData : ScriptableObject
     {
         public string brainName;
         public float fitness;
@@ -17,7 +17,7 @@ namespace NeuralNet.Core
 
         public int nextID;
 
-        public NeuralNetworkData()
+        public BrainData()
         {
             hiddenNeurons = new List<Neuron>();
             inputNeurons = new List<Neuron>();

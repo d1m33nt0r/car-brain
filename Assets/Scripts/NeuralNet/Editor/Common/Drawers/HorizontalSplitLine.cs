@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace NeuralNet.Editor.Common.Drawers
 {
-    public class HorizontalSplitLine : StylizedDrawer<EmptyArgs>, ISizeListener, IInitializable<HorizontalLineInitArgs>
+    public class HorizontalSplitLine : StylizedDrawer<EmptyArgs, EmptyArgs>, ISizeListener, IInitializable<HorizontalLineInitArgs>
     {
         public event Action<float> OnDragSplitLine;
 
@@ -25,7 +25,7 @@ namespace NeuralNet.Editor.Common.Drawers
         private Vector2 startDragPoint;
         private VerticalSplitLine splitLine;
         
-        protected override void ApplyStyles()
+        protected override void ApplyStyles(EmptyArgs args)
         {
             var lineStyle = new GUIStyle();
             lineStyle.normal.background = EditorGUIUtility.whiteTexture;

@@ -7,7 +7,7 @@ using UnityEngine;
 namespace NeuralNet.Editor
 {
     [Serializable]
-    public class EditorNeuralNetworkData
+    public class EditorBrainData
     {
         public string brainName;
         public float fitness;
@@ -17,9 +17,9 @@ namespace NeuralNet.Editor
         public List<int> allNeurons;
         public int nextID;
 
-        public NeuralNetworkData ToScriptableObject()
+        public BrainData ToScriptableObject()
         {
-            var brainAsset = ScriptableObject.CreateInstance<NeuralNetworkData>();
+            var brainAsset = ScriptableObject.CreateInstance<BrainData>();
             brainAsset.fitness = fitness;
             brainAsset.inputNeurons = inputNeurons;
             brainAsset.hiddenNeurons = hiddenNeurons;

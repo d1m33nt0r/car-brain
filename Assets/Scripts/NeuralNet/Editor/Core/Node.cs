@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace NeuralNet.Editor.Core
 {
-    public class Node : StylizedDrawer<EmptyArgs>
+    public class Node : StylizedDrawer<EmptyArgs, EmptyArgs>
     {
         public const string SELECTED_NODE_STYLE_KEY = "selectedNodeStyle";
         public const string DEFAULT_NODE_STYLE_KEY = "defaultNodeStyle";
@@ -44,7 +44,7 @@ namespace NeuralNet.Editor.Core
             rect.position += delta;
         }
 
-        protected override void ApplyStyles()
+        protected override void ApplyStyles(EmptyArgs args)
         {
             var defaultNodeStyle = new GUIStyle();
             defaultNodeStyle.normal.background = EditorGUIUtility.Load("builtin skins/darkskin/images/node1.png") as Texture2D;

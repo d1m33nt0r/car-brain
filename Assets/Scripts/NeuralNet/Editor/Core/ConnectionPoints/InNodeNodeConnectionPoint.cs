@@ -6,7 +6,8 @@ namespace NeuralNet.Editor.Core.ConnectionPoints
 {
     public class InNodeNodeConnectionPoint : NodeConnectionPoint
     {
-        public InNodeNodeConnectionPoint(Node node, ConnectionPointType type, Action<NodeConnectionPoint> OnClickConnectionPoint) : base(node, type, OnClickConnectionPoint)
+        public InNodeNodeConnectionPoint(Node node, ConnectionPointType type, Action<NodeConnectionPoint> OnClickConnectionPoint) 
+            : base(node, type, OnClickConnectionPoint)
         {
         }
         

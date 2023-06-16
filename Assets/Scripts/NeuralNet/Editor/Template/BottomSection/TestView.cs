@@ -1,3 +1,4 @@
+using NeuralNet.Editor.Args;
 using NeuralNet.Editor.Args.Draw;
 using NeuralNet.Editor.Args.Init;
 using NeuralNet.Editor.Common.Abstract;
@@ -7,14 +8,14 @@ using UnityEngine;
 
 namespace NeuralNet.Editor.Template.BottomSection
 {
-    public class TestView : StylizedDrawer<TestViewDrawArgs>, ISizeListener, IInitializable<TestViewInitArgs>
+    public class TestView : StylizedDrawer<EmptyArgs, TestViewDrawArgs>, ISizeListener, IInitializable<TestViewInitArgs>
     {
         private const string BACKGROUND_STYLE = "background";
 
         private HorizontalSplitLine horizontalSplitLine;
         private VerticalSplitLine verticalSplitLine;
         
-        protected override void ApplyStyles()
+        protected override void ApplyStyles(EmptyArgs args)
         {
             var background = new Texture2D(1, 1);
             background.SetPixel(1, 1, new Color(0.25f, 0.25f, 0.25f, 1f));

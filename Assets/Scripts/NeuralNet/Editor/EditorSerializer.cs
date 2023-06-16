@@ -8,7 +8,7 @@ namespace NeuralNet.Editor
 {
     public static class EditorSerializer
     {
-        private static void Sort(NeuralNetworkData nnd)
+        private static void Sort(BrainData nnd)
         {
             var sorted = nnd.hiddenNeurons.OrderByDependers(n => n.inputWeights.Select(w => w.inputNeuron).ToList())
                 .ToList();
@@ -16,17 +16,17 @@ namespace NeuralNet.Editor
             nnd.hiddenNeurons = sorted;
         }
 
-        public static void WriteToJson(string path, NeuralNetworkData neuralNetworkData, bool needToSort)
+        public static void WriteToJson(string path, BrainData brainData, bool needToSort)
         {
-            if (needToSort) Sort(neuralNetworkData);
-            var json = JsonUtility.ToJson(neuralNetworkData);
+            if (needToSort) Sort(brainData);
+            var json = JsonUtility.ToJson(brainData);
             File.WriteAllText(path, json);
         }
 
-        public static NeuralNetworkData ReadFromJson(string path)
+        public static BrainData ReadFromJson(string path)
         {
             var jsonString = File.ReadAllText(path);
-            var networkData = JsonUtility.FromJson<EditorNeuralNetworkData>(jsonString);
+            var networkData = JsonUtility.FromJson<EditorBrainData>(jsonString);
             return networkData.ToScriptableObject();
         }
     }

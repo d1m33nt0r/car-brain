@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace NeuralNet.Editor.Common.Drawers
 {
-    public class VerticalSplitLine : StylizedDrawer<EmptyArgs>, ISizeListener
+    public class VerticalSplitLine : StylizedDrawer<EmptyArgs, EmptyArgs>, ISizeListener
     {
         public event Action<float> OnDragSplitLine;
 
@@ -23,7 +23,7 @@ namespace NeuralNet.Editor.Common.Drawers
         private bool isDragged;
         private Vector2 startDragPoint;
 
-        protected override void ApplyStyles()
+        protected override void ApplyStyles(EmptyArgs args)
         {
             var verticalLine = new GUIStyle();
             verticalLine.normal.background = EditorGUIUtility.whiteTexture;

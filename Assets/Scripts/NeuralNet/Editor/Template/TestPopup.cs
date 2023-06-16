@@ -1,4 +1,4 @@
-using System.Linq;
+/*using System.Linq;
 using NeuralNet.Core;
 using NeuralNet.Editor.Args;
 using NeuralNet.Editor.Args.Draw;
@@ -60,4 +60,4 @@ namespace NeuralNet.Editor.Template
 
         private int countIterations;
     }
-}
+}*/
