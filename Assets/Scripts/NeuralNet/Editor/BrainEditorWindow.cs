@@ -66,7 +66,10 @@ namespace NeuralNet.Editor
                 AssetDatabase.SaveAssets();
                 State.SetEditorData(editorData);
             }
-            
+            else
+            {
+                State.SetEditorData(asset);
+            }
             sizeListeners.Add(sidebarDrawer);
             sizeListeners.Add(verticalSplitLine);
             sizeListeners.Add(canvas);

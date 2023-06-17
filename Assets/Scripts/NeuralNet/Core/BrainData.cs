@@ -6,6 +6,7 @@ using UnityEngine;
 
 namespace NeuralNet.Core
 {
+    [CreateAssetMenu(fileName = "BrainData", menuName = "BrainData")]
     public class BrainData : ScriptableObject
     {
         public string brainName;
