@@ -15,7 +15,7 @@ namespace NeuralNet.Editor.Common
         
         public class LeftSection
         {
-            public static readonly float MIN_WIDTH = 200;
+            public static readonly float MIN_WIDTH = 280;
         }
 
         public class BottomSection

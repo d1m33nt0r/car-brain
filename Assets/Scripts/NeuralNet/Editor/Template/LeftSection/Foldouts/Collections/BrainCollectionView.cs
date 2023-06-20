@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using NeuralNet.Editor.Args;
 using NeuralNet.Editor.Args.Init;
+using NeuralNet.Editor.Args.StyleArgs;
 using NeuralNet.Editor.Common;
 using NeuralNet.Editor.Common.Interfaces;
 using UnityEditor;
@@ -8,31 +9,31 @@ using UnityEngine;
 
 namespace NeuralNet.Editor.Template.LeftSection.Foldouts.Collections
 {
-    public class BrainCollectionView : BaseFoldout<EmptyArgs, EmptyArgs>, IInitializable<BrainCollectionInitArgs>
+    public class BrainCollectionView : BaseFoldout<BrainCollectionViewStyleArgs, EmptyArgs>, IInitializable<BrainCollectionInitArgs>
     {
-        private bool isShow = true;
+        private bool isShow;
         private List<BrainCollectionItemView> items;
         private string collectionName;
         
-        protected override void ApplyStyles(EmptyArgs args)
+        protected override void ApplyStyles(BrainCollectionViewStyleArgs args)
         {
             var canvasBackground = new Texture2D(1, 1);
-            canvasBackground.SetPixel(1, 1, new Color(0.25f, 0.25f, 0.25f, 1f));
+            canvasBackground.SetPixel(1, 1, args.foldoutColor);
             canvasBackground.Apply();
             var borderSize = 5;
             foldoutStyle = new GUIStyle();
             foldoutStyle.padding = new RectOffset(borderSize, borderSize, borderSize, borderSize);
+            foldoutStyle.margin = new RectOffset(borderSize,borderSize,borderSize,borderSize);
             foldoutStyle.normal.background = canvasBackground;
         }
-
-        public override void Draw(EmptyArgs args)
+        
+        protected override void DrawInternal(EmptyArgs args)
         {
+            GUILayout.BeginHorizontal();
             isShow = EditorGUILayout.Foldout(isShow, collectionName);
-            if (isShow) base.Draw(args);
-        }
-
-        protected override void Draw()
-        {
+            GUILayout.Button("delete", GUILayout.Height(16));
+            GUILayout.EndHorizontal();
+            if (!isShow) return;
             if (items == null) return;
             for (var i = 0; i < items.Count; i++)
             {
@@ -40,7 +41,7 @@ namespace NeuralNet.Editor.Template.LeftSection.Foldouts.Collections
             }
         }
 
-        public BrainCollectionView(EmptyArgs styleArgs) : base(styleArgs)
+        public BrainCollectionView(BrainCollectionViewStyleArgs styleArgs) : base(styleArgs)
         {
         }
 

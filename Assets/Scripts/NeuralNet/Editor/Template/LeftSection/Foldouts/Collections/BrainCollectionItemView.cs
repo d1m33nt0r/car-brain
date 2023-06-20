@@ -27,7 +27,10 @@ namespace NeuralNet.Editor.Template.LeftSection.Foldouts.Collections
             GUILayout.BeginHorizontal();
             
             EditorGUILayout.ObjectField(brainAsset, typeof(BrainData), GUILayout.Height(25));
-            GUILayout.Button(editButtonTexture, GUILayout.Width(24), GUILayout.Height(25));
+            if (GUILayout.Button(editButtonTexture, GUILayout.Width(24), GUILayout.Height(25)))
+            {
+                BrainEditorWindow.Instance.State.SetCurrentNetworkAsset(brainAsset);
+            }
             GUILayout.Button(trashButtonTexture, GUILayout.Width(24), GUILayout.Height(25));
             
             GUILayout.EndHorizontal();

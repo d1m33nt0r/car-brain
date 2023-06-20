@@ -11,7 +11,7 @@ namespace NeuralNet.Editor.Template.LeftSection.Foldouts
         protected override void ApplyStyles(TStyleArgs args)
         {
             var canvasBackground = new Texture2D(1, 1);
-            canvasBackground.SetPixel(1, 1, new Color(0.2f, 0.25f, 0.25f, 1f));
+            canvasBackground.SetPixel(1, 1, new Color(0.19f, 0.19f, 0.19f, 1f));
             canvasBackground.Apply();
             var borderSize = 5;
             foldoutStyle = new GUIStyle();
@@ -23,12 +23,12 @@ namespace NeuralNet.Editor.Template.LeftSection.Foldouts
         {
             GUILayout.BeginVertical(foldoutStyle);
             
-            Draw();            
+            DrawInternal(args);            
             
             GUILayout.EndVertical();
         }
 
-        protected abstract void Draw();
+        protected abstract void DrawInternal(TDrawArgs args);
 
         protected BaseFoldout(TStyleArgs styleArgs) : base(styleArgs)
         {

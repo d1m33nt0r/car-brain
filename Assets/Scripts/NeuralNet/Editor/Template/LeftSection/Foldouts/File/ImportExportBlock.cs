@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace NeuralNet.Editor.Template.LeftSection.Foldouts
 {
-    public class ImportExportFoldout : StylizedDrawer<EmptyArgs, EmptyArgs>
+    public class ImportExportBlock : StylizedDrawer<EmptyArgs, EmptyArgs>
     {
         protected override void ApplyStyles(EmptyArgs args)
         {
@@ -28,19 +28,9 @@ namespace NeuralNet.Editor.Template.LeftSection.Foldouts
             {
                 
             }
-            
-            if (GUILayout.Button("Import from binary"))
-            {
-                
-            }
-            
-            if (GUILayout.Button("Export to binary"))
-            {
-                
-            }
         }
 
-        public ImportExportFoldout(EmptyArgs styleArgs) : base(styleArgs)
+        public ImportExportBlock(EmptyArgs styleArgs) : base(styleArgs)
         {
         }
     }

@@ -28,11 +28,10 @@ namespace NeuralNet.Editor.Template.LeftSection
         {
             File,
             Randomize,
-            ImportExport,
             BrainCollections
         }
 
-        private string[] tabNames = { "File", "Randomization", "Import / Export", "Brain Collections" };
+        private string[] tabNames = { "File", "Randomization", "Brain Collections" };
 
         public void Initialize(SidebarInitArgs args)
         {
@@ -52,10 +51,17 @@ namespace NeuralNet.Editor.Template.LeftSection
 
             var fileFoldout = new FileFoldout(Constants.Args.EmptyArgs);
             fileFoldout.onChangeNetworkAsset += args.State.SetCurrentNetworkAsset;
+            fileFoldout.Initialize(Constants.Args.EmptyArgs);
             foldouts.Add(fileFoldout);
+            
             foldouts.Add(new RandomizeFoldout(Constants.Args.EmptyArgs));
-            foldouts.Add(new ImportExportFoldout(Constants.Args.EmptyArgs));
-            foldouts.Add(new BrainCollectionFoldout(Constants.Args.EmptyArgs));
+            
+            var collectionFoldout = new BrainCollectionFoldout(Constants.Args.EmptyArgs);
+            collectionFoldout.Initialize(Constants.Args.EmptyArgs);
+            collectionFoldout.OnCollectionAdded += () => fileFoldout.Initialize(Constants.Args.EmptyArgs);
+            foldouts.Add(collectionFoldout);
+
+            fileFoldout.OnBrainAdded += () => collectionFoldout.Initialize(Constants.Args.EmptyArgs);
         }
         
         protected override void ApplyStyles(EmptyArgs args)

@@ -1,3 +1,4 @@
+using System;
 using NeuralNet.Editor.Args;
 using UnityEditor;
 using UnityEngine;
@@ -6,6 +7,8 @@ namespace NeuralNet.Editor.Template.LeftSection.Foldouts.CollectionFoldout
 {
     public class CollectionCreationFoldout : BaseFoldout<EmptyArgs, EmptyArgs>
     {
+        public event Action OnCollectionAdded;
+        
         private string collectionName;
         private Texture2D applyIcon;
         
@@ -26,7 +29,7 @@ namespace NeuralNet.Editor.Template.LeftSection.Foldouts.CollectionFoldout
             foldoutStyle.normal.background = canvasBackground;
         }
 
-        protected override void Draw()
+        protected override void DrawInternal(EmptyArgs args)
         {
             GUILayout.BeginHorizontal();
             GUILayout.Label("Name", GUILayout.Height(25), GUILayout.Width(36));
@@ -40,8 +43,9 @@ namespace NeuralNet.Editor.Template.LeftSection.Foldouts.CollectionFoldout
                     var collectionInstance = ScriptableObject.CreateInstance<BrainCollection>();
                     collectionInstance.name = collectionName;
                     AssetDatabase.CreateAsset(collectionInstance, "Assets/Plugins/EasyBrain/Editor/Data/Collections" + "/" + collectionName + "/" + collectionName + ".asset");
-                    AssetDatabase.SaveAssets();
                     editorData.collections.Add(collectionInstance);
+                    AssetDatabase.SaveAssets();
+                    OnCollectionAdded?.Invoke();
                 }
             }
             GUILayout.EndHorizontal();
